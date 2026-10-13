@@ -46,7 +46,7 @@
 }
 @keyframes loadBar { to { width: 100%; } }
 .loader-text {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   letter-spacing: 8px;
   font-size: 12px;
   color: var(--muted);
@@ -146,7 +146,7 @@
   border-radius: 50px;
   font-weight: 500;
   font-size: 0.95rem;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   letter-spacing: 0.01em;
   transition: var(--transition);
   border: 1px solid transparent;
@@ -179,6 +179,34 @@
   border-color: var(--cyan);
   background: rgba(0,229,255,.06);
   transform: translateY(-3px);
+}
+
+/* ============================================================
+   HERO-TECH — техническая метка в hero
+   ============================================================ */
+.hero-tech {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--muted-2);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+}
+.hero-tech .rec {
+  color: var(--magenta);
+  animation: recBlink 1.6s ease-in-out infinite;
+}
+@keyframes recBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
 /* ============================================================
@@ -231,6 +259,57 @@
 }
 
 /* ============================================================
+   KINETIC — кинетическая типографика
+   ============================================================ */
+.kinetic {
+  position: relative;
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 13vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-align: center;
+  user-select: none;
+}
+.kinetic-layer {
+  display: block;
+  transition: transform 1.4s var(--ease), opacity 1.4s var(--ease);
+}
+.kinetic-base {
+  color: var(--text);
+  position: relative;
+  z-index: 3;
+}
+.kinetic-cyan,
+.kinetic-magenta {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.kinetic-cyan {
+  color: var(--cyan);
+  transform: translate(-30px, -14px);
+  opacity: 0;
+}
+.kinetic-magenta {
+  color: var(--magenta);
+  transform: translate(30px, 14px);
+  opacity: 0;
+}
+/* При появлении слои «сходятся» к базовому */
+.kinetic.visible .kinetic-cyan {
+  transform: translate(-3px, -2px);
+  opacity: 1;
+}
+.kinetic.visible .kinetic-magenta {
+  transform: translate(3px, 2px);
+  opacity: 1;
+}
+
+/* ============================================================
    REVEAL-АНИМАЦИЯ
    ============================================================ */
 .reveal {
@@ -244,7 +323,7 @@
 }
 
 /* ============================================================
-   PROJECT COVER (play-иконка и затемнение)
+   PROJECT COVER
    ============================================================ */
 .cover-overlay {
   position: absolute; inset: 0;
@@ -273,7 +352,7 @@
 }
 
 /* ============================================================
-   PROJECT TAG (теги «TikTok», «Монтаж», «Loop»)
+   PROJECT TAG
    ============================================================ */
 .project-tag {
   font-size: 0.72rem;
@@ -285,4 +364,109 @@
   background: rgba(0,229,255,.08);
   color: var(--cyan);
   border: 1px solid rgba(0,229,255,.22);
+}
+
+/* ============================================================
+   PROJECT-CUT — метка CUT 01 поверх обложки
+   ============================================================ */
+.project-cut {
+  position: absolute;
+  top: 14px; left: 14px;
+  z-index: 3;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: #fff;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(10px);
+  padding: 5px 10px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,.15);
+}
+
+/* ============================================================
+   SERVICE-CTA — кнопка «Обсудить задачу» в услугах
+   ============================================================ */
+.service-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 22px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  transition: var(--transition);
+}
+.service-cta svg {
+  width: 12px; height: 12px;
+  transition: transform .3s var(--ease);
+}
+.service-cta:hover {
+  color: var(--magenta);
+}
+.service-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* ============================================================
+   CTA-FINAL — финальный блок в контактах
+   ============================================================ */
+.cta-final {
+  text-align: center;
+  padding: 80px 32px;
+  border-radius: var(--radius-l);
+  border: 1px solid var(--border-hi);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0,229,255,.1), transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(255,45,117,.1), transparent 60%),
+    var(--surface);
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+.cta-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.cta-heading {
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.05;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.cta-hint {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 34px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.copy-btn.is-copied {
+  border-color: #22d3a8;
+  color: #22d3a8;
+}
+
+/* ============================================================
+   FOOTER-MONO — техническая подпись в футере
+   ============================================================ */
+.footer-mono {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted-2);
+  letter-spacing: 0.1em;
 }
