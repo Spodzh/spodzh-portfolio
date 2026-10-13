@@ -1,0 +1,89 @@
+/* ============================================================
+   BASE.CSS — фундамент сайта
+   Здесь живут: переменные, шрифты, сброс, контейнер, типографика
+   Меняй цвета/шрифты ЗДЕСЬ, и они обновятся везде.
+   ============================================================ */
+
+:root {
+  /* ---------- ЦВЕТА ---------- */
+  --bg: #07070b;
+  --bg-2: #0d0d14;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-2: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hi: rgba(255, 255, 255, 0.14);
+
+  --text: #f2f2f7;
+  --muted: #8b8b9e;
+  --muted-2: #5c5c70;
+
+  /* Неоновые акценты */
+  --cyan: #00e5ff;
+  --blue: #4f7dff;
+  --magenta: #ff2d75;
+  --purple: #a855f7;
+
+  --grad: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 45%, var(--magenta) 100%);
+  --grad-soft: linear-gradient(135deg, rgba(0,229,255,.18), rgba(255,45,117,.18));
+
+  /* ---------- ГЕОМЕТРИЯ ---------- */
+  --radius-s: 12px;
+  --radius: 20px;
+  --radius-l: 28px;
+
+  --container: 1200px;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --transition: 0.4s var(--ease);
+}
+
+/* ---------- СБРОС ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; }
+
+::selection { background: var(--magenta); color: #fff; }
+
+/* ---------- СКРОЛЛБАР ---------- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--cyan), var(--magenta));
+  border-radius: 8px;
+}
+
+/* ---------- КОНТЕЙНЕР ---------- */
+.container {
+  width: min(var(--container), 92%);
+  margin: 0 auto;
+}
+
+/* ---------- ТИПОГРАФИКА ---------- */
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.gradient-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}

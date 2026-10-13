@@ -1,0 +1,310 @@
+/* ============================================================
+   COMPONENTS.CSS — переиспользуемые компоненты
+   Лоадер, курсор, фон, glass-карточки, кнопки, бейджи
+   ============================================================ */
+
+/* ============================================================
+   ПРЕЛОАДЕР
+   ============================================================ */
+.loader {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s var(--ease), visibility 0.6s;
+}
+.loader.hidden { opacity: 0; visibility: hidden; }
+
+.loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.loader-logo {
+  width: 88px; height: 88px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 24px rgba(0, 229, 255, 0.6))
+          drop-shadow(0 0 48px rgba(255, 45, 117, 0.35));
+  animation: pulseScale 1.6s infinite var(--ease);
+}
+@keyframes pulseScale {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 24px rgba(0,229,255,.6)) drop-shadow(0 0 48px rgba(255,45,117,.35)); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 36px rgba(0,229,255,.9)) drop-shadow(0 0 64px rgba(255,45,117,.6)); }
+}
+.loader-bar {
+  width: 200px; height: 2px;
+  background: rgba(255,255,255,.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loader-bar span {
+  display: block; height: 100%; width: 0;
+  background: var(--grad);
+  animation: loadBar 1.4s var(--ease) forwards;
+}
+@keyframes loadBar { to { width: 100%; } }
+.loader-text {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ============================================================
+   КАСТОМНЫЙ КУРСОР
+   ============================================================ */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  border-radius: 50%;
+  transition: transform .15s var(--ease), opacity .3s;
+  mix-blend-mode: difference;
+  width: 8px; height: 8px;
+  background: #fff;
+  transform: translate(-50%, -50%);
+}
+@media (max-width: 900px) {
+  .cursor-dot { display: none; }
+  body { cursor: auto; }
+}
+
+/* ============================================================
+   ФОН: MESH + NOISE
+   ============================================================ */
+.bg-mesh {
+  position: fixed; inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0,229,255,.14), transparent 42%),
+    radial-gradient(circle at 85% 15%, rgba(255,45,117,.12), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(79,125,255,.14), transparent 50%),
+    var(--bg);
+  animation: meshShift 20s ease-in-out infinite alternate;
+}
+@keyframes meshShift {
+  0%   { transform: scale(1) translate(0,0); }
+  100% { transform: scale(1.08) translate(-2%, -2%); }
+}
+.bg-noise {
+  position: fixed; inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ============================================================
+   СКРОЛЛ-ПРОГРЕСС
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px; width: 0;
+  background: var(--grad);
+  z-index: 999;
+  box-shadow: 0 0 12px rgba(0,229,255,.6);
+  transition: width .1s linear;
+}
+
+/* ============================================================
+   GLASS-КАРТОЧКА (база для skills / services / contacts)
+   ============================================================ */
+.glass {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  overflow: hidden;
+  transition: var(--transition);
+}
+.glass::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(180deg, rgba(255,255,255,.14), transparent 40%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ============================================================
+   КНОПКИ
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.01em;
+  transition: var(--transition);
+  border: 1px solid transparent;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+.btn svg { transition: transform .3s var(--ease); }
+.btn:hover svg { transform: translateX(4px); }
+
+.btn-primary {
+  background: var(--grad);
+  color: #06060a;
+  font-weight: 600;
+  box-shadow: 0 8px 32px -8px rgba(0,229,255,.5);
+}
+.btn-primary:hover {
+  box-shadow: 0 12px 40px -8px rgba(255,45,117,.55);
+  transform: translateY(-3px);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--border-hi);
+  color: var(--text);
+  backdrop-filter: blur(10px);
+}
+.btn-ghost:hover {
+  border-color: var(--cyan);
+  background: rgba(0,229,255,.06);
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   БЕЙДЖ «ОТКРЫТ К КОЛЛАБАМ»
+   ============================================================ */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.pulse-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22d3a8;
+  box-shadow: 0 0 0 0 rgba(34,211,168,.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,211,168,.6); }
+  70% { box-shadow: 0 0 0 12px rgba(34,211,168,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,211,168,0); }
+}
+
+/* ============================================================
+   INFO-TAG (используется в About)
+   ============================================================ */
+.info-tag {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  font-size: 0.92rem;
+  color: var(--text);
+  transition: var(--transition);
+}
+.info-tag:hover {
+  border-color: var(--cyan);
+  transform: translateX(4px);
+}
+
+/* ============================================================
+   PROGRESS-BAR (используется в Skills)
+   ============================================================ */
+.bar {
+  height: 3px;
+  background: rgba(255,255,255,.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--grad);
+  border-radius: 3px;
+  transition: width 1.6s var(--ease);
+  box-shadow: 0 0 12px rgba(0,229,255,.6);
+}
+.reveal.visible .bar span { width: var(--w); }
+
+/* ============================================================
+   REVEAL-АНИМАЦИЯ (плавное появление блоков)
+   Добавляй класс .reveal к любому элементу, и он появится при скролле.
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   PROJECT COVER (значок ▶ и затемнение)
+   ============================================================ */
+.cover-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 100%, rgba(0,229,255,.18), transparent 60%);
+  opacity: 0;
+  transition: opacity .5s var(--ease);
+}
+.project-card:hover .cover-overlay { opacity: 1; }
+
+.cover-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+  text-shadow: 0 0 24px rgba(0,229,255,.9);
+  pointer-events: none;
+}
+.project-card:hover .cover-play {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============================================================
+   PROJECT TAG (теги «TikTok», «Монтаж» и т.д.)
+   ============================================================ */
+.project-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 50px;
+  background: rgba(0,229,255,.08);
+  color: var(--cyan);
+  border: 1px solid rgba(0,229,255,.22);
+}
