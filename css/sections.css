@@ -1,10 +1,9 @@
 /* ============================================================
    SECTIONS.CSS — стили секций сайта
-   Каждая секция отмечена большим комментарием — ищи нужную.
    ============================================================ */
 
 /* ============================================================
-   NAVBAR (шапка)
+   NAVBAR
    ============================================================ */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0;
@@ -94,7 +93,7 @@
 .burger.active span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
 
 /* ============================================================
-   HERO (главный экран)
+   HERO
    ============================================================ */
 .hero {
   position: relative;
@@ -187,7 +186,7 @@
 }
 
 /* ============================================================
-   MARQUEE (бегущая строка)
+   MARQUEE
    ============================================================ */
 .marquee {
   overflow: hidden;
@@ -243,7 +242,7 @@
 }
 
 /* ============================================================
-   ABOUT (обо мне)
+   ABOUT
    ============================================================ */
 .about-grid {
   display: grid;
@@ -316,43 +315,48 @@
 }
 
 /* ============================================================
-   SKILLS (навыки)
+   SKILLS — без процентов, просто карточки
    ============================================================ */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
-.skill-card { padding: 28px; }
+.skill-card {
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .skill-card:hover {
   border-color: var(--border-hi);
   transform: translateY(-6px);
   background: var(--surface-2);
 }
-.skill-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
 .skill-card h3 {
-  font-size: 1.15rem;
-  margin-bottom: 0;
+  font-size: 1.2rem;
+  position: relative;
+  padding-bottom: 14px;
 }
-.skill-perc {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1rem;
-  color: var(--cyan);
-  font-weight: 500;
+.skill-card h3::after {
+  /* Маленькая неоновая черта под заголовком */
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 32px; height: 2px;
+  background: var(--grad);
+  border-radius: 2px;
+  transition: width .4s var(--ease);
 }
+.skill-card:hover h3::after { width: 64px; }
 .skill-card p {
   color: var(--muted);
-  font-size: 0.92rem;
-  margin-bottom: 20px;
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
 /* ============================================================
-   PROJECTS (проекты)
+   PROJECTS — только обложка + теги
    ============================================================ */
 .projects-grid {
   display: grid;
@@ -382,8 +386,6 @@
   position: relative;
   aspect-ratio: 16/11;
   background: linear-gradient(135deg, #14141f, #0a0a12);
-  display: grid;
-  place-items: center;
   overflow: hidden;
 }
 .project-cover img {
@@ -396,37 +398,31 @@
 }
 
 .project-body {
-  padding: 24px 24px 28px;
-  position: relative;
+  padding: 18px 22px 22px;
 }
 .project-meta {
   display: flex;
   gap: 8px;
-  margin-bottom: 14px;
   flex-wrap: wrap;
-}
-.project-body h3 {
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-}
-.project-body p {
-  color: var(--muted);
-  font-size: 0.94rem;
 }
 .project-arrow {
   position: absolute;
-  top: 24px; right: 24px;
-  font-size: 1.4rem;
-  color: var(--muted-2);
+  top: 18px; right: 20px;
+  font-size: 1.2rem;
+  color: #fff;
+  opacity: 0;
+  transform: translate(-4px, 4px);
   transition: var(--transition);
+  text-shadow: 0 0 16px rgba(0,0,0,.9);
+  pointer-events: none;
 }
 .project-card:hover .project-arrow {
-  color: var(--cyan);
-  transform: translate(4px, -4px);
+  opacity: 1;
+  transform: translate(0, 0);
 }
 
 /* ============================================================
-   SERVICES (услуги)
+   SERVICES
    ============================================================ */
 .services-grid {
   display: grid;
@@ -474,7 +470,7 @@
 }
 
 /* ============================================================
-   CONTACTS (контакты)
+   CONTACTS
    ============================================================ */
 .contacts-grid {
   display: grid;
@@ -538,7 +534,7 @@
 }
 
 /* ============================================================
-   FOOTER (подвал)
+   FOOTER
    ============================================================ */
 .footer {
   padding: 40px 0;
