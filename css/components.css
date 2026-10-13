@@ -1,6 +1,5 @@
 /* ============================================================
    COMPONENTS.CSS — переиспользуемые компоненты
-   Лоадер, фон, glass-карточки, кнопки, бейджи, метки
    ============================================================ */
 
 /* ============================================================
@@ -13,19 +12,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* ↓ ГЛАВНОЕ: через 2 сек лоадер исчезает сам, даже если JS не работает */
   animation: hideLoader 0.6s ease 2s forwards;
 }
 
 @keyframes hideLoader {
-  to {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-/* Если JS успел добавить класс .hidden — исчезаем чуть быстрее */
 .loader.hidden {
   opacity: 0;
   visibility: hidden;
@@ -67,9 +60,7 @@
   background: var(--grad);
   animation: loadBar 1.6s var(--ease) forwards;
 }
-@keyframes loadBar {
-  to { width: 100%; }
-}
+@keyframes loadBar { to { width: 100%; } }
 .loader-text {
   font-family: var(--font-mono);
   letter-spacing: 8px;
@@ -187,7 +178,7 @@
 }
 
 /* ============================================================
-   HERO-TECH — техническая метка в hero
+   HERO-TECH
    ============================================================ */
 .hero-tech {
   display: inline-flex;
@@ -215,7 +206,7 @@
 }
 
 /* ============================================================
-   БЕЙДЖ «ОТКРЫТ К ПРЕДЛОЖЕНИЯМ»
+   БЕЙДЖ
    ============================================================ */
 .hero-badge {
   display: inline-flex;
@@ -244,7 +235,7 @@
 }
 
 /* ============================================================
-   INFO-TAG (About)
+   INFO-TAG
    ============================================================ */
 .info-tag {
   display: flex;
@@ -264,7 +255,7 @@
 }
 
 /* ============================================================
-   KINETIC — кинетическая типографика
+   KINETIC
    ============================================================ */
 .kinetic {
   position: relative;
@@ -314,7 +305,7 @@
 }
 
 /* ============================================================
-   REVEAL-АНИМАЦИЯ
+   REVEAL
    ============================================================ */
 .reveal {
   opacity: 0;
@@ -327,7 +318,7 @@
 }
 
 /* ============================================================
-   PROJECT COVER (play-иконка и затемнение)
+   PROJECT COVER
    ============================================================ */
 .cover-overlay {
   position: absolute; inset: 0;
@@ -349,6 +340,7 @@
   transition: opacity .4s var(--ease), transform .4s var(--ease);
   text-shadow: 0 0 24px rgba(0,229,255,.9);
   pointer-events: none;
+  z-index: 3;
 }
 .project-card:hover .cover-play {
   opacity: 1;
@@ -371,7 +363,7 @@
 }
 
 /* ============================================================
-   PROJECT-CUT — метка CUT 01 поверх обложки
+   PROJECT-CUT
    ============================================================ */
 .project-cut {
   position: absolute;
@@ -389,7 +381,7 @@
 }
 
 /* ============================================================
-   SERVICE-CTA — кнопка «Обсудить задачу» в услугах
+   SERVICE-CTA
    ============================================================ */
 .service-cta {
   display: inline-flex;
@@ -407,15 +399,11 @@
   width: 12px; height: 12px;
   transition: transform .3s var(--ease);
 }
-.service-cta:hover {
-  color: var(--magenta);
-}
-.service-cta:hover svg {
-  transform: translateX(4px);
-}
+.service-cta:hover { color: var(--magenta); }
+.service-cta:hover svg { transform: translateX(4px); }
 
 /* ============================================================
-   CTA-FINAL — финальный блок в контактах
+   CTA-FINAL
    ============================================================ */
 .cta-final {
   text-align: center;
@@ -466,11 +454,251 @@
 }
 
 /* ============================================================
-   FOOTER-MONO — техническая подпись в футере
+   FOOTER-MONO
    ============================================================ */
 .footer-mono {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--muted-2);
   letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   ФИШКА 2: HOVER-ЭФФЕКТ «БЫСТРЫЙ МОНТАЖ» на карточках проектов
+   ============================================================ */
+.project-card:hover .project-cover img {
+  animation: montageCut 0.5s steps(1) 1;
+}
+@keyframes montageCut {
+  0%   { transform: scale(1.06) translate(0, 0); filter: brightness(1); }
+  15%  { transform: scale(1.07) translate(-4px, 3px); filter: brightness(1.3) hue-rotate(15deg); }
+  30%  { transform: scale(1.05) translate(5px, -2px); filter: brightness(0.9); }
+  45%  { transform: scale(1.08) translate(-3px, 2px); filter: brightness(1.2) hue-rotate(-15deg); }
+  60%  { transform: scale(1.06) translate(2px, -3px); filter: brightness(1); }
+  100% { transform: scale(1.06) translate(0, 0); filter: brightness(1); }
+}
+
+/* ============================================================
+   ФИШКА 5: МОДАЛЬНОЕ ОКНО ПРОЕКТА
+   ============================================================ */
+.project-modal {
+  position: fixed; inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s var(--ease), visibility .4s;
+  padding: 20px;
+}
+.project-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+.project-modal__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(5, 5, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.project-modal__dialog {
+  position: relative;
+  z-index: 2;
+  width: min(720px, 100%);
+  max-height: 92vh;
+  background: var(--bg-2);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  transform: scale(0.9) translateY(30px);
+  opacity: 0;
+  transition: transform .5s var(--ease), opacity .5s var(--ease);
+  display: flex;
+  flex-direction: column;
+}
+.project-modal.open .project-modal__dialog {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.project-modal__close {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 10;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.6);
+  border: 1px solid var(--border-hi);
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+}
+.project-modal__close:hover {
+  background: var(--magenta);
+  border-color: var(--magenta);
+  transform: rotate(90deg);
+}
+
+.project-modal__media {
+  position: relative;
+  aspect-ratio: 16/11;
+  background: #000;
+  overflow: hidden;
+}
+.project-modal__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.project-modal__badge {
+  position: absolute;
+  top: 14px; left: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #fff;
+  background: rgba(0,0,0,.6);
+  padding: 6px 12px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px);
+}
+
+.project-modal__body {
+  padding: 26px 28px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.project-modal__meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   ФИШКА 7: ПРИЗРАК-ПРОВОДНИК
+   ============================================================ */
+.ghost-guide {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+  animation: ghostFloat 4s ease-in-out infinite;
+}
+@keyframes ghostFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.ghost-guide__img {
+  width: 56px; height: 56px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(0,229,255,.55))
+          drop-shadow(0 0 40px rgba(255,45,117,.3));
+  order: 2;
+}
+.ghost-guide__bubble {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: 14px;
+  padding: 10px 16px;
+  backdrop-filter: blur(20px);
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+  position: relative;
+}
+.ghost-guide__bubble::after {
+  /* Хвостик от пузыря к призраку */
+  content: '';
+  position: absolute;
+  right: -6px; top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px; height: 10px;
+  background: var(--surface);
+  border-top: 1px solid var(--border-hi);
+  border-right: 1px solid var(--border-hi);
+}
+.ghost-guide--minimized .ghost-guide__bubble {
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+}
+
+/* ============================================================
+   ФИШКА 1: ПАСХАЛКА (глитч по клику на логотип)
+   ============================================================ */
+.easter-egg {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  z-index: 10001;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s var(--ease), transform .4s var(--ease), visibility .4s;
+  text-align: center;
+  pointer-events: none;
+}
+.easter-egg.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+.easter-egg__glitch {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  color: var(--text);
+  position: relative;
+  text-shadow: 0 0 24px rgba(0,229,255,.5);
+  margin-bottom: 12px;
+}
+.easter-egg.show .easter-egg__glitch {
+  animation: glitchText 0.6s steps(2) 1;
+}
+@keyframes glitchText {
+  0%   { text-shadow: 2px 0 var(--cyan), -2px 0 var(--magenta); transform: translate(0,0); }
+  20%  { text-shadow: -3px 0 var(--cyan), 3px 0 var(--magenta); transform: translate(-4px, 2px); }
+  40%  { text-shadow: 4px 0 var(--cyan), -4px 0 var(--magenta); transform: translate(3px, -2px); }
+  60%  { text-shadow: -2px 0 var(--cyan), 2px 0 var(--magenta); transform: translate(-2px, 1px); }
+  80%  { text-shadow: 2px 0 var(--cyan), -2px 0 var(--magenta); transform: translate(1px, -1px); }
+  100% { text-shadow: 0 0 24px rgba(0,229,255,.5); transform: translate(0,0); }
+}
+.easter-egg__sub {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--magenta);
+  text-transform: uppercase;
+}
+
+/* Лёгкий глитч на всей странице при активации пасхалки */
+body.glitch-active {
+  animation: bodyGlitch 0.5s steps(3) 1;
+}
+@keyframes bodyGlitch {
+  0%, 100% { filter: none; }
+  25% { filter: hue-rotate(30deg) contrast(1.1); }
+  50% { filter: hue-rotate(-30deg) contrast(1.05); }
+  75% { filter: hue-rotate(15deg); }
+}
+
+/* ============================================================
+   СКРЫТИЕ НА МОБИЛЬНЫХ (призрак и таймлайн)
+   ============================================================ */
+@media (max-width: 900px) {
+  .ghost-guide { display: none; }
+  .project-modal { padding: 10px; }
 }
