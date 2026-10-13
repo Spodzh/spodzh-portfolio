@@ -922,6 +922,108 @@
 
       console.log('%cSPODZH 👻', 'color:#00e5ff; font-size:24px; font-weight:bold;');
       console.log('%cСайт загружен. Привет, Влад!', 'color:#ff2d75; font-size:14px;');
+
+            /* ============================================================
+         ОПТИМИЗАЦИЯ ПОД ТЕЛЕФОНЫ
+         ============================================================ */
+      try {
+        var isMobile = window.matchMedia('(max-width: 900px)').matches;
+        var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* ---------- 1. Экономия трафика: не автоплеим видео на медленном интернете ---------- */
+        var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        var saveData = conn && conn.saveData;
+        var slowConn = conn && /2g|slow-2g|3g/.test(conn.effectiveType || '');
+        var heroVideo = document.querySelector('.video-card__media video');
+
+        if (heroVideo) {
+          // Если включён режим экономии трафика или медленное соединение — не грузим видео
+          if (saveData || slowConn) {
+            heroVideo.autoplay = false;
+            heroVideo.removeAttribute('src');
+            heroVideo.load();
+            // Вместо видео — призрак-заглушка
+            var media = heroVideo.parentElement;
+            var ph = document.createElement('div');
+            ph.className = 'video-card__placeholder';
+            ph.innerHTML = '<img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="Spodzh" />';
+            media.insertBefore(ph, heroVideo);
+          } else {
+            // Обычный сценарий — запускаем, но с мягкой обработкой ошибок
+            heroVideo.play().catch(function () {
+              // Автоплей заблокирован браузером — молча игнорируем
+            });
+          }
+        }
+
+        /* ---------- 2. Пауза видео, когда hero ушёл за экран (экономит батарею) ---------- */
+        if (heroVideo && !saveData && !slowConn) {
+          var heroSection = document.getElementById('home');
+          if (heroSection && 'IntersectionObserver' in window) {
+            var videoObserver = new IntersectionObserver(function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  heroVideo.play().catch(function () {});
+                } else {
+                  heroVideo.pause();
+                }
+              });
+            }, { threshold: 0.2 });
+            videoObserver.observe(heroSection);
+          }
+        }
+
+        /* ---------- 3. Отключаем прелоадер быстрее на мобильных ---------- */
+        if (isMobile && !reducedMotion) {
+          var loader = document.getElementById('loader');
+          if (loader) {
+            // Ждём максимум 1.2 сек, не дольше
+            setTimeout(function () {
+              loader.style.animationDuration = '0.4s';
+            }, 800);
+          }
+        }
+
+        /* ---------- 4. Принудительно убираем «магнитные» кнопки на тач ---------- */
+        if (isTouch) {
+          document.querySelectorAll('.magnetic').forEach(function (btn) {
+            btn.style.transform = '';
+          });
+        }
+
+        /* ---------- 5. Ускоряем появление карточек на медленных устройствах ---------- */
+        if (isMobile || reducedMotion) {
+          // Сразу делаем все .reveal видимыми (без анимации при скролле)
+          // — так на слабых телефонах меньше работы для браузера
+          setTimeout(function () {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(function (el, i) {
+              setTimeout(function () { el.classList.add('visible'); }, i * 40);
+            });
+          }, 100);
+        }
+
+        /* ---------- 6. Меньше параллакса при скролле на мобиле ---------- */
+        if (isMobile) {
+          document.documentElement.style.setProperty('--container', '96%');
+        }
+
+        /* ---------- 7. Логируем оптимизацию (можно убрать) ---------- */
+        if (isMobile || isTouch || reducedMotion) {
+          console.log('%cМобильная оптимизация активна',
+            'color:#22d3a8; font-size:12px;',
+            {
+              mobile: isMobile,
+              touch: isTouch,
+              reducedMotion: reducedMotion,
+              saveData: !!saveData,
+              slowConnection: !!slowConn
+            }
+          );
+        }
+      } catch (e) {
+        console.warn('mobile optimization:', e);
+      }
     })();
   </script>
 
