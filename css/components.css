@@ -5,6 +5,9 @@
 /* ============================================================
    ПРЕЛОАДЕР
    ============================================================ */
+/* ============================================================
+   ПРЕЛОАДЕР (с автоскрытием — уйдёт даже без JS)
+   ============================================================ */
 .loader {
   position: fixed; inset: 0;
   background: var(--bg);
@@ -13,45 +16,18 @@
   align-items: center;
   justify-content: center;
   transition: opacity 0.6s var(--ease), visibility 0.6s;
+  /* ↓ ГЛАВНОЕ: через 2.5 сек лоадер сам исчезает, даже если JS упал */
+  animation: forceHideLoader 0.6s ease 2.5s forwards;
 }
 .loader.hidden { opacity: 0; visibility: hidden; }
 
-.loader-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
+@keyframes forceHideLoader {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
-.loader-logo {
-  width: 88px; height: 88px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 24px rgba(0, 229, 255, 0.6))
-          drop-shadow(0 0 48px rgba(255, 45, 117, 0.35));
-  animation: pulseScale 1.6s infinite var(--ease);
-}
-@keyframes pulseScale {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 24px rgba(0,229,255,.6)) drop-shadow(0 0 48px rgba(255,45,117,.35)); }
-  50% { transform: scale(1.06); filter: drop-shadow(0 0 36px rgba(0,229,255,.9)) drop-shadow(0 0 64px rgba(255,45,117,.6)); }
-}
-.loader-bar {
-  width: 200px; height: 2px;
-  background: rgba(255,255,255,.08);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.loader-bar span {
-  display: block; height: 100%; width: 0;
-  background: var(--grad);
-  animation: loadBar 1.4s var(--ease) forwards;
-}
-@keyframes loadBar { to { width: 100%; } }
-.loader-text {
-  font-family: var(--font-display);
-  letter-spacing: 8px;
-  font-size: 12px;
-  color: var(--muted);
-}
-
 /* ============================================================
    КАСТОМНЫЙ КУРСОР
    ============================================================ */
