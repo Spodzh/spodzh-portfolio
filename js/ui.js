@@ -4,10 +4,23 @@
    ============================================================ */
 
 /* ---------- 1. ПРЕЛОАДЕР ---------- */
+const loader = document.getElementById('loader');
+
+function hideLoader() {
+  if (!loader || loader.classList.contains('hidden')) return;
+  loader.classList.add('hidden');
+  // Через 700мс полностью убираем из потока, чтобы не мешал кликам
+  setTimeout(() => { loader.style.display = 'none'; }, 700);
+}
+
+// Основной сценарий: страница загрузилась — прячем лоадер
 window.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-  setTimeout(() => loader.classList.add('hidden'), 1500);
+  setTimeout(hideLoader, 1000);
 });
+
+// Защита: если что-то (например, картинка с ImgBB) зависло и load не срабатывает,
+// принудительно скрываем лоадер через 3 секунды
+setTimeout(hideLoader, 3000);
 
 
 /* ---------- 2. КАСТОМНЫЙ КУРСОР (точка) ---------- */
