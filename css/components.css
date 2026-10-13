@@ -1,9 +1,10 @@
 /* ============================================================
    COMPONENTS.CSS — переиспользуемые компоненты
+   Лоадер, фон, glass-карточки, кнопки, бейджи, метки
    ============================================================ */
 
 /* ============================================================
-   ПРЕЛОАДЕР — лого + полоска + текст
+   ПРЕЛОАДЕР — сам исчезает через CSS (не зависит от JS)
    ============================================================ */
 .loader {
   position: fixed; inset: 0;
@@ -12,12 +13,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.6s var(--ease), visibility 0.6s;
+  /* ↓ ГЛАВНОЕ: через 2 сек лоадер исчезает сам, даже если JS не работает */
+  animation: hideLoader 0.6s ease 2s forwards;
 }
+
+@keyframes hideLoader {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Если JS успел добавить класс .hidden — исчезаем чуть быстрее */
 .loader.hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  animation: none;
 }
 
 .loader-inner {
@@ -52,7 +65,7 @@
 .loader-bar span {
   display: block; height: 100%; width: 0;
   background: var(--grad);
-  animation: loadBar 1.2s var(--ease) forwards;
+  animation: loadBar 1.6s var(--ease) forwards;
 }
 @keyframes loadBar {
   to { width: 100%; }
@@ -314,7 +327,7 @@
 }
 
 /* ============================================================
-   PROJECT COVER
+   PROJECT COVER (play-иконка и затемнение)
    ============================================================ */
 .cover-overlay {
   position: absolute; inset: 0;
