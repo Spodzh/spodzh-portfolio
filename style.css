@@ -137,9 +137,9 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   КАСТОМНЫЙ КУРСОР
+   КАСТОМНЫЙ КУРСОР (только точка)
    ============================================================ */
-.cursor-dot, .cursor-ring {
+.cursor-dot {
   position: fixed;
   top: 0; left: 0;
   pointer-events: none;
@@ -147,25 +147,12 @@ h1, h2, h3, h4 {
   border-radius: 50%;
   transition: transform .15s var(--ease), opacity .3s;
   mix-blend-mode: difference;
-}
-.cursor-dot {
-  width: 6px; height: 6px;
+  width: 8px; height: 8px;
   background: #fff;
   transform: translate(-50%, -50%);
 }
-.cursor-ring {
-  width: 36px; height: 36px;
-  border: 1px solid rgba(255,255,255,.5);
-  transform: translate(-50%, -50%);
-  transition: transform .25s var(--ease), width .3s var(--ease), height .3s var(--ease), border-color .3s;
-}
-.cursor-ring.hover {
-  width: 64px; height: 64px;
-  border-color: var(--cyan);
-  background: rgba(0,229,255,.08);
-}
 @media (max-width: 900px) {
-  .cursor-dot, .cursor-ring { display: none; }
+  .cursor-dot { display: none; }
   body { cursor: auto; }
 }
 
