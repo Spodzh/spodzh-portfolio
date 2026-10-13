@@ -1,12 +1,11 @@
 /* ============================================================
-   RESPONSIVE.CSS — адаптив под планшет и телефон
+   RESPONSIVE.CSS — адаптив
    ============================================================ */
 
 /* ============================================================
    ПЛАНШЕТ — до 960px
    ============================================================ */
 @media (max-width: 960px) {
-  /* Меню — шторка справа */
   .nav-links {
     position: fixed;
     top: 0; right: 0;
@@ -26,19 +25,53 @@
   .nav-links.open { transform: translateX(0); }
   .nav-links a { font-size: 1.1rem; }
   .nav-links a.active::before { display: none; }
-
-  /* Бургер поверх шторки */
   .burger { display: flex; z-index: 200; }
 
-  /* Скрываем таймлайн-шкалу — на телефоне она лишняя */
   .timeline { display: none; }
 
-  /* About в один столбец */
   .about-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
   .about-tags { text-align: left; }
-
-  /* Меньше отступы */
   .section { padding: 100px 0; scroll-margin-top: 80px; }
+
+  /* HERO */
+  .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+  .hero-content { max-width: 100%; text-align: center; margin: 0 auto; }
+  .hero-buttons { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-visual { min-height: 480px; }
+  .hero-float--caption { right: 0; font-size: 0.9rem; }
+  .hero-float--crown { right: 15%; }
+  .hero-films { opacity: .2; }
+  .hero {
+    background-position: 20% center;
+    background-attachment: scroll;
+  }
+  .hero::before {
+    background: linear-gradient(180deg, rgba(7,7,11,.65) 0%, rgba(7,7,11,.75) 100%);
+  }
+
+  /* SECTION-HERO */
+  .section-hero {
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 48px;
+  }
+  .section-hero__deco {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  /* PROJECTS */
+  .featured { grid-template-columns: 1fr; }
+  .featured__media { aspect-ratio: 16/10; }
+  .featured__info { padding: 28px 24px 28px; }
+  .projects-tiles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .projects-deco-left,
+  .projects-deco-right { display: none; }
 }
 
 /* ============================================================
@@ -49,15 +82,41 @@
   .hero-buttons { margin-bottom: 50px; }
   .hero-stats { gap: 32px; }
   .about-tags { grid-template-columns: 1fr; }
-  .section-head { margin-bottom: 44px; }
   .marquee-track { font-size: 1.3rem; }
   .btn { padding: 14px 24px; font-size: 0.9rem; }
   .cta-final { padding: 50px 20px; }
 
-  /* Кинетическая типографика — компактнее */
-  .kinetic-section { padding: 80px 0 20px; }
+  .video-card { width: min(100%, 290px); }
+  .hero-float--caption { display: none; }
+  .hero-float--crown { width: 34px; height: 34px; right: 12%; }
+  .hero-float--ghost { width: 50px; height: 50px; right: 0; }
+  .stat-divider { height: 30px; }
+  .hero-stats { gap: 18px; }
 
-  /* Модалка на телефоне почти во весь экран */
-  .project-modal__dialog { max-height: 95vh; }
-  .project-modal__body { padding: 20px; }
+  /* SECTION-HERO на телефоне */
+  .section-hero__title { font-size: clamp(2.2rem, 11vw, 3.4rem); }
+  .section-hero__deco {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+  }
+  .section-hero__caption {
+    transform: rotate(-4deg);
+    font-size: 0.85rem;
+  }
+  .section-hero__badge img { width: 56px; height: 56px; }
+  .section-hero__info { font-size: 0.55rem; }
+
+  /* PROJECTS */
+  .projects-new { padding: 100px 0 60px; }
+  .featured__info { padding: 22px 20px 22px; gap: 12px; }
+  .featured__play { width: 60px; height: 60px; }
+  .featured__play svg { width: 22px; height: 22px; }
+  .featured__actions { flex-direction: column; align-items: stretch; }
+  .featured__actions .btn { justify-content: center; }
+  .projects-tiles {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .tile__thumb { aspect-ratio: 16/9; }
 }
