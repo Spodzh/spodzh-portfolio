@@ -8,9 +8,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Добавили JetBrains Mono для технических меток -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
+  <!-- ============ СТИЛИ ============ -->
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/sections.css" />
@@ -27,15 +27,17 @@
     </div>
   </div>
 
-  <div class="cursor-dot" id="cursorDot"></div>
+  <!-- ================= ФОНОВЫЕ СЛОИ ================= -->
   <div class="bg-mesh"></div>
   <div class="bg-noise"></div>
+
+  <!-- ================= СКРОЛЛ-ПРОГРЕСС ================= -->
   <div class="scroll-progress" id="scrollProgress"></div>
 
   <!-- ================= NAVBAR ================= -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="#home" class="logo" data-cursor="hover">
+      <a href="#home" class="logo">
         <span class="logo-mark">
           <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="Spodzh" />
         </span>
@@ -61,7 +63,6 @@
   <section class="hero" id="home">
     <div class="container hero-inner">
 
-      <!-- Тех-метка -->
       <div class="hero-tech reveal">
         <span>SPODZH.PORTFOLIO / 2026</span>
         <span class="rec">● REC</span>
@@ -88,11 +89,11 @@
       </p>
 
       <div class="hero-buttons reveal">
-        <a href="#contacts" class="btn btn-primary magnetic" data-cursor="hover">
+        <a href="#contacts" class="btn btn-primary magnetic">
           <span>Связаться</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#projects" class="btn btn-ghost magnetic" data-cursor="hover">
+        <a href="#projects" class="btn btn-ghost magnetic">
           <span>Смотреть работы</span>
         </a>
       </div>
@@ -233,7 +234,7 @@
 
       <div class="projects-grid">
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7429328023184215301" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 01</span>
@@ -250,7 +251,7 @@
           </a>
         </article>
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7441217389426969912" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 02</span>
@@ -267,7 +268,7 @@
           </a>
         </article>
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7409249005063933190" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 03</span>
@@ -284,7 +285,7 @@
           </a>
         </article>
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7600069280239029525" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 04</span>
@@ -301,7 +302,7 @@
           </a>
         </article>
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7695352945033923861" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 05</span>
@@ -318,7 +319,7 @@
           </a>
         </article>
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7509421752355736888" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 06</span>
@@ -335,7 +336,7 @@
           </a>
         </article>
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7644551806877568276" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 07</span>
@@ -353,7 +354,7 @@
           </a>
         </article>
 
-        <article class="project-card reveal" data-cursor="view">
+        <article class="project-card reveal">
           <a href="https://www.tiktok.com/@spodzh/video/7640798451403640084" target="_blank" rel="noopener" class="project-link">
             <div class="project-cover">
               <span class="project-cut">CUT 08</span>
@@ -385,40 +386,40 @@
 
       <div class="services-grid">
 
-        <div class="service-card glass reveal" data-cursor="hover">
+        <div class="service-card glass reveal">
           <span class="service-num">SCENE 01</span>
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </div>
           <h3>Монтаж коротких видео</h3>
           <p>TikTok, Reels, Shorts — темп, субтитры, звук, цвет и подача под площадку.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-cta" data-cursor="hover">
+          <a href="https://t.me/spodzh" target="_blank" class="service-cta">
             Обсудить задачу
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
 
-        <div class="service-card glass reveal" data-cursor="hover">
+        <div class="service-card glass reveal">
           <span class="service-num">SCENE 02</span>
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </div>
           <h3>Съёмка и контент</h3>
           <p>Идея, съёмка и сборка ролика под конкретную задачу: влог, реклама, бренд.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-cta" data-cursor="hover">
+          <a href="https://t.me/spodzh" target="_blank" class="service-cta">
             Обсудить задачу
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
 
-        <div class="service-card glass reveal" data-cursor="hover">
+        <div class="service-card glass reveal">
           <span class="service-num">SCENE 03</span>
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           </div>
           <h3>Коллабы и бренды</h3>
           <p>Рекламные интеграции, совместные ролики с блогерами, творческие проекты.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-cta" data-cursor="hover">
+          <a href="https://t.me/spodzh" target="_blank" class="service-cta">
             Обсудить задачу
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -438,21 +439,21 @@
       </div>
 
       <div class="contacts-grid">
-        <a href="https://tiktok.com/@spodzh" target="_blank" class="contact-card glass reveal" data-cursor="hover">
+        <a href="https://tiktok.com/@spodzh" target="_blank" class="contact-card glass reveal">
           <span class="contact-arrow">↗</span>
           <h3>TikTok</h3>
           <p>@spodzh</p>
           <span class="contact-hint">45K+ подписчиков</span>
         </a>
 
-        <a href="https://t.me/spodzh" target="_blank" class="contact-card glass reveal" data-cursor="hover">
+        <a href="https://t.me/spodzh" target="_blank" class="contact-card glass reveal">
           <span class="contact-arrow">↗</span>
           <h3>Telegram</h3>
           <p>@spodzh</p>
           <span class="contact-hint">Быстрее всего</span>
         </a>
 
-        <a href="https://instagram.com/spodzh" target="_blank" class="contact-card glass reveal" data-cursor="hover">
+        <a href="https://instagram.com/spodzh" target="_blank" class="contact-card glass reveal">
           <span class="contact-arrow">↗</span>
           <h3>Instagram</h3>
           <p>@spodzh</p>
@@ -460,7 +461,6 @@
         </a>
       </div>
 
-      <!-- Финальный CTA -->
       <div class="cta-final reveal">
         <span class="cta-tag">[ FINAL CUT / 2026 ]</span>
         <h2 class="cta-heading">
@@ -469,11 +469,11 @@
         </h2>
         <p class="cta-hint">Пришли задачу, площадку и сроки — отвечу в течение дня.</p>
         <div class="cta-actions">
-          <a href="https://t.me/spodzh" target="_blank" class="btn btn-primary magnetic" data-cursor="hover">
+          <a href="https://t.me/spodzh" target="_blank" class="btn btn-primary magnetic">
             <span>Обсудить проект</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <button class="btn btn-ghost copy-btn" data-copy="@spodzh" data-cursor="hover">
+          <button class="btn btn-ghost copy-btn" data-copy="@spodzh">
             <span class="copy-label">Скопировать @spodzh</span>
           </button>
         </div>
@@ -485,12 +485,11 @@
   <footer class="footer">
     <div class="container footer-inner">
       <p>© <span id="year"></span> Spodzh — портфолио <span class="footer-mono">/ v1.0</span></p>
-      <a href="#home" class="back-top" data-cursor="hover">Наверх ↑</a>
+      <a href="#home" class="back-top">Наверх ↑</a>
     </div>
   </footer>
 
-  <script src="js/ui.js"></script>
-  <script src="js/animations.js"></script>
+  <!-- ============ СКРИПТ ============ -->
   <script src="js/main.js"></script>
 </body>
 </html>
