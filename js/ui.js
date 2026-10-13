@@ -4,24 +4,19 @@
    ============================================================ */
 
 /* ---------- 1. ПРЕЛОАДЕР ---------- */
-const loader = document.getElementById('loader');
-
-function hideLoader() {
-  if (!loader || loader.classList.contains('hidden')) return;
-  loader.classList.add('hidden');
-  // Через 700мс полностью убираем из потока, чтобы не мешал кликам
-  setTimeout(() => { loader.style.display = 'none'; }, 700);
-}
-
-// Основной сценарий: страница загрузилась — прячем лоадер
-window.addEventListener('load', () => {
-  setTimeout(hideLoader, 1000);
+// Самое простое: как только DOM готов — прячем лоадер
+document.addEventListener('DOMContentLoaded', () => {
+  const loader = document.getElementById('loader');
+  if (loader) {
+    setTimeout(() => loader.classList.add('hidden'), 800);
+  }
 });
 
-// Защита: если что-то (например, картинка с ImgBB) зависло и load не срабатывает,
-// принудительно скрываем лоадер через 3 секунды
-setTimeout(hideLoader, 3000);
-
+// Дублирующий триггер на всякий случай
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  if (loader) loader.classList.add('hidden');
+});
 
 /* ---------- 2. КАСТОМНЫЙ КУРСОР (точка) ---------- */
 const cursorDot = document.getElementById('cursorDot');
