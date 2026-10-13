@@ -66,4 +66,36 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       window.scrollTo({ top, behavior: 'smooth' });
     }
   });
+
+   
+   /* ---------- 6. КОПИРОВАНИЕ КОНТАКТА ---------- */
+/* Кнопка «Скопировать @spodzh» в финальном CTA */
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const text = btn.dataset.copy;
+    const label = btn.querySelector('.copy-label');
+    const original = label.textContent;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      label.textContent = 'Скопировано ✓';
+      btn.classList.add('is-copied');
+
+      setTimeout(() => {
+        label.textContent = original;
+        btn.classList.remove('is-copied');
+      }, 1800);
+    } catch (err) {
+      // Fallback для старых браузеров
+      const tmp = document.createElement('textarea');
+      tmp.value = text;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand('copy');
+      document.body.removeChild(tmp);
+
+      label.textContent = 'Скопировано ✓';
+      setTimeout(() => label.textContent = original, 1800);
+    }
+  });
 });
