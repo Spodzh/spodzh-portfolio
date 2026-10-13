@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- ============ СТИЛИ ============ -->
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/sections.css" />
@@ -27,17 +26,14 @@
     </div>
   </div>
 
-  <!-- ================= ФОНОВЫЕ СЛОИ ================= -->
   <div class="bg-mesh"></div>
   <div class="bg-noise"></div>
-
-  <!-- ================= СКРОЛЛ-ПРОГРЕСС ================= -->
   <div class="scroll-progress" id="scrollProgress"></div>
 
   <!-- ================= NAVBAR ================= -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="#home" class="logo">
+      <a href="#home" class="logo" id="logoTrigger">
         <span class="logo-mark">
           <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="Spodzh" />
         </span>
@@ -45,17 +41,30 @@
       </a>
 
       <nav class="nav-links" id="navLinks">
-        <a href="#home">Главная</a>
-        <a href="#about">Обо мне</a>
-        <a href="#skills">Навыки</a>
-        <a href="#projects">Проекты</a>
-        <a href="#services">Услуги</a>
-        <a href="#contacts">Контакты</a>
+        <a href="#home" data-nav="home">Главная</a>
+        <a href="#about" data-nav="about">Обо мне</a>
+        <a href="#skills" data-nav="skills">Навыки</a>
+        <a href="#projects" data-nav="projects">Проекты</a>
+        <a href="#services" data-nav="services">Услуги</a>
+        <a href="#contacts" data-nav="contacts">Контакты</a>
       </nav>
 
       <button class="burger" id="burger" aria-label="Меню">
         <span></span><span></span>
       </button>
+    </div>
+
+    <!-- ============ МОНТАЖНАЯ ШКАЛА-НАВИГАЦИЯ ============ -->
+    <div class="timeline" id="timeline">
+      <div class="timeline__track">
+        <a href="#home"     class="timeline__marker" data-target="home">INTRO</a>
+        <a href="#about"    class="timeline__marker" data-target="about">ABOUT</a>
+        <a href="#skills"   class="timeline__marker" data-target="skills">SKILLS</a>
+        <a href="#projects" class="timeline__marker" data-target="projects">CUTS</a>
+        <a href="#services" class="timeline__marker" data-target="services">SERVICES</a>
+        <a href="#contacts" class="timeline__marker" data-target="contacts">CONTACT</a>
+      </div>
+      <div class="timeline__progress" id="timelineProgress"></div>
     </div>
   </header>
 
@@ -229,7 +238,7 @@
       <div class="section-head reveal">
         <span class="section-num">[ S-03 / PROJECTS ]</span>
         <h2 class="section-title">Проекты</h2>
-        <p class="section-sub">Мои работы в TikTok — кликабельны, открываются в новой вкладке</p>
+        <p class="section-sub">Мои работы в TikTok — кликай, чтобы посмотреть</p>
       </div>
 
       <div class="projects-grid">
@@ -489,6 +498,37 @@
     </div>
   </footer>
 
+  <!-- ================= ПРИЗРАК-ПРОВОДНИК ================= -->
+  <div class="ghost-guide" id="ghostGuide">
+    <div class="ghost-guide__bubble" id="ghostBubble">Привет! Я Spodzh 👻</div>
+    <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" class="ghost-guide__img" />
+  </div>
+
+  <!-- ================= ПАСХАЛКА ================= -->
+  <div class="easter-egg" id="easterEgg">
+    <div class="easter-egg__glitch">Ты нашёл секретный кадр 👻</div>
+    <div class="easter-egg__sub">SHHH... только между нами</div>
+  </div>
+
+  <!-- ================= МОДАЛКА ПРОЕКТА ================= -->
+  <div class="project-modal" id="projectModal" aria-hidden="true">
+    <div class="project-modal__backdrop" data-close></div>
+    <div class="project-modal__dialog">
+      <button class="project-modal__close" data-close aria-label="Закрыть">✕</button>
+      <div class="project-modal__media">
+        <img id="modalImage" src="" alt="" />
+        <span class="project-modal__badge" id="modalBadge">CUT</span>
+      </div>
+      <div class="project-modal__body">
+        <div class="project-modal__meta" id="modalMeta"></div>
+        <a id="modalLink" href="#" target="_blank" rel="noopener" class="btn btn-primary">
+          <span>Смотреть в TikTok</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= ВСТРОЕННЫЙ СКРИПТ ================= -->
   <script>
     (function () {
@@ -549,13 +589,10 @@
           }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
           revealElements.forEach(function (el) { revealObserver.observe(el); });
         } else {
-          // Fallback: показать все блоки, если нет поддержки
           revealElements.forEach(function (el) { el.classList.add('visible'); });
         }
       } catch (e) {
-        document.querySelectorAll('.reveal').forEach(function (el) {
-          el.classList.add('visible');
-        });
+        document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
       }
 
       /* ---------- 5. СЧЁТЧИКИ ---------- */
@@ -611,7 +648,6 @@
             var text = btn.dataset.copy;
             var label = btn.querySelector('.copy-label');
             var original = label ? label.textContent : '';
-
             function done() {
               if (label) label.textContent = 'Скопировано ✓';
               btn.classList.add('is-copied');
@@ -620,7 +656,6 @@
                 btn.classList.remove('is-copied');
               }, 1800);
             }
-
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(text).then(done).catch(function () {
                 var tmp = document.createElement('textarea');
@@ -651,14 +686,198 @@
             var target = document.querySelector(this.getAttribute('href'));
             if (target) {
               e.preventDefault();
-              var top = target.getBoundingClientRect().top + window.scrollY - 80;
+              var top = target.getBoundingClientRect().top + window.scrollY - 90;
               window.scrollTo({ top: top, behavior: 'smooth' });
             }
           });
         });
       } catch (e) {}
 
-      /* ---------- 9. ЛОГ ---------- */
+      /* ---------- 9. АКТИВНАЯ СЕКЦИЯ (навбар + таймлайн) ---------- */
+      try {
+        var sections = document.querySelectorAll('section[id]');
+        var navItems = document.querySelectorAll('[data-nav]');
+        var timelineMarkers = document.querySelectorAll('.timeline__marker');
+
+        var sectionObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var id = entry.target.id;
+
+              // Навбар
+              navItems.forEach(function (item) {
+                item.classList.toggle('active', item.dataset.nav === id);
+              });
+
+              // Таймлайн
+              timelineMarkers.forEach(function (m) {
+                m.classList.toggle('active', m.dataset.target === id);
+              });
+            }
+          });
+        }, { threshold: 0.35 });
+
+        sections.forEach(function (s) { sectionObserver.observe(s); });
+      } catch (e) {}
+
+      /* ---------- 10. ТАЙМЛАЙН ПРОГРЕСС ---------- */
+      try {
+        var timeline = document.getElementById('timeline');
+        var timelineProgress = document.getElementById('timelineProgress');
+
+        window.addEventListener('scroll', function () {
+          if (!timeline) return;
+          // Показываем таймлайн только после hero
+          timeline.classList.toggle('visible', window.scrollY > window.innerHeight * 0.8);
+
+          if (timelineProgress) {
+            var scrollTop = window.scrollY;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            timelineProgress.style.width = progress + '%';
+          }
+        });
+      } catch (e) {}
+
+      /* ---------- 11. МОДАЛКА ПРОЕКТОВ ---------- */
+      try {
+        var modal = document.getElementById('projectModal');
+        var modalImage = document.getElementById('modalImage');
+        var modalBadge = document.getElementById('modalBadge');
+        var modalMeta = document.getElementById('modalMeta');
+        var modalLink = document.getElementById('modalLink');
+
+        function openModal(card) {
+          var link = card.querySelector('.project-link');
+          var img = card.querySelector('.project-cover img');
+          var cut = card.querySelector('.project-cut');
+          var tags = card.querySelectorAll('.project-tag');
+
+          if (modalImage && img) modalImage.src = img.src;
+          if (modalBadge && cut) modalBadge.textContent = cut.textContent;
+          if (modalLink && link) modalLink.href = link.href;
+
+          if (modalMeta) {
+            modalMeta.innerHTML = '';
+            tags.forEach(function (t) {
+              var span = document.createElement('span');
+              span.className = 'project-tag';
+              span.textContent = t.textContent;
+              modalMeta.appendChild(span);
+            });
+          }
+
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.project-card').forEach(function (card) {
+          var link = card.querySelector('.project-link');
+          if (link) {
+            link.addEventListener('click', function (e) {
+              // Только на десктопе (на мобильных сразу открываем TikTok)
+              if (window.matchMedia('(max-width: 900px)').matches) return;
+              e.preventDefault();
+              openModal(card);
+            });
+          }
+        });
+
+        if (modal) {
+          modal.querySelectorAll('[data-close]').forEach(function (el) {
+            el.addEventListener('click', closeModal);
+          });
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+          });
+        }
+      } catch (e) {}
+
+      /* ---------- 12. ПАСХАЛКА НА ЛОГОТИПЕ ---------- */
+      try {
+        var logoTrigger = document.getElementById('logoTrigger');
+        var easterEgg = document.getElementById('easterEgg');
+        var clickCount = 0;
+        var clickTimer = null;
+
+        if (logoTrigger && easterEgg) {
+          logoTrigger.addEventListener('click', function (e) {
+            clickCount++;
+
+            if (clickCount >= 5) {
+              e.preventDefault();
+              clickCount = 0;
+
+              // Показать пасхалку
+              easterEgg.classList.add('show');
+              document.body.classList.add('glitch-active');
+
+              setTimeout(function () {
+                easterEgg.classList.remove('show');
+                document.body.classList.remove('glitch-active');
+              }, 2400);
+            }
+
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(function () {
+              clickCount = 0;
+            }, 2000);
+          });
+        }
+      } catch (e) {}
+
+      /* ---------- 13. ПРИЗРАК-ПРОВОДНИК ---------- */
+      try {
+        var ghostBubble = document.getElementById('ghostBubble');
+        var ghostGuide = document.getElementById('ghostGuide');
+
+        var ghostMessages = {
+          home: 'Привет! Я Spodzh 👻',
+          about: 'Снимаю видео 3 года',
+          skills: 'Смотри, что умею 🎬',
+          projects: 'Кликай на работы →',
+          services: 'Тут можно заказать',
+          contacts: 'Пиши в Telegram →'
+        };
+
+        if (ghostBubble && ghostGuide && 'IntersectionObserver' in window) {
+          var ghostSections = document.querySelectorAll('section[id]');
+          var ghostObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                var msg = ghostMessages[entry.target.id];
+                if (msg) {
+                  ghostBubble.style.opacity = '0';
+                  setTimeout(function () {
+                    ghostBubble.textContent = msg;
+                    ghostBubble.style.opacity = '1';
+                  }, 200);
+                }
+              }
+            });
+          }, { threshold: 0.5 });
+          ghostSections.forEach(function (s) { ghostObserver.observe(s); });
+
+          // Скрыть после долгого простоя (чтоб не мешал)
+          var ghostTimeout = setTimeout(function () {
+            ghostGuide.classList.add('ghost-guide--minimized');
+          }, 12000);
+
+          ghostGuide.addEventListener('mouseenter', function () {
+            ghostGuide.classList.remove('ghost-guide--minimized');
+            clearTimeout(ghostTimeout);
+          });
+        }
+      } catch (e) {}
+
+      /* ---------- 14. ЛОГ ---------- */
       console.log('%cSPODZH 👻', 'color:#00e5ff; font-size:24px; font-weight:bold;');
       console.log('%cСайт загружен. Привет, Влад!', 'color:#ff2d75; font-size:14px;');
     })();
