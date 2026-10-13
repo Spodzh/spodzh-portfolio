@@ -1,13 +1,12 @@
 /* ============================================================
    RESPONSIVE.CSS — адаптив под планшет и телефон
-   Меняешь ТОЛЬКО этот файл, чтобы поправить вид на мобильном.
    ============================================================ */
 
 /* ============================================================
    ПЛАНШЕТ — до 960px
    ============================================================ */
 @media (max-width: 960px) {
-  /* Меню превращается в шторку, выезжающую справа */
+  /* Меню — шторка справа */
   .nav-links {
     position: fixed;
     top: 0; right: 0;
@@ -22,19 +21,24 @@
     transform: translateX(100%);
     transition: transform .5s var(--ease);
     border-left: 1px solid var(--border);
+    z-index: 150;
   }
   .nav-links.open { transform: translateX(0); }
   .nav-links a { font-size: 1.1rem; }
+  .nav-links a.active::before { display: none; }
 
-  /* Показываем бургер */
+  /* Бургер поверх шторки */
   .burger { display: flex; z-index: 200; }
+
+  /* Скрываем таймлайн-шкалу — на телефоне она лишняя */
+  .timeline { display: none; }
 
   /* About в один столбец */
   .about-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
   .about-tags { text-align: left; }
 
-  /* Меньше отступы у секций */
-  .section { padding: 100px 0; }
+  /* Меньше отступы */
+  .section { padding: 100px 0; scroll-margin-top: 80px; }
 }
 
 /* ============================================================
@@ -48,5 +52,12 @@
   .section-head { margin-bottom: 44px; }
   .marquee-track { font-size: 1.3rem; }
   .btn { padding: 14px 24px; font-size: 0.9rem; }
-  .cta-block { padding: 44px 20px; }
+  .cta-final { padding: 50px 20px; }
+
+  /* Кинетическая типографика — компактнее */
+  .kinetic-section { padding: 80px 0 20px; }
+
+  /* Модалка на телефоне почти во весь экран */
+  .project-modal__dialog { max-height: 95vh; }
+  .project-modal__body { padding: 20px; }
 }
