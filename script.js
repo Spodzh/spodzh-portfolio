@@ -13,30 +13,12 @@ window.addEventListener('load', () => {
 });
 
 
-/* ========== 3. КАСТОМНЫЙ КУРСОР ========== */
+/* ========== 3. КАСТОМНЫЙ КУРСОР (только точка) ========== */
 const cursorDot = document.getElementById('cursorDot');
-const cursorRing = document.getElementById('cursorRing');
-
-let mouseX = 0, mouseY = 0;
-let ringX = 0, ringY = 0;
 
 window.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-});
-
-function animateCursor() {
-  ringX += (mouseX - ringX) * 0.15;
-  ringY += (mouseY - ringY) * 0.15;
-  cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
-
-document.querySelectorAll('a, button, [data-cursor="hover"], [data-cursor="view"]').forEach(el => {
-  el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
-  el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+  cursorDot.style.transform =
+    `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
 });
 
 
