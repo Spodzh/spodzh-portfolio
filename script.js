@@ -1,44 +1,162 @@
 /* =========================================================
-   SPODZH PORTFOLIO — логика сайта
+   SPODZH PORTFOLIO — Premium Edition 2026
    ========================================================= */
 
-// 1. Год в футере (обновляется сам)
+/* ========== 1. ГОД В ФУТЕРЕ ========== */
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// 2. Меню-бургер на телефоне
+
+/* ========== 2. ПРЕЛОАДЕР ========== */
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  // Небольшая задержка, чтобы полоска успела "загрузиться"
+  setTimeout(() => loader.classList.add('hidden'), 1500);
+});
+
+
+/* ========== 3. КАСТОМНЫЙ КУРСОР ========== */
+const cursorDot = document.getElementById('cursorDot');
+const cursorRing = document.getElementById('cursorRing');
+
+// Позиции без задержки (для точки) и с плавным "догоном" (для кольца)
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+
+window.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+});
+
+// Плавный "догоняющий" эффект кольца через requestAnimationFrame
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.15;
+  ringY += (mouseY - ringY) * 0.15;
+  cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Реакция на кликабельные элементы
+document.querySelectorAll('a, button, [data-cursor="hover"], [data-cursor="view"]').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+});
+
+
+/* ========== 4. БУРГЕР-МЕНЮ ========== */
 const burger = document.getElementById('burger');
 const navLinks = document.getElementById('navLinks');
 
 burger.addEventListener('click', () => {
   burger.classList.toggle('active');
   navLinks.classList.toggle('open');
+  // Блокируем скролл при открытом меню
+  document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
 });
 
-// Закрываем меню при клике на ссылку
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     burger.classList.remove('active');
     navLinks.classList.remove('open');
+    document.body.style.overflow = '';
   });
 });
 
-// 3. Изменение навбара при скролле
+
+/* ========== 5. НАВБАР ПРИ СКРОЛЛЕ + ПРОГРЕСС ========== */
 const navbar = document.getElementById('navbar');
+const scrollProgress = document.getElementById('scrollProgress');
+
 window.addEventListener('scroll', () => {
+  // Меняем вид навбара
   navbar.classList.toggle('scrolled', window.scrollY > 30);
+
+  // Обновляем полоску прогресса
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  scrollProgress.style.width = progress + '%';
 });
 
-// 4. Плавное появление блоков при скролле (IntersectionObserver)
+
+/* ========== 6. REVEAL-АНИМАЦИИ (stagger) ========== */
 const revealElements = document.querySelectorAll('.reveal');
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
-      // небольшая задержка для «каскадного» появления
-      setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      observer.unobserve(entry.target);
+      // Небольшая каскадная задержка для группы элементов
+      const delay = Math.min(i * 80, 400);
+      setTimeout(() => entry.target.classList.add('visible'), delay);
+      revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-revealElements.forEach(el => observer.observe(el));
+revealElements.forEach(el => revealObserver.observe(el));
+
+
+/* ========== 7. АНИМИРОВАННЫЕ СЧЁТЧИКИ (в hero) ========== */
+const counters = document.querySelectorAll('[data-count]');
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCount(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+counters.forEach(c => counterObserver.observe(c));
+
+function animateCount(el) {
+  const target = parseInt(el.dataset.count, 10);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    // Плавная "easeOutExpo" кривая
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const value = Math.floor(target * eased);
+
+    // Красивое форматирование: 45000 → 45 000
+    el.textContent = value.toLocaleString('ru-RU') + suffix;
+
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.textContent = target.toLocaleString('ru-RU') + suffix;
+  }
+  requestAnimationFrame(tick);
+}
+
+
+/* ========== 8. МАГНИТНЫЕ КНОПКИ ========== */
+// Кнопка слегка "притягивается" к курсору при наведении
+document.querySelectorAll('.magnetic').forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+
+/* ========== 9. ПЛАВНЫЙ СКРОЛЛ ПО ЯКОРЯМ (fallback) ========== */
+// (дублирует CSS scroll-behavior для старых браузеров)
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
