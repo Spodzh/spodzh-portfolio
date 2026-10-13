@@ -13,7 +13,7 @@
 }
 .navbar.scrolled {
   padding: 10px 0;
-  background: rgba(7, 7, 11, 0.7);
+  background: rgba(7, 7, 11, 0.75);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border);
@@ -35,6 +35,8 @@
   font-weight: 700;
   font-size: 1.05rem;
   letter-spacing: 3px;
+  cursor: pointer;
+  user-select: none;
 }
 .logo-mark {
   width: 44px; height: 44px;
@@ -54,6 +56,9 @@
 }
 .dot { color: var(--magenta); }
 
+/* ============================================================
+   ФИШКА 3: АКТИВНАЯ СЕКЦИЯ В НАВБАРЕ
+   ============================================================ */
 .nav-links { display: flex; gap: 36px; }
 .nav-links a {
   font-size: 0.9rem;
@@ -74,6 +79,26 @@
 }
 .nav-links a:hover::after { width: 100%; }
 
+/* Активный пункт — градиентный текст + линия */
+.nav-links a.active {
+  color: var(--text);
+}
+.nav-links a.active::after {
+  width: 100%;
+}
+.nav-links a.active::before {
+  /* Точка-индикатор перед активной ссылкой */
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
 .burger {
   display: none;
   flex-direction: column;
@@ -91,6 +116,81 @@
 }
 .burger.active span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
 .burger.active span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+
+/* ============================================================
+   ФИШКА 8: МОНТАЖНАЯ ШКАЛА-НАВИГАЦИЯ (таймлайн)
+   ============================================================ */
+.timeline {
+  position: relative;
+  width: min(var(--container), 92%);
+  margin: 0 auto;
+  padding-top: 12px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+  pointer-events: none;
+}
+.timeline.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.timeline__track {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.timeline__marker {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--muted-2);
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: color .3s var(--ease);
+  white-space: nowrap;
+}
+/* Деление на шкале */
+.timeline__marker::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -11px;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 6px;
+  background: var(--border-hi);
+  transition: background .3s var(--ease);
+}
+.timeline__marker:hover { color: var(--text); }
+.timeline__marker.active {
+  color: var(--cyan);
+  text-shadow: 0 0 12px rgba(0,229,255,.6);
+}
+.timeline__marker.active::before {
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+  height: 10px;
+}
+
+/* Прогресс-полоса поверх шкалы */
+.timeline__progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 0;
+  background: var(--grad);
+  box-shadow: 0 0 10px rgba(0,229,255,.7);
+  transition: width .1s linear;
+}
 
 /* ============================================================
    HERO
@@ -219,6 +319,7 @@
 .section {
   padding: 140px 0;
   position: relative;
+  scroll-margin-top: 100px;
 }
 .section-head {
   margin-bottom: 64px;
@@ -246,7 +347,7 @@
 }
 
 /* ============================================================
-   KINETIC SECTION — блок перед проектами
+   KINETIC SECTION
    ============================================================ */
 .kinetic-section {
   padding: 120px 0 40px;
@@ -385,6 +486,7 @@
 .project-card:hover {
   transform: translateY(-8px);
   border-color: var(--border-hi);
+  box-shadow: 0 20px 60px -20px rgba(0,229,255,.25);
 }
 
 .project-link {
