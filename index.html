@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/responsive.css" />
   <link rel="stylesheet" href="css/interactive.css" />
   <link rel="stylesheet" href="css/corrupted.css" />
+  <link rel="stylesheet" href="css/reviews.css" />
 </head>
 <body>
 
@@ -82,7 +83,8 @@
         <a href="#skills" data-nav="skills"><b>03</b> SKILLS</a>
         <a href="#projects" data-nav="projects"><b>04</b> WORK</a>
         <a href="#services" data-nav="services"><b>05</b> SERVICES</a>
-        <a href="#contacts" data-nav="contacts"><b>06</b> CONTACT</a>
+        <a href="#reviews" data-nav="reviews"><b>06</b> REVIEWS</a>
+        <a href="#contacts" data-nav="contacts"><b>07</b> CONTACT</a>
       </nav>
 
       <button class="burger" id="burger" aria-label="Меню">
@@ -218,7 +220,7 @@
     <div class="container">
 
       <header class="sec-head reveal">
-        <span class="sec-head__num">[ FILE_002 / 05 ]</span>
+        <span class="sec-head__num">[ FILE_002 / 06 ]</span>
         <h2 class="sec-head__title">
           <span class="mask-line">ABOUT</span>
         </h2>
@@ -273,7 +275,7 @@
     <div class="container">
 
       <header class="sec-head reveal">
-        <span class="sec-head__num">[ FILE_003 / 05 ]</span>
+        <span class="sec-head__num">[ FILE_003 / 06 ]</span>
         <h2 class="sec-head__title">
           <span class="mask-line">SKILLS</span>
         </h2>
@@ -337,7 +339,7 @@
     <div class="container">
 
       <header class="sec-head reveal">
-        <span class="sec-head__num">[ FILE_004 / 05 ]</span>
+        <span class="sec-head__num">[ FILE_004 / 06 ]</span>
         <h2 class="sec-head__title">
           <span class="mask-line">WORK</span>
         </h2>
@@ -378,7 +380,7 @@
     <div class="container">
 
       <header class="sec-head reveal">
-        <span class="sec-head__num">[ FILE_005 / 05 ]</span>
+        <span class="sec-head__num">[ FILE_005 / 06 ]</span>
         <h2 class="sec-head__title">
           <span class="mask-line">SERVICES</span>
         </h2>
@@ -429,6 +431,28 @@
           </svg>
         </article>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= REVIEWS / FEEDBACK ARCHIVE ================= -->
+  <section class="section reviews" id="reviews">
+    <div class="container">
+
+      <header class="sec-head reveal">
+        <span class="sec-head__num">[ FILE_006 / 06 ]</span>
+        <h2 class="sec-head__title">
+          <span class="mask-line">FEEDBACK</span>
+        </h2>
+        <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
+          <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
+        </svg>
+        <span class="sec-head__note hand">real people. real projects.</span>
+      </header>
+
+      <p class="reviews__sub"><b>PEOPLE I WORKED WITH</b></p>
+
+      <div class="reviews-grid" id="reviewsGrid"></div>
+
     </div>
   </section>
 
@@ -512,6 +536,15 @@
     </div>
   </footer>
 
+  <!-- ================= ПАСХАЛКА (визуальная) ================= -->
+  <div class="easter-egg" id="easterEgg">
+    <div class="easter-egg__inner">
+      <span class="easter-egg__tag">[ ACCESS GRANTED ]</span>
+      <p class="easter-egg__text">Ты нашёл секретный кадр 👻</p>
+      <span class="easter-egg__sub">SHHH... только между нами</span>
+    </div>
+  </div>
+
   <!-- ================= МОДАЛКА ПРОЕКТА ================= -->
   <div class="project-modal" id="projectModal" aria-hidden="true">
     <div class="project-modal__backdrop" data-close></div>
@@ -538,14 +571,13 @@
   </div>
 
   <!-- ================= ИНТЕРАКТИВ (V3) ================= -->
-    <script src="js/interactive.js"></script>
-  <script src="js/corrupted.js"></script>
-  <script>
-    (function () {
-      // твой основной скрипт
-    })();
-  </script>
+  <script src="js/interactive.js"></script>
 
+  <!-- ================= CORRUPTED ARCHIVE (пасхалка) ================= -->
+  <script src="js/corrupted.js"></script>
+
+  <!-- ================= REVIEWS ================= -->
+  <script src="js/reviews.js"></script>
 
   <!-- ================= ОСНОВНОЙ СКРИПТ ================= -->
   <script>

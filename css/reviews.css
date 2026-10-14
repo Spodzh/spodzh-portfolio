@@ -1,0 +1,402 @@
+/* ============================================================
+   REVIEWS.CSS — секция FEEDBACK ARCHIVE
+   ============================================================ */
+
+.reviews {
+  padding: 160px 0 120px;
+  position: relative;
+  scroll-margin-top: 100px;
+  overflow: hidden;
+}
+
+.reviews__sub {
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: -48px;
+  margin-bottom: 56px;
+}
+.reviews__sub b {
+  color: var(--red);
+  font-weight: 700;
+}
+
+/* Сетка */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  position: relative;
+}
+
+/* Карточка отзыва */
+.review-card {
+  position: relative;
+  padding: 32px 32px 28px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: transform .35s var(--ease), border-color .35s, box-shadow .35s;
+  overflow: hidden;
+}
+
+/* Верхняя красная полоска-маркер */
+.review-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 3px;
+  background: var(--red);
+  transition: width .5s var(--ease);
+}
+
+.review-card:hover {
+  border-color: var(--red);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px rgba(255,34,34,.35);
+}
+.review-card:hover::before {
+  width: 100%;
+}
+
+/* Верхняя строка: номер + дата */
+.review-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-card__num {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .18em;
+  color: var(--red);
+  font-weight: 500;
+  transition: transform .25s, color .25s;
+  display: inline-block;
+}
+.review-card:hover .review-card__num {
+  animation: reviewGlitch .5s steps(3);
+}
+@keyframes reviewGlitch {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, 1px); }
+}
+
+.review-card__date {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: .12em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* Автор */
+.review-card__author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.review-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1.5px solid var(--line-strong);
+  display: grid;
+  place-items: center;
+  font-family: var(--f-cry);
+  font-size: 1rem;
+  color: var(--yellow);
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+.review-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.review-card__avatar--letter {
+  background: linear-gradient(135deg, var(--bg-3), var(--bg-4));
+}
+
+.review-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.review-card__name {
+  font-family: var(--f-cry);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: -.005em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.review-card__role {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .1em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* Текст отзыва */
+.review-card__text {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--paper-dim);
+  position: relative;
+  max-height: 200px;
+  overflow: hidden;
+  transition: max-height .4s var(--ease);
+}
+.review-card__text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(180deg, transparent, var(--bg-2));
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.review-card__text.expanded {
+  max-height: 800px;
+}
+.review-card__text.expanded::after {
+  opacity: 0;
+}
+
+/* Кнопка "Читать полностью" */
+.review-card__read-more {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  transition: color .25s, gap .25s;
+  min-height: 32px;
+}
+.review-card__read-more:hover {
+  color: var(--red);
+  gap: 10px;
+}
+.review-card__read-more::before {
+  content: '▸';
+  transition: transform .25s;
+}
+.review-card__read-more.expanded::before {
+  transform: rotate(90deg);
+}
+
+/* Футер карточки */
+.review-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  margin-top: auto;
+}
+
+.review-card__link {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .25s, gap .25s;
+  font-weight: 500;
+  min-height: 32px;
+}
+.review-card__link:hover {
+  color: var(--red);
+  gap: 10px;
+}
+.review-card__link svg {
+  width: 12px;
+  height: 12px;
+}
+
+.review-card__source {
+  font-family: var(--f-mono);
+  font-size: 0.65rem;
+  letter-spacing: .14em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+
+/* Doodle-элемент на карточке */
+.review-card__doodle {
+  position: absolute;
+  bottom: 18px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  opacity: .3;
+  pointer-events: none;
+  transition: opacity .4s var(--ease);
+}
+.review-card:hover .review-card__doodle {
+  opacity: .85;
+}
+
+/* Карточки-заглушки (placeholder) */
+.review-card--placeholder {
+  border-style: dashed;
+  border-color: var(--line);
+}
+.review-card--placeholder::before {
+  background: var(--ink-mute);
+}
+.review-card--placeholder:hover {
+  border-color: var(--yellow);
+  box-shadow: none;
+  transform: none;
+}
+.review-card--placeholder:hover::before {
+  background: var(--yellow);
+  width: 56px;
+}
+.review-card--placeholder .review-card__num {
+  color: var(--ink-mute);
+}
+.review-card--placeholder .review-card__name {
+  color: var(--ink-mute);
+  font-family: var(--f-mono);
+  font-size: 0.92rem;
+  letter-spacing: .05em;
+  font-weight: 500;
+}
+.review-card--placeholder .review-card__text {
+  font-family: var(--f-hand);
+  font-size: 1.35rem;
+  line-height: 1.25;
+  color: var(--yellow);
+  font-style: normal;
+}
+.review-card--placeholder .review-card__text::after {
+  display: none;
+}
+
+/* Пометка "ЗАГЛУШКА" в углу */
+.review-card__badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  padding: 3px 8px;
+  background: rgba(255,217,61,.08);
+  border: 1px solid rgba(255,217,61,.35);
+  z-index: 2;
+}
+
+/* Нижняя CTA-строка: пусто или сообщение */
+.reviews__empty {
+  grid-column: 1 / -1;
+  padding: 48px 24px;
+  text-align: center;
+  border: 1px dashed var(--line-strong);
+  font-family: var(--f-mono);
+  font-size: 0.85rem;
+  letter-spacing: .1em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.reviews__empty b {
+  color: var(--yellow);
+  font-weight: 500;
+}
+
+/* Reveal-анимация: каскад */
+.review-card.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.review-card.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+@media (max-width: 900px) {
+  .reviews { padding: 100px 0 80px; scroll-margin-top: 80px; }
+  .reviews__sub { margin-top: -36px; margin-bottom: 40px; }
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .review-card { padding: 26px 24px 24px; }
+  .review-card__text { font-size: 0.96rem; }
+}
+
+@media (max-width: 640px) {
+  .reviews { padding: 80px 0 60px; }
+  .review-card { padding: 22px 20px 20px; gap: 14px; }
+  .review-card__avatar { width: 42px; height: 42px; }
+  .review-card__name { font-size: 1rem; }
+  .review-card__text {
+    font-size: 0.94rem;
+    line-height: 1.6;
+    max-height: 240px;
+  }
+  .review-card__text.expanded { max-height: 900px; }
+  .review-card__footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .review-card__read-more,
+  .review-card__link { min-height: 44px; padding: 10px 0; }
+  .review-card__doodle { width: 34px; height: 34px; opacity: .25; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .review-card,
+  .review-card::before,
+  .review-card__num,
+  .review-card__read-more::before,
+  .review-card__text {
+    transition: none !important;
+    animation: none !important;
+  }
+  .review-card:hover .review-card__num { animation: none; }
+}
+
+/* Тач-устройства */
+@media (hover: none) and (pointer: coarse) {
+  .review-card:hover { transform: none; box-shadow: none; }
+  .review-card:hover::before { width: 56px; }
+  .review-card:hover .review-card__num { animation: none; }
+  .review-card__link:hover { color: var(--cyan); gap: 6px; }
+  .review-card__read-more:hover { color: var(--yellow); gap: 6px; }
+}

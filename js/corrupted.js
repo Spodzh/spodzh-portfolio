@@ -1,257 +1,494 @@
 /* ============================================================
-   CORRUPTED.JS — пасхалка "CORRUPTED ARCHIVE"
-   5 кликов по логотипу → взлом → альтернативный режим.
-   С негатив-эффектом при активации и восстановлении.
+   CORRUPTED.CSS — пасхалка "CORRUPTED ARCHIVE"
+   5 кликов по логотипу → взлом → альтернативная тема
+   + негатив-эффекты
    ============================================================ */
-(function () {
-  'use strict';
 
-  var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var reducedMotion = mqReduce.matches;
+/* ------------------------------------------------------------
+   ОВЕРЛЕЙ АНИМАЦИИ ВЗЛОМА
+   ------------------------------------------------------------ */
+.corrupt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10100;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+.corrupt-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
 
-  var CLICKS_REQUIRED = 5;
-  var RESET_DELAY = 3000;
+.corrupt-noise {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 4px),
+    radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, rgba(0,0,0,.94) 100%);
+  animation: corruptNoise .14s steps(3) infinite;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.corrupt-overlay.active .corrupt-noise { opacity: 1; }
+@keyframes corruptNoise {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-2px, 1px); }
+  66% { transform: translate(2px, -1px); }
+}
 
-  var clickCount = 0;
-  var resetTimer = null;
-  var isCorrupting = false;
-  var isCorrupted = false;
+.corrupt-bars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.corrupt-bars i {
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 2px;
+  background: #c81018;
+  opacity: 0;
+  box-shadow: 0 0 14px rgba(200, 16, 24, 0.9);
+}
+.corrupt-overlay.active .corrupt-bars i {
+  animation: corruptBar 1.8s steps(4) 1;
+}
+.corrupt-bars i:nth-child(1) { top: 12%; animation-delay: .05s; }
+.corrupt-bars i:nth-child(2) { top: 24%; animation-delay: .25s; height: 4px; }
+.corrupt-bars i:nth-child(3) { top: 38%; animation-delay: .5s; }
+.corrupt-bars i:nth-child(4) { top: 52%; animation-delay: .7s; height: 6px; }
+.corrupt-bars i:nth-child(5) { top: 66%; animation-delay: .9s; }
+.corrupt-bars i:nth-child(6) { top: 78%; animation-delay: 1.1s; height: 3px; }
+.corrupt-bars i:nth-child(7) { top: 88%; animation-delay: 1.3s; }
+@keyframes corruptBar {
+  0%   { opacity: 0; transform: translateX(-100%); }
+  20%  { opacity: 1; transform: translateX(0); }
+  60%  { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
 
-  var logo = document.getElementById('logoTrigger') || document.querySelector('.logo');
-  if (!logo) {
-    console.warn('[corrupted] Логотип не найден');
-    return;
+.corrupt-messages {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  pointer-events: none;
+  z-index: 3;
+  text-align: center;
+  padding: 0 20px;
+}
+.corrupt-messages span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1rem, 2.6vw, 1.8rem);
+  letter-spacing: .28em;
+  color: #c81018;
+  text-transform: uppercase;
+  text-shadow: 0 0 24px rgba(200,16,24,.7);
+  opacity: 0;
+}
+
+.corrupt-overlay.active .corrupt-messages span {
+  animation: corruptMsg 1.9s ease 1 forwards;
+}
+.corrupt-overlay.active .corrupt-messages span:nth-child(1) { animation-delay: .1s; }
+.corrupt-overlay.active .corrupt-messages span:nth-child(2) { animation-delay: .55s; }
+.corrupt-overlay.active .corrupt-messages span:nth-child(3) { animation-delay: 1s; }
+.corrupt-overlay.active .corrupt-messages span:nth-child(4) {
+  animation-delay: 1.4s;
+  color: #fff;
+  font-size: clamp(1.4rem, 4vw, 2.8rem);
+  text-shadow: 0 0 30px rgba(255,255,255,.6), 0 0 60px rgba(200,16,24,.9);
+  letter-spacing: .22em;
+}
+
+@keyframes corruptMsg {
+  0%   { opacity: 0; transform: scale(.9); }
+  15%  { opacity: 1; transform: scale(1); }
+  60%  { opacity: 1; transform: translateX(0); }
+  70%  { opacity: 1; transform: translateX(-4px); }
+  72%  { opacity: .7; transform: translateX(3px); }
+  80%  { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: scale(1.05); }
+}
+
+/* Отклик логотипа на каждое нажатие */
+.logo.is-corrupting img,
+.logo.is-corrupting .logo-mark {
+  animation: logoCorrupt .5s steps(3);
+}
+@keyframes logoCorrupt {
+  0%, 100% { filter: none; transform: none; }
+  33%  { filter: hue-rotate(180deg) contrast(2) saturate(0); transform: translateX(-3px) skewX(-6deg); }
+  66%  { filter: invert(1) brightness(1.4); transform: translateX(3px) skewX(6deg); }
+}
+
+/* Лёгкая дрожь страницы во время взлома */
+body.corrupting .navbar,
+body.corrupting .hero,
+body.corrupting .section,
+body.corrupting .marquee,
+body.corrupting .footer {
+  animation: pageGlitch .35s steps(2) infinite;
+}
+@keyframes pageGlitch {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(-1px, 1px); }
+}
+
+/* ============================================================
+   CORRUPTED MODE — альтернативная тема
+   ============================================================ */
+body.corrupted-mode {
+  --bg: #0a0808;
+  --bg-2: #0f0b0b;
+  --bg-3: #131010;
+  --bg-4: #181414;
+
+  --ink: #d8d4cc;
+  --paper-dim: #a8a29a;
+  --ink-mute: #7a726a;
+  --ink-dim: #4a4440;
+
+  --line: rgba(216, 212, 204, 0.12);
+  --line-strong: rgba(216, 212, 204, 0.28);
+
+  --red: #c81018;
+  --yellow: #8a2a2a;
+  --cyan: #7a3030;
+
+  --crimson: #8a0e14;
+  --blood: #5a060a;
+
+  background: var(--bg);
+}
+
+body.corrupted-mode .bg-grid {
+  background-image:
+    linear-gradient(rgba(200, 16, 24, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 16, 24, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+body.corrupted-mode .bg-vignette {
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.82) 100%);
+}
+
+body.corrupted-mode .chip--red {
+  background: var(--crimson);
+  border-color: var(--crimson);
+}
+body.corrupted-mode .chip--yellow {
+  background: var(--yellow);
+  color: #f0d0d0;
+  border-color: var(--yellow);
+}
+body.corrupted-mode .btn--primary {
+  background: var(--crimson);
+  border-color: var(--crimson);
+}
+body.corrupted-mode .btn--primary:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+}
+
+body.corrupted-mode .nav-links a.active {
+  background: var(--crimson);
+  border-color: var(--crimson);
+}
+
+body.corrupted-mode .hl { background: var(--crimson); color: #fff; }
+body.corrupted-mode .hl--yellow { background: var(--yellow); color: #f0d0d0; }
+body.corrupted-mode .hero-title__glitch { color: #fff; }
+
+body.corrupted-mode .featured__badge { background: var(--crimson); }
+body.corrupted-mode .featured__label {
+  color: var(--crimson);
+  border-color: var(--crimson);
+}
+body.corrupted-mode .tile__num,
+body.corrupted-mode .skill-row__num,
+body.corrupted-mode .sec-head__num,
+body.corrupted-mode .service-card__num {
+  color: var(--crimson);
+}
+body.corrupted-mode .skill-row__level i { background: var(--crimson); }
+body.corrupted-mode .sec-head__underline path { stroke: var(--crimson); }
+
+body.corrupted-mode .contact-card__net,
+body.corrupted-mode .contact-card__handle { color: #e0c8c8; }
+body.corrupted-mode .contact-card--accent { background: rgba(200,16,24,.14); }
+body.corrupted-mode .contact-card--accent:hover { background: rgba(200,16,24,.22); }
+body.corrupted-mode .contact-card--accent .contact-card__status { color: #ff8080; }
+
+body.corrupted-mode .service-card::before { background: var(--crimson); }
+body.corrupted-mode .service-card__doodle path,
+body.corrupted-mode .service-card__doodle circle { stroke: #b05050; }
+
+body.corrupted-mode .cta-final__tag {
+  color: var(--crimson);
+  border-color: var(--crimson);
+}
+body.corrupted-mode .cta-final__corner { border-color: var(--crimson); }
+body.corrupted-mode .cta-final__ghost-arrow path { stroke: #b05050; }
+
+body.corrupted-mode .footer__center { color: #b07070; }
+body.corrupted-mode .logo-mark {
+  filter: drop-shadow(0 0 12px rgba(200,16,24,.8));
+}
+body.corrupted-mode .logo-text small { color: #8a3030; }
+body.corrupted-mode .stat__label { color: #7a5555; }
+
+/* Полосы цензуры поверх проектов */
+body.corrupted-mode .featured__media::after,
+body.corrupted-mode .tile__thumb::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 6px;
+  top: 42%;
+  background: rgba(0,0,0,.92);
+  box-shadow: 0 -18px 0 rgba(0,0,0,.85), 0 24px 0 rgba(0,0,0,.85);
+  pointer-events: none;
+  z-index: 4;
+  animation: corruptPulse 3s ease-in-out infinite;
+}
+body.corrupted-mode .tile__thumb::after { top: 50%; height: 5px; }
+
+/* Метки-цензуры (инжектит JS) */
+.corrupt-label {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #ff6060;
+  padding: 3px 8px;
+  background: rgba(0,0,0,.88);
+  border: 1px solid rgba(255,64,96,.45);
+  z-index: 6;
+  pointer-events: none;
+  animation: corruptPulse 2.4s ease-in-out infinite;
+}
+@keyframes corruptPulse {
+  0%, 100% { opacity: .9; }
+  50%      { opacity: .55; }
+}
+
+/* Призрак в corrupted-режиме */
+body.corrupted-mode .hero-ghost img,
+body.corrupted-mode .ghost-corner img {
+  filter: drop-shadow(0 0 16px rgba(200,16,24,.9))
+          drop-shadow(0 0 36px rgba(200,16,24,.5))
+          contrast(1.2) saturate(.65);
+}
+
+body.corrupted-mode .ghost-corner::after {
+  content: "I'M STILL HERE";
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  background: #000;
+  color: #ff4060;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: .18em;
+  border: 1px solid var(--crimson);
+  white-space: nowrap;
+  opacity: .9;
+  animation: corruptPulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ============================================================
+   КНОПКА ВОССТАНОВЛЕНИЯ
+   ============================================================ */
+.restore-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9990;
+  padding: 14px 20px;
+  background: #000;
+  border: 1px solid #8a0e14;
+  color: #ff6070;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s, visibility .4s, background .25s, color .25s, transform .25s;
+  box-shadow: 0 0 20px rgba(200,16,24,.5);
+  min-height: 48px;
+  min-width: 48px;
+}
+.restore-btn.show { opacity: 1; visibility: visible; }
+.restore-btn:hover {
+  background: #8a0e14;
+  color: #fff;
+  transform: translateY(-2px);
+}
+.restore-btn::before {
+  content: '⟲ ';
+  font-size: 1.05em;
+}
+
+/* ============================================================
+   НЕГАТИВ-ЭФФЕКТЫ — усиление пасхалки
+   ============================================================ */
+
+/* Негатив-флеш поверх всей страницы в момент активации */
+.corrupt-invert-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 10090;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  opacity: 0;
+}
+.corrupt-invert-flash.run {
+  animation: invertPulse 1.2s steps(4) 1;
+}
+@keyframes invertPulse {
+  0%   { opacity: 0; }
+  12%  { opacity: 1; }
+  28%  { opacity: 0.15; }
+  44%  { opacity: 1; }
+  60%  { opacity: 0.2; }
+  76%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Превью проектов в corrupted-режиме — в негативе */
+body.corrupted-mode .featured__media img,
+body.corrupted-mode .tile__thumb img,
+body.corrupted-mode .photo-censor__media img {
+  filter: invert(1) contrast(1.15) saturate(0.85);
+  transition: filter .5s ease;
+}
+
+/* При наведении негатив "раскрывается" — картинка проявляется */
+body.corrupted-mode .featured:hover .featured__media img,
+body.corrupted-mode .tile:hover .tile__thumb img {
+  filter: invert(0.05) contrast(1.1) saturate(1.25) hue-rotate(-12deg);
+}
+
+/* Логотип в шапке — инвертированный, с красной рамкой */
+body.corrupted-mode .logo-mark {
+  background: #000;
+  border-color: #c81018;
+  filter: drop-shadow(0 0 16px rgba(200,16,24,.9));
+}
+body.corrupted-mode .logo-mark img {
+  filter: invert(1) hue-rotate(180deg) contrast(1.35);
+}
+
+/* Призраки — пульсируют негативом */
+body.corrupted-mode .hero-ghost img,
+body.corrupted-mode .ghost-corner img {
+  filter: invert(1) hue-rotate(180deg) contrast(1.35) saturate(0.35)
+          drop-shadow(0 0 22px rgba(200,16,24,.9));
+  animation: ghostInvertPulse 2.6s ease-in-out infinite;
+}
+@keyframes ghostInvertPulse {
+  0%, 100% {
+    filter: invert(0.7) hue-rotate(180deg) contrast(1.25) saturate(0.45)
+            drop-shadow(0 0 16px rgba(200,16,24,.8));
   }
-
-  /* ---------- ОВЕРЛЕЙ ВЗЛОМА ---------- */
-  var overlay = document.createElement('div');
-  overlay.className = 'corrupt-overlay';
-  overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML =
-    '<div class="corrupt-noise"></div>' +
-    '<div class="corrupt-bars">' +
-      '<i></i><i></i><i></i><i></i><i></i><i></i><i></i>' +
-    '</div>' +
-    '<div class="corrupt-messages">' +
-      '<span>UNAUTHORIZED ACCESS</span>' +
-      '<span>SIGNAL LOST</span>' +
-      '<span>ARCHIVE COMPROMISED</span>' +
-      '<span>SYSTEM OVERRIDDEN</span>' +
-    '</div>';
-  document.body.appendChild(overlay);
-
-  /* ---------- КНОПКА ВОССТАНОВЛЕНИЯ ---------- */
-  var restoreBtn = document.createElement('button');
-  restoreBtn.type = 'button';
-  restoreBtn.className = 'restore-btn';
-  restoreBtn.textContent = 'RESTORE ORIGINAL ARCHIVE';
-  restoreBtn.setAttribute('aria-label', 'Восстановить оригинальный архив');
-  document.body.appendChild(restoreBtn);
-
-  /* ---------- УТИЛИТА: негатив-флеш ---------- */
-  function runInvertFlash(duration) {
-    if (reducedMotion) return;
-    var flash = document.createElement('div');
-    flash.className = 'corrupt-invert-flash run';
-    document.body.appendChild(flash);
-    setTimeout(function () {
-      if (flash.parentNode) flash.parentNode.removeChild(flash);
-    }, duration || 1400);
+  50% {
+    filter: invert(1) hue-rotate(160deg) contrast(1.5) saturate(0.2)
+            drop-shadow(0 0 30px rgba(200,16,24,1));
   }
+}
 
-  /* ---------- ОТКЛИК ЛОГОТИПА ---------- */
-  function pulseLogo() {
-    logo.classList.remove('is-corrupting');
-    void logo.offsetWidth;
-    logo.classList.add('is-corrupting');
-    setTimeout(function () {
-      logo.classList.remove('is-corrupting');
-    }, 520);
+/* Красная вигнетка поверх всей страницы в corrupted-mode */
+body.corrupted-mode::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(ellipse at center,
+    rgba(200,16,24,.06) 0%,
+    rgba(0,0,0,.22) 60%,
+    rgba(0,0,0,.45) 100%);
+  mix-blend-mode: multiply;
+  animation: crimsonPulse 4s ease-in-out infinite;
+}
+@keyframes crimsonPulse {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+
+/* Красная сканирующая линия сверху вниз */
+body.corrupted-mode .bg-scanlines::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  top: -3px;
+  background: rgba(200, 16, 24, 0.55);
+  box-shadow: 0 0 16px rgba(200,16,24,.9), 0 0 32px rgba(200,16,24,.5);
+  animation: redScanLine 9s linear infinite;
+  pointer-events: none;
+}
+@keyframes redScanLine {
+  0%   { top: -3px; }
+  100% { top: 100%; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .corrupt-overlay,
+  .corrupt-bars i,
+  .corrupt-messages span,
+  .corrupt-label,
+  .logo.is-corrupting img,
+  .logo.is-corrupting .logo-mark,
+  body.corrupting .navbar,
+  body.corrupting .hero,
+  body.corrupting .section,
+  body.corrupting .marquee,
+  body.corrupting .footer,
+  body.corrupted-mode .featured__media::after,
+  body.corrupted-mode .tile__thumb::after,
+  body.corrupted-mode .ghost-corner::after,
+  .corrupt-invert-flash,
+  body.corrupted-mode::after,
+  body.corrupted-mode .bg-scanlines::after,
+  body.corrupted-mode .hero-ghost img,
+  body.corrupted-mode .ghost-corner img {
+    animation: none !important;
   }
+  .corrupt-overlay.active .corrupt-messages span { opacity: 1; }
+}
 
-  /* ---------- АКТИВАЦИЯ ПАСХАЛКИ ---------- */
-  function startCorruption() {
-    if (isCorrupting) return;
-    isCorrupting = true;
-
-    document.body.classList.add('corrupting');
-    pulseLogo();
-
-    var duration = reducedMotion ? 800 : 2200;
-
-    // Оверлей включается с небольшой задержкой
-    setTimeout(function () {
-      overlay.classList.add('active');
-    }, reducedMotion ? 0 : 100);
-
-    // Финальный переход
-    setTimeout(function () {
-      document.body.classList.remove('corrupting');
-      document.body.classList.add('corrupted-mode');
-      overlay.classList.remove('active');
-      restoreBtn.classList.add('show');
-
-      // НЕГАТИВ-ФЛЕШ — резкая вспышка поверх всей страницы
-      runInvertFlash(1400);
-
-      injectCorruptMarks();
-
-      isCorrupting = false;
-      isCorrupted = true;
-      clickCount = 0;
-    }, duration);
+/* Мобильные */
+@media (max-width: 767px) {
+  .restore-btn {
+    left: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    padding: 12px 14px;
+    font-size: 0.62rem;
+    letter-spacing: .14em;
   }
-
-  /* ---------- ВОССТАНОВЛЕНИЕ ОРИГИНАЛА ---------- */
-  function restoreOriginal() {
-    if (isCorrupting) return;
-    isCorrupting = true;
-
-    document.body.classList.add('corrupting');
-
-    setTimeout(function () {
-      document.body.classList.remove('corrupted-mode');
-      document.body.classList.remove('corrupting');
-      restoreBtn.classList.remove('show');
-      removeCorruptMarks();
-
-      // Негатив-флеш и при восстановлении
-      runInvertFlash(1400);
-
-      isCorrupting = false;
-      isCorrupted = false;
-      clickCount = 0;
-    }, reducedMotion ? 300 : 700);
+  .corrupt-messages span {
+    font-size: .9rem;
+    letter-spacing: .2em;
   }
-
-  /* ---------- МЕТКИ-ЦЕНЗУРЫ НА ПРЕВЬЮ ---------- */
-  var corruptMarkNodes = [];
-  var corruptObserver = null;
-
-  function injectCorruptMarks() {
-    if (reducedMotion) return;
-
-    var labels = [
-      'FILE_001 // RECOVERED',
-      'CUT_02 // CORRUPTED',
-      'SUBJECT: UNKNOWN',
-      'VISUAL DATA DAMAGED',
-      'ACCESS DENIED',
-      '[REDACTED]',
-      'NO SIGNAL',
-      'TRACKING LOST'
-    ];
-
-    function apply() {
-      var thumbs = document.querySelectorAll(
-        '.tile__thumb, .featured__media, .photo-censor__media'
-      );
-
-      thumbs.forEach(function (th, i) {
-        if (th.querySelector('.corrupt-label')) return;
-        var el = document.createElement('span');
-        el.className = 'corrupt-label';
-        el.textContent = labels[i % labels.length];
-        el.setAttribute('aria-hidden', 'true');
-        th.appendChild(el);
-        corruptMarkNodes.push(el);
-      });
-
-      // Меняем метки в заголовках секций
-      var secHeads = document.querySelectorAll('.sec-head__num');
-      secHeads.forEach(function (sh, i) {
-        if (sh.dataset.corrupt === '1') return;
-        sh.dataset.originalText = sh.textContent;
-        sh.dataset.corrupt = '1';
-        if (i % 2 === 0) {
-          sh.textContent = '[ CLASSIFIED ] // ' + sh.textContent;
-        }
-      });
-    }
-
-    apply();
-
-    // Следим за перерисовкой сетки проектов (renderTiles обновляет DOM)
-    var tilesRoot = document.getElementById('projectsTiles');
-    if (tilesRoot && 'MutationObserver' in window) {
-      if (corruptObserver) corruptObserver.disconnect();
-      corruptObserver = new MutationObserver(function () {
-        setTimeout(apply, 60);
-      });
-      corruptObserver.observe(tilesRoot, { childList: true });
-    }
-  }
-
-  function removeCorruptMarks() {
-    if (corruptObserver) {
-      corruptObserver.disconnect();
-      corruptObserver = null;
-    }
-    corruptMarkNodes.forEach(function (n) {
-      if (n.parentNode) n.parentNode.removeChild(n);
-    });
-    corruptMarkNodes = [];
-
-    document.querySelectorAll('.sec-head__num').forEach(function (sh) {
-      if (sh.dataset.corrupt === '1' && sh.dataset.originalText) {
-        sh.textContent = sh.dataset.originalText;
-        delete sh.dataset.originalText;
-        delete sh.dataset.corrupt;
-      }
-    });
-  }
-
-  /* ---------- КЛИКИ ПО ЛОГОТИПУ ---------- */
-  logo.addEventListener('click', function (e) {
-    clickCount++;
-    pulseLogo();
-
-    // Уже в corrupted — клики ведут к восстановлению
-    if (isCorrupted) {
-      if (clickCount >= CLICKS_REQUIRED) {
-        e.preventDefault();
-        clickCount = 0;
-        clearTimeout(resetTimer);
-        restoreOriginal();
-        return;
-      }
-      clearTimeout(resetTimer);
-      resetTimer = setTimeout(function () { clickCount = 0; }, RESET_DELAY);
-      return;
-    }
-
-    // Обычный режим — 5 кликов активируют взлом
-    if (clickCount >= CLICKS_REQUIRED) {
-      e.preventDefault();
-      clickCount = 0;
-      clearTimeout(resetTimer);
-      startCorruption();
-      return;
-    }
-
-    clearTimeout(resetTimer);
-    resetTimer = setTimeout(function () { clickCount = 0; }, RESET_DELAY);
-  });
-
-  /* ---------- КНОПКА ВОССТАНОВЛЕНИЯ ---------- */
-  restoreBtn.addEventListener('click', restoreOriginal);
-
-  /* ---------- ESC ВОССТАНАВЛИВАЕТ ---------- */
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && isCorrupted) {
-      restoreOriginal();
-    }
-  });
-
-  /* ---------- ОТЛАДКА ---------- */
-  window.__spodzhCorrupted = {
-    activate: startCorruption,
-    restore: restoreOriginal,
-    isActive: function () { return isCorrupted; }
-  };
-
-  console.log(
-    '%cПасхалка: 5 кликов по логотипу. Отладка: __spodzhCorrupted.activate()',
-    'color:#c81018; font-size:11px; font-family:monospace;'
-  );
-})();
+  .corrupt-messages span:nth-child(4) { font-size: 1.3rem; }
+  body.corrupted-mode .ghost-corner::after { display: none; }
+}
