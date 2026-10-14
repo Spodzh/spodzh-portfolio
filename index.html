@@ -349,16 +349,18 @@
         <span class="sec-head__note hand">кликай на кадр ↓</span>
       </header>
 
+      <!-- ВЕРХНИЙ РЯД: большое видео -->
       <article class="featured reveal" id="featuredCard">
         <div class="featured__media">
           <img id="featuredImg" src="" alt="" />
           <div class="featured__tc" id="featuredTc">CUT_01 · 0:20</div>
           <div class="featured__badge">FILE_004</div>
+          <span class="featured__new" id="featuredNew" hidden>НОВОЕ</span>
           <span class="featured__social">♪</span>
         </div>
 
         <div class="featured__info">
-          <span class="featured__label" id="featuredLabel">НОВОЕ</span>
+          <span class="featured__label" id="featuredLabel">МОНТАЖ</span>
           <span class="featured__index" id="featuredIndex">01 / 09</span>
           <div class="featured__meta" id="featuredMeta"></div>
           <div class="featured__actions">
@@ -366,12 +368,50 @@
               <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               <span>ОТКРЫТЬ В TIKTOK</span>
             </a>
-            <span class="featured__hint hand">или выбери ниже ↓</span>
+            <span class="featured__hint hand">стрелка справа →</span>
           </div>
         </div>
       </article>
 
-      <div class="projects-tiles reveal" id="projectsTiles"></div>
+      <!-- НИЖНИЙ РЯД: 2 маленьких + стрелка вправо -->
+      <div class="work-row reveal" id="workRow">
+
+        <button class="work-mini" id="miniLeft" data-cursor="hover" aria-label="Предыдущее видео">
+          <span class="work-mini__num">CUT_02</span>
+          <span class="work-mini__thumb">
+            <img id="miniLeftImg" src="" alt="" />
+            <span class="work-mini__new" id="miniLeftNew" hidden>НОВОЕ</span>
+            <span class="work-mini__duration" id="miniLeftDur">0:00</span>
+          </span>
+          <span class="work-mini__tags" id="miniLeftTags"></span>
+        </button>
+
+        <button class="work-mini" id="miniRight" data-cursor="hover" aria-label="Следующее видео">
+          <span class="work-mini__num">CUT_03</span>
+          <span class="work-mini__thumb">
+            <img id="miniRightImg" src="" alt="" />
+            <span class="work-mini__new" id="miniRightNew" hidden>НОВОЕ</span>
+            <span class="work-mini__duration" id="miniRightDur">0:00</span>
+          </span>
+          <span class="work-mini__tags" id="miniRightTags"></span>
+        </button>
+
+        <button class="work-next" id="workNext" data-cursor="hover" aria-label="Следующее видео">
+          <span class="work-next__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+              <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="work-next__label">далее</span>
+        </button>
+
+      </div>
+
+      <!-- Пустое состояние -->
+      <div class="work-empty" id="workEmpty" hidden>
+        <span class="work-empty__text">> <i>портфолио загружается...</i></span>
+      </div>
+
     </div>
   </section>
 
@@ -584,18 +624,6 @@
     (function () {
       'use strict';
 
-      var PROJECTS = [
-        { label: 'НОВОЕ', duration: '0:20', img: 'https://i.ibb.co/k29PY2My/image.png', link: 'https://www.tiktok.com/@spodzh/video/7696479014705204500', tags: ['TikTok', 'Монтаж'] },
-        { label: 'МОНТАЖ', duration: '0:33', img: 'https://i.ibb.co/pvkDGByS/image.png', link: 'https://www.tiktok.com/@spodzh/video/7429328023184215301', tags: ['TikTok', 'Монтаж', 'Цвет', 'Ритм'] },
-        { label: 'ИГРОВОЙ', duration: '0:29', img: 'https://i.ibb.co/V0Yn50dS/image.png', link: 'https://www.tiktok.com/@spodzh/video/7441217389426969912', tags: ['TikTok', 'Игровой', 'Юмор', 'Мемы'] },
-        { label: 'СКЕТЧ', duration: '0:30', img: 'https://i.ibb.co/vCG3bhMS/image.png', link: 'https://www.tiktok.com/@spodzh/video/7409249005063933190', tags: ['TikTok', 'Юмор', 'Скетч'] },
-        { label: 'КОЛЛАБ', duration: '0:14', img: 'https://i.ibb.co/CLJyNHv/image.png', link: 'https://www.tiktok.com/@spodzh/video/7600069280239029525', tags: ['TikTok', 'Коллаб', 'Монтаж'] },
-        { label: 'ПОП-КУЛЬТУРА', duration: '0:18', img: 'https://i.ibb.co/0pXTDbYP/image.png', link: 'https://www.tiktok.com/@spodzh/video/7695352945033923861', tags: ['TikTok', 'Поп-культура', 'Референс'] },
-        { label: 'МОНТАЖ', duration: '0:20', img: 'https://i.ibb.co/FLd7czPC/image.png', link: 'https://www.tiktok.com/@spodzh/video/7509421752355736888', tags: ['TikTok', 'Монтаж', 'Динамика'] },
-        { label: 'РЕКЛАМА', duration: '0:25', img: 'https://i.ibb.co/Y42CjNct/image.png', link: 'https://www.tiktok.com/@spodzh/video/7644551806877568276', tags: ['TikTok', 'Реклама', 'Loop'] },
-        { label: 'КОЛЛАБ', duration: '0:22', img: 'https://i.ibb.co/gL16gVCq/image.png', link: 'https://www.tiktok.com/@spodzh/video/7640798451403640084', tags: ['TikTok', 'Коллаб', 'Съёмка'] }
-      ];
-
       try { var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear(); } catch (e) {}
 
       /* Бургер */
@@ -771,11 +799,28 @@
         if (previewProgress) previewProgress.style.width = (cur / total * 100) + '%';
       } catch (e) {}
 
-      /* Проекты + модалка */
+      /* ============================================================
+         ПРОЕКТЫ — загрузка с API + пагинация по 3
+         ============================================================ */
       try {
+        var API_BASE = 'https://spodzh-reviews-api.ernest-chanel.workers.dev';
         var fc = document.getElementById('featuredCard');
         var modal = document.getElementById('projectModal');
-        if (fc && PROJECTS.length) {
+
+        var projectState = {
+          videos: [],
+          current: 0,
+          miniLeftIndex: null,
+          miniRightIndex: null
+        };
+
+        function pad2(n) { return String(n).padStart(2, '0'); }
+
+        function renderFeatured(idx) {
+          if (!projectState.videos.length) return;
+          var p = projectState.videos[idx];
+          if (!p) return;
+
           var els = {
             img: document.getElementById('featuredImg'),
             label: document.getElementById('featuredLabel'),
@@ -783,111 +828,204 @@
             index: document.getElementById('featuredIndex'),
             link: document.getElementById('featuredLink'),
             tc: document.getElementById('featuredTc'),
-            tiles: document.getElementById('projectsTiles')
+            newBadge: document.getElementById('featuredNew')
           };
-          var current = 0;
-          function pad(n) { return String(n).padStart(2, '0'); }
 
-          function renderFeatured(idx) {
-            var p = PROJECTS[idx];
-            fc.style.opacity = '0';
-            setTimeout(function () {
-              els.img.src = p.img;
-              els.label.textContent = p.label;
-              els.link.href = p.link;
-              els.index.textContent = pad(idx + 1) + ' / ' + pad(PROJECTS.length);
-              if (els.tc) els.tc.textContent = 'CUT_' + pad(idx + 1) + ' · ' + p.duration;
-              els.meta.innerHTML = '';
-              p.tags.forEach(function (t) {
-                var s = document.createElement('span');
-                s.className = 'featured__tag';
-                s.textContent = t;
-                els.meta.appendChild(s);
-              });
-              fc.style.opacity = '1';
-            }, 180);
-          }
+          if (!els.img) return;
 
-          function renderTiles(exclude) {
-            els.tiles.innerHTML = '';
-            PROJECTS.forEach(function (p, i) {
-              if (i === exclude) return;
-              var card = document.createElement('button');
-              card.type = 'button';
-              card.className = 'tile';
-              var tagsHTML = p.tags.map(function (t) {
-                return '<span class="tile__tag">' + t + '</span>';
-              }).join('');
-              card.innerHTML =
-                '<span class="tile__num">CUT_' + pad(i + 1) + '</span>' +
-                '<span class="tile__thumb">' +
-                  '<img src="' + p.img + '" alt="" />' +
-                  '<span class="tile__duration">' + p.duration + '</span>' +
-                  '<span class="tile__tiktok">♪</span>' +
-                '</span>' +
-                '<span class="tile__tags">' + tagsHTML + '</span>';
-              card.addEventListener('click', function () {
-                if (window.matchMedia('(max-width: 900px)').matches) {
-                  window.open(p.link, '_blank');
-                  return;
-                }
-                current = i;
-                renderFeatured(current);
-                renderTiles(current);
-                var r = fc.getBoundingClientRect();
-                if (r.top < 0 || r.bottom > window.innerHeight) {
-                  window.scrollTo({
-                    top: fc.getBoundingClientRect().top + window.scrollY - 100,
-                    behavior: 'smooth'
-                  });
-                }
-              });
-              els.tiles.appendChild(card);
+          fc.style.opacity = '0';
+          setTimeout(function () {
+            els.img.src = p.img || '';
+            els.label.textContent = p.label || '';
+            els.link.href = p.link || '#';
+            els.index.textContent = pad2(idx + 1) + ' / ' + pad2(projectState.videos.length);
+            if (els.tc) els.tc.textContent = 'CUT_' + pad2(idx + 1) + ' · ' + (p.duration || '0:00');
+
+            els.meta.innerHTML = '';
+            (p.tags || []).forEach(function (t) {
+              var s = document.createElement('span');
+              s.className = 'featured__tag';
+              s.textContent = t;
+              els.meta.appendChild(s);
             });
+
+            if (els.newBadge) els.newBadge.hidden = !p.is_new;
+
+            fc.style.opacity = '1';
+          }, 180);
+        }
+
+        function renderMinis() {
+          var N = projectState.videos.length;
+          if (N < 2) {
+            var row = document.getElementById('workRow');
+            if (row) {
+              var mLeft = document.getElementById('miniLeft');
+              var mRight = document.getElementById('miniRight');
+              if (mLeft) mLeft.hidden = true;
+              if (mRight) mRight.hidden = true;
+            }
+            return;
           }
 
-          els.img.src = PROJECTS[0].img;
-          renderFeatured(0);
-          renderTiles(0);
-          fc.style.transition = 'opacity .3s ease';
+          var idxLeft = (projectState.current + 1) % N;
+          var idxRight = N > 2 ? (projectState.current + 2) % N : idxLeft;
 
+          function fill(side, idx) {
+            var v = projectState.videos[idx];
+            var prefix = side === 'Left' ? 'miniLeft' : 'miniRight';
+
+            var img = document.getElementById(prefix + 'Img');
+            var dur = document.getElementById(prefix + 'Dur');
+            var tags = document.getElementById(prefix + 'Tags');
+            var newBadge = document.getElementById(prefix + 'New');
+            var numEl = document.querySelector('#' + prefix + ' .work-mini__num');
+
+            if (numEl) numEl.textContent = 'CUT_' + pad2(idx + 1);
+            if (img) img.src = v.img || '';
+            if (dur) dur.textContent = v.duration || '0:00';
+            if (newBadge) newBadge.hidden = !v.is_new;
+
+            if (tags) {
+              tags.innerHTML = '';
+              (v.tags || []).slice(0, 2).forEach(function (t) {
+                var s = document.createElement('span');
+                s.className = 'work-mini__tag';
+                s.textContent = t;
+                tags.appendChild(s);
+              });
+            }
+            return idx;
+          }
+
+          projectState.miniLeftIndex = fill('Left', idxLeft);
+          projectState.miniRightIndex = fill('Right', idxRight);
+        }
+
+        function renderAll() {
+          var row = document.getElementById('workRow');
+          var empty = document.getElementById('workEmpty');
+
+          if (!projectState.videos.length) {
+            if (row) row.hidden = true;
+            if (fc) fc.hidden = true;
+            if (empty) empty.hidden = false;
+            return;
+          }
+
+          if (row) row.hidden = false;
+          if (fc) fc.hidden = false;
+          if (empty) empty.hidden = true;
+
+          renderFeatured(projectState.current);
+          renderMinis();
+        }
+
+        function nextVideo() {
+          if (!projectState.videos.length) return;
+          projectState.current = (projectState.current + 1) % projectState.videos.length;
+          renderAll();
+        }
+
+        function openModal() {
+          var p = projectState.videos[projectState.current];
+          if (!p || !modal) return;
+
+          document.getElementById('modalImage').src = p.img || '';
+          document.getElementById('modalCode').textContent = 'CUT_' + pad2(projectState.current + 1);
+          document.getElementById('modalTc').textContent = p.duration || '0:00';
+          document.getElementById('modalLink').href = p.link || '#';
+
+          var mm = document.getElementById('modalMeta');
+          mm.innerHTML = '';
+          (p.tags || []).forEach(function (t) {
+            var s = document.createElement('span');
+            s.className = 'featured__tag';
+            s.textContent = t;
+            mm.appendChild(s);
+          });
+
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        var nextBtn = document.getElementById('workNext');
+        if (nextBtn) {
+          nextBtn.addEventListener('click', function (e) {
+            if (window.matchMedia('(max-width: 900px)').matches) {
+              e.preventDefault();
+              var p = projectState.videos[projectState.current];
+              if (p && p.link) window.open(p.link, '_blank');
+              return;
+            }
+            nextVideo();
+          });
+        }
+
+        var miniLeft = document.getElementById('miniLeft');
+        if (miniLeft) {
+          miniLeft.addEventListener('click', function () {
+            if (typeof projectState.miniLeftIndex === 'number') {
+              projectState.current = projectState.miniLeftIndex;
+              renderAll();
+            }
+          });
+        }
+
+        var miniRight = document.getElementById('miniRight');
+        if (miniRight) {
+          miniRight.addEventListener('click', function () {
+            if (typeof projectState.miniRightIndex === 'number') {
+              projectState.current = projectState.miniRightIndex;
+              renderAll();
+            }
+          });
+        }
+
+        if (fc) {
           var featuredMedia = fc.querySelector('.featured__media');
-          if (modal && featuredMedia) {
+          if (featuredMedia) {
             featuredMedia.style.cursor = 'pointer';
             featuredMedia.addEventListener('click', function () {
-              var p = PROJECTS[current];
-              document.getElementById('modalImage').src = p.img;
-              document.getElementById('modalCode').textContent = 'CUT_' + pad(current + 1);
-              document.getElementById('modalTc').textContent = p.duration;
-              document.getElementById('modalLink').href = p.link;
-              var mm = document.getElementById('modalMeta');
-              mm.innerHTML = '';
-              p.tags.forEach(function (t) {
-                var s = document.createElement('span');
-                s.className = 'featured__tag';
-                s.textContent = t;
-                mm.appendChild(s);
-              });
-              modal.classList.add('open');
-              modal.setAttribute('aria-hidden', 'false');
-              document.body.style.overflow = 'hidden';
-            });
-          }
-
-          function closeModal() {
-            modal.classList.remove('open');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-          }
-          if (modal) {
-            modal.querySelectorAll('[data-close]').forEach(function (el) {
-              el.addEventListener('click', closeModal);
-            });
-            document.addEventListener('keydown', function (e) {
-              if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+              if (window.matchMedia('(max-width: 900px)').matches) {
+                var p = projectState.videos[projectState.current];
+                if (p && p.link) window.open(p.link, '_blank');
+                return;
+              }
+              openModal();
             });
           }
         }
+
+        if (modal) {
+          modal.querySelectorAll('[data-close]').forEach(function (el) {
+            el.addEventListener('click', closeModal);
+          });
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+          });
+        }
+
+        fetch(API_BASE + '/videos')
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            projectState.videos = Array.isArray(data) ? data : [];
+            projectState.current = 0;
+            renderAll();
+          })
+          .catch(function (err) {
+            console.warn('[videos] load error:', err);
+            projectState.videos = [];
+            renderAll();
+          });
+
       } catch (e) { console.warn('projects:', e); }
 
       console.log('%cSPODZH // ARCHIVE_v2.0', 'color:#ff2222; font-size:20px; font-weight:bold; font-family: monospace;');
