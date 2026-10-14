@@ -20,19 +20,19 @@
 </head>
 <body>
 
-  <!-- ================= ПРЕЛОАДЕР ================= -->
+  <!-- ================= ПРЕЛОАДЕР / ЭКРАН РЕНДЕРА ================= -->
   <div class="loader" id="loader">
     <div class="loader-inner">
       <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" class="loader-logo"
            style="width:110px !important;height:110px !important;max-width:110px !important;max-height:110px !important;object-fit:contain !important;display:block !important;" />
       <div class="loader-bar" style="width:280px;height:3px;background:rgba(242,237,227,.1);overflow:hidden;margin-top:22px;">
-        <span style="display:block;height:100%;width:0;background:#ff2222;animation:loadBar 1.6s cubic-bezier(.22,1,.36,1) forwards;"></span>
+        <span id="renderBar" style="display:block;height:100%;width:0;background:#ff2222;transition:width .4s linear;"></span>
       </div>
-      <p class="loader-text" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:#8a8578;text-transform:uppercase;margin-top:16px;">LOADING_ARCHIVE_v2.0...</p>
+      <p class="loader-text" id="renderText" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:#8a8578;text-transform:uppercase;margin-top:16px;">INITIALIZING_RENDER...</p>
+      <p class="loader-percent" id="renderPercent" style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.3em;color:#ff2222;margin-top:6px;">000%</p>
     </div>
   </div>
   <style>
-    @keyframes loadBar { to { width: 100%; } }
     #loader { position: fixed; inset: 0; background: #0d0d10; z-index: 9999;
               display: flex; align-items: center; justify-content: center;
               transition: opacity .4s ease, visibility .4s ease; }
@@ -42,11 +42,44 @@
   <script>
     (function () {
       var l = document.getElementById('loader');
+      var bar = document.getElementById('renderBar');
+      var txt = document.getElementById('renderText');
+      var pct = document.getElementById('renderPercent');
       if (!l) return;
+
+      // Сценарий "рендера"
+      var stages = [
+        { at: 0,    text: 'INITIALIZING_RENDER...' },
+        { at: 400,  text: 'LOADING_FOOTAGE...' },
+        { at: 800,  text: 'RENDERING_CUTS...' },
+        { at: 1300, text: 'ENCODING_STREAM...' },
+        { at: 1700, text: 'FINALIZING...' }
+      ];
+
+      stages.forEach(function (s) {
+        setTimeout(function () {
+          if (txt) txt.textContent = s.text;
+        }, s.at);
+      });
+
+      // Прогресс-бар
+      var start = performance.now();
+      var total = 1900;
+      function tick(now) {
+        var p = Math.min((now - start) / total, 1);
+        var eased = 1 - Math.pow(1 - p, 2.2);
+        var pctVal = Math.floor(eased * 100);
+        if (bar) bar.style.width = pctVal + '%';
+        if (pct) pct.textContent = String(pctVal).padStart(3, '0') + '%';
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
       setTimeout(function () {
         l.classList.add('hidden');
         setTimeout(function () { l.classList.add('done'); }, 500);
-      }, 1800);
+      }, 2000);
+
       window.addEventListener('load', function () {
         setTimeout(function () {
           l.classList.add('hidden', 'done');
@@ -87,9 +120,17 @@
         <a href="#contacts" data-nav="contacts"><b>07</b> CONTACT</a>
       </nav>
 
-      <button class="burger" id="burger" aria-label="Меню">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-actions">
+        <button class="lang-switch" id="langSwitch" type="button" aria-label="Switch language">
+          <span class="lang-switch__current" id="langCurrent">RU</span>
+          <span class="lang-switch__divider">/</span>
+          <span class="lang-switch__other" id="langOther">EN</span>
+        </button>
+
+        <button class="burger" id="burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -120,7 +161,7 @@
             <span class="hero-title__glitch" aria-hidden="true">SPODZH</span>
           </h1>
 
-          <div class="hero-subtitle reveal">
+          <div class="hero-subtitle reveal" data-i18n="hero_sub">
             <span>видеомонтажёр</span>
             <span class="dot-slash">//</span>
             <span>оператор</span>
@@ -128,7 +169,7 @@
             <span>контент-мейкер</span>
           </div>
 
-          <p class="hero-desc reveal">
+          <p class="hero-desc reveal" data-i18n="hero_desc">
             Делаю видео, которые <span class="hl">цепляют с первой секунды</span>.
             Съёмка, монтаж и креатив — от идеи до финального кадра.
           </p>
@@ -136,10 +177,14 @@
           <div class="hero-actions reveal">
             <a href="#projects" class="btn btn--primary magnetic">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <span>СМОТРЕТЬ РАБОТЫ</span>
+              <span data-i18n="btn_view_works">СМОТРЕТЬ РАБОТЫ</span>
+            </a>
+            <a href="story.html" class="btn btn--ghost magnetic btn--story">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5z M8 8h8M8 12h8M8 16h5" stroke-linecap="round"/></svg>
+              <span data-i18n="btn_story">МОЯ ИСТОРИЯ</span>
             </a>
             <a href="#contacts" class="btn btn--ghost magnetic">
-              <span>СВЯЗАТЬСЯ</span>
+              <span data-i18n="btn_contact">СВЯЗАТЬСЯ</span>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </div>
@@ -148,14 +193,17 @@
             <div class="stat">
               <span class="stat__label">SUBS_TIKTOK</span>
               <strong data-count="45000" data-suffix="+">0</strong>
+              <span data-i18n="stat_subs">подписчиков в TikTok</span>
             </div>
             <div class="stat">
               <span class="stat__label">YEARS_ACTIVE</span>
               <strong data-count="3" data-suffix="">0</strong>
+              <span data-i18n="stat_years">в создании контента</span>
             </div>
             <div class="stat">
               <span class="stat__label">AGE</span>
               <strong>22</strong>
+              <span data-i18n="stat_age">года, Беларусь</span>
             </div>
           </div>
         </div>
@@ -227,7 +275,7 @@
         <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
           <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
         </svg>
-        <span class="sec-head__note hand">кто этот парень ↓</span>
+        <span class="sec-head__note hand" data-i18n="about_note">кто этот парень ↓</span>
       </header>
 
       <div class="about-grid">
@@ -246,24 +294,24 @@
 
         <div class="about-text reveal">
           <p class="about-text__pre">// RAW_TRANSCRIPT.txt</p>
-          <p>
+          <p data-i18n="about_p1">
             Меня зовут <strong>Влад</strong>, я известен как <strong>Spodzh</strong>.
             Снимаю видео почти <strong>3 года</strong>, собрал <strong>45 000+ подписчиков</strong> в TikTok.
           </p>
-          <p>
+          <p data-i18n="about_p2">
             Делал рекламу для брендов <span class="hl hl--yellow">LOOP</span> и
             <span class="hl hl--yellow">ANGOC</span>, снимал коллабы с другими блогерами.
             Умею монтировать в CapCut и работать с камерой.
           </p>
-          <p>
+          <p data-i18n="about_p3">
             Ищу творческие проекты, коллабы и интересных людей.
           </p>
 
           <div class="about-facts">
-            <div class="fact"><span>📍</span> Беларусь</div>
-            <div class="fact"><span>🎬</span> CapCut / монтаж</div>
-            <div class="fact"><span>🎥</span> Съёмка · оператор</div>
-            <div class="fact"><span>💼</span> Реклама · коллабы</div>
+            <div class="fact"><span>📍</span> <span data-i18n="fact_country">Беларусь</span></div>
+            <div class="fact"><span>🎬</span> <span data-i18n="fact_edit">CapCut / монтаж</span></div>
+            <div class="fact"><span>🎥</span> <span data-i18n="fact_shoot">Съёмка · оператор</span></div>
+            <div class="fact"><span>💼</span> <span data-i18n="fact_ads">Реклама · коллабы</span></div>
           </div>
         </div>
       </div>
@@ -282,53 +330,43 @@
         <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
           <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
         </svg>
-        <span class="sec-head__note hand">инструменты в работе →</span>
+        <span class="sec-head__note hand" data-i18n="skills_note">инструменты в работе →</span>
       </header>
 
       <div class="skills-list">
         <article class="skill-row reveal">
           <span class="skill-row__num">/ 01</span>
-          <h3 class="skill-row__title">Видеомонтаж</h3>
-          <p class="skill-row__desc">CapCut, ритм, эффекты, субтитры, работа со звуком и цветокоррекция.</p>
-          <span class="skill-row__level">
-            <i></i><i></i><i></i><i></i><i></i>
-          </span>
+          <h3 class="skill-row__title" data-i18n="skill1_title">Видеомонтаж</h3>
+          <p class="skill-row__desc" data-i18n="skill1_desc">CapCut, ритм, эффекты, субтитры, работа со звуком и цветокоррекция.</p>
+          <span class="skill-row__level"><i></i><i></i><i></i><i></i><i></i></span>
         </article>
 
         <article class="skill-row reveal">
           <span class="skill-row__num">/ 02</span>
-          <h3 class="skill-row__title">Съёмка и оператор</h3>
-          <p class="skill-row__desc">Работа с камерой, светом, кадром и ракурсами. TikTok, Reels, влоги.</p>
-          <span class="skill-row__level">
-            <i></i><i></i><i></i><i></i><i class="off"></i>
-          </span>
+          <h3 class="skill-row__title" data-i18n="skill2_title">Съёмка и оператор</h3>
+          <p class="skill-row__desc" data-i18n="skill2_desc">Работа с камерой, светом, кадром и ракурсами. TikTok, Reels, влоги.</p>
+          <span class="skill-row__level"><i></i><i></i><i></i><i></i><i class="off"></i></span>
         </article>
 
         <article class="skill-row reveal">
           <span class="skill-row__num">/ 03</span>
-          <h3 class="skill-row__title">SMM</h3>
-          <p class="skill-row__desc">Ведение соцсетей, работа с аудиторией, рост охватов и вовлечённости.</p>
-          <span class="skill-row__level">
-            <i></i><i></i><i></i><i></i><i class="off"></i>
-          </span>
+          <h3 class="skill-row__title" data-i18n="skill3_title">SMM</h3>
+          <p class="skill-row__desc" data-i18n="skill3_desc">Ведение соцсетей, работа с аудиторией, рост охватов и вовлечённости.</p>
+          <span class="skill-row__level"><i></i><i></i><i></i><i></i><i class="off"></i></span>
         </article>
 
         <article class="skill-row reveal">
           <span class="skill-row__num">/ 04</span>
-          <h3 class="skill-row__title">Креатив</h3>
-          <p class="skill-row__desc">Генерация идей, сценарии, мемы и вирусные форматы под тренды.</p>
-          <span class="skill-row__level">
-            <i></i><i></i><i></i><i></i><i></i>
-          </span>
+          <h3 class="skill-row__title" data-i18n="skill4_title">Креатив</h3>
+          <p class="skill-row__desc" data-i18n="skill4_desc">Генерация идей, сценарии, мемы и вирусные форматы под тренды.</p>
+          <span class="skill-row__level"><i></i><i></i><i></i><i></i><i></i></span>
         </article>
 
         <article class="skill-row reveal">
           <span class="skill-row__num">/ 05</span>
-          <h3 class="skill-row__title">Иллюстрации</h3>
-          <p class="skill-row__desc">Скетчи и персонажи от руки, когда нужен авторский визуал.</p>
-          <span class="skill-row__level">
-            <i></i><i></i><i></i><i class="off"></i><i class="off"></i>
-          </span>
+          <h3 class="skill-row__title" data-i18n="skill5_title">Иллюстрации</h3>
+          <p class="skill-row__desc" data-i18n="skill5_desc">Скетчи и персонажи от руки, когда нужен авторский визуал.</p>
+          <span class="skill-row__level"><i></i><i></i><i></i><i class="off"></i><i class="off"></i></span>
         </article>
       </div>
     </div>
@@ -346,16 +384,15 @@
         <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
           <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
         </svg>
-        <span class="sec-head__note hand">кликай на кадр ↓</span>
+        <span class="sec-head__note hand" data-i18n="work_note">кликай на кадр ↓</span>
       </header>
 
-      <!-- ВЕРХНИЙ РЯД: большое видео -->
       <article class="featured reveal" id="featuredCard">
         <div class="featured__media">
           <img id="featuredImg" src="" alt="" />
           <div class="featured__tc" id="featuredTc">CUT_01 · 0:20</div>
           <div class="featured__badge">FILE_004</div>
-          <span class="featured__new" id="featuredNew" hidden>НОВОЕ</span>
+          <span class="featured__new" id="featuredNew" hidden data-i18n="new_badge">НОВОЕ</span>
           <span class="featured__social">♪</span>
         </div>
 
@@ -366,17 +403,16 @@
           <div class="featured__actions">
             <a class="btn btn--primary" id="featuredLink" href="#" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <span>ОТКРЫТЬ В TIKTOK</span>
+              <span data-i18n="btn_open_tiktok">ОТКРЫТЬ В TIKTOK</span>
             </a>
-            <span class="featured__hint hand">стрелка справа →</span>
+            <span class="featured__hint hand" data-i18n="work_hint">стрелка справа →</span>
           </div>
         </div>
       </article>
 
-      <!-- НИЖНИЙ РЯД: 2 маленьких + стрелка вправо -->
       <div class="work-row reveal" id="workRow">
 
-        <button class="work-mini" id="miniLeft" data-cursor="hover" aria-label="Предыдущее видео">
+        <button class="work-mini" id="miniLeft" aria-label="Previous video">
           <span class="work-mini__num">CUT_02</span>
           <span class="work-mini__thumb">
             <img id="miniLeftImg" src="" alt="" />
@@ -386,7 +422,7 @@
           <span class="work-mini__tags" id="miniLeftTags"></span>
         </button>
 
-        <button class="work-mini" id="miniRight" data-cursor="hover" aria-label="Следующее видео">
+        <button class="work-mini" id="miniRight" aria-label="Next video">
           <span class="work-mini__num">CUT_03</span>
           <span class="work-mini__thumb">
             <img id="miniRightImg" src="" alt="" />
@@ -396,20 +432,19 @@
           <span class="work-mini__tags" id="miniRightTags"></span>
         </button>
 
-        <button class="work-next" id="workNext" data-cursor="hover" aria-label="Следующее видео">
+        <button class="work-next" id="workNext" aria-label="Next video">
           <span class="work-next__arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
               <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
-          <span class="work-next__label">далее</span>
+          <span class="work-next__label" data-i18n="work_next">далее</span>
         </button>
 
       </div>
 
-      <!-- Пустое состояние -->
       <div class="work-empty" id="workEmpty" hidden>
-        <span class="work-empty__text">> <i>портфолио загружается...</i></span>
+        <span class="work-empty__text">> <i data-i18n="work_loading">портфолио загружается...</i></span>
       </div>
 
     </div>
@@ -427,88 +462,69 @@
         <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
           <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
         </svg>
-        <span class="sec-head__note hand">с чем прийти →</span>
+        <span class="sec-head__note hand" data-i18n="services_note">с чем прийти →</span>
       </header>
 
       <div class="services-list">
         <article class="service-card reveal">
           <span class="service-card__num">/ 01</span>
-          <h3>Монтаж коротких видео</h3>
-          <p>TikTok, Reels, Shorts — темп, субтитры, звук, цвет и подача под площадку.</p>
+          <h3 data-i18n="service1_title">Монтаж коротких видео</h3>
+          <p data-i18n="service1_desc">TikTok, Reels, Shorts — темп, субтитры, звук, цвет и подача под площадку.</p>
           <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
-            ОБСУДИТЬ
+            <span data-i18n="service_cta">ОБСУДИТЬ</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <svg class="service-card__doodle" viewBox="0 0 60 60" aria-hidden="true">
-            <path d="M8 50 C 20 36, 30 24, 52 12" fill="none" stroke="#ffd93d" stroke-width="2" stroke-linecap="round"/>
-            <path d="M44 10 L 54 10 L 52 20" fill="none" stroke="#ffd93d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
         </article>
 
         <article class="service-card reveal">
           <span class="service-card__num">/ 02</span>
-          <h3>Съёмка и контент</h3>
-          <p>Идея, съёмка и сборка ролика под конкретную задачу: влог, реклама, бренд.</p>
+          <h3 data-i18n="service2_title">Съёмка и контент</h3>
+          <p data-i18n="service2_desc">Идея, съёмка и сборка ролика под конкретную задачу: влог, реклама, бренд.</p>
           <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
-            ОБСУДИТЬ
+            <span data-i18n="service_cta">ОБСУДИТЬ</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <svg class="service-card__doodle" viewBox="0 0 60 60" aria-hidden="true">
-            <circle cx="30" cy="30" r="18" fill="none" stroke="#ffd93d" stroke-width="2" stroke-dasharray="2 4" stroke-linecap="round"/>
-          </svg>
         </article>
 
         <article class="service-card reveal">
           <span class="service-card__num">/ 03</span>
-          <h3>Коллабы и бренды</h3>
-          <p>Рекламные интеграции, совместные ролики с блогерами, творческие проекты.</p>
+          <h3 data-i18n="service3_title">Коллабы и бренды</h3>
+          <p data-i18n="service3_desc">Рекламные интеграции, совместные ролики с блогерами, творческие проекты.</p>
           <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
-            ОБСУДИТЬ
+            <span data-i18n="service_cta">ОБСУДИТЬ</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <svg class="service-card__doodle" viewBox="0 0 60 60" aria-hidden="true">
-            <path d="M30 8 L34 24 L50 26 L38 36 L42 52 L30 42 L18 52 L22 36 L10 26 L26 24 Z" fill="none" stroke="#ffd93d" stroke-width="2" stroke-linejoin="round"/>
-          </svg>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- ================= REVIEWS / FEEDBACK ARCHIVE ================= -->
+  <!-- ================= REVIEWS ================= -->
   <section class="section reviews" id="reviews">
     <div class="container">
-
       <header class="sec-head reveal">
         <span class="sec-head__num">[ FILE_006 / 06 ]</span>
-        <h2 class="sec-head__title">
-          <span class="mask-line">FEEDBACK</span>
-        </h2>
+        <h2 class="sec-head__title"><span class="mask-line">FEEDBACK</span></h2>
         <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
           <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
         </svg>
-        <span class="sec-head__note hand">real people. real projects.</span>
+        <span class="sec-head__note hand" data-i18n="reviews_note">real people. real projects.</span>
       </header>
-
       <p class="reviews__sub"><b>PEOPLE I WORKED WITH</b></p>
-
       <div class="reviews-grid" id="reviewsGrid"></div>
-
     </div>
   </section>
 
   <!-- ================= CONTACTS ================= -->
   <section class="section contacts" id="contacts">
     <div class="container">
-
       <header class="sec-head reveal">
         <span class="sec-head__num">[ END OF FILE ]</span>
-        <h2 class="sec-head__title">
-          <span class="mask-line">CONTACT</span>
-        </h2>
+        <h2 class="sec-head__title"><span class="mask-line">CONTACT</span></h2>
         <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
           <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
         </svg>
-        <span class="sec-head__note hand">пиши, отвечаю быстро ✎</span>
+        <span class="sec-head__note hand" data-i18n="contacts_note">пиши, отвечаю быстро ✎</span>
       </header>
 
       <div class="contacts-grid">
@@ -516,21 +532,21 @@
           <span class="contact-card__status">● ONLINE</span>
           <span class="contact-card__net">TELEGRAM</span>
           <span class="contact-card__handle">@spodzh</span>
-          <span class="contact-card__hint">быстрее всего →</span>
+          <span class="contact-card__hint" data-i18n="contact_telegram_hint">быстрее всего →</span>
         </a>
 
         <a href="https://tiktok.com/@spodzh" target="_blank" class="contact-card reveal">
           <span class="contact-card__status">◉ ACTIVE</span>
           <span class="contact-card__net">TIKTOK</span>
           <span class="contact-card__handle">@spodzh</span>
-          <span class="contact-card__hint">45K+ подписчиков</span>
+          <span class="contact-card__hint" data-i18n="contact_tiktok_hint">45K+ подписчиков</span>
         </a>
 
         <a href="https://instagram.com/spodzh" target="_blank" class="contact-card reveal">
           <span class="contact-card__status">◯ IDLE</span>
           <span class="contact-card__net">INSTAGRAM</span>
           <span class="contact-card__handle">@spodzh</span>
-          <span class="contact-card__hint">визуал и бэкстейдж</span>
+          <span class="contact-card__hint" data-i18n="contact_ig_hint">визуал и бэкстейдж</span>
         </a>
       </div>
 
@@ -544,18 +560,18 @@
 
         <span class="cta-final__tag">[ SAVE PROJECT? ]</span>
         <h2 class="cta-final__heading">
-          <span class="hand">есть идея?</span>
-          <span class="big">ДАВАЙ СДЕЛАЕМ</span>
+          <span class="hand" data-i18n="cta_hand">есть идея?</span>
+          <span class="big" data-i18n="cta_big">ДАВАЙ СДЕЛАЕМ</span>
         </h2>
-        <p class="cta-final__sub">Пришли задачу, площадку и сроки — отвечу в течение дня.</p>
+        <p class="cta-final__sub" data-i18n="cta_sub">Пришли задачу, площадку и сроки — отвечу в течение дня.</p>
 
         <div class="cta-final__actions">
           <a href="https://t.me/spodzh" target="_blank" class="btn btn--primary magnetic">
-            <span>НАПИСАТЬ В TELEGRAM</span>
+            <span data-i18n="cta_btn_telegram">НАПИСАТЬ В TELEGRAM</span>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <button class="btn btn--ghost copy-btn" data-copy="@spodzh">
-            <span class="copy-label">СКОПИРОВАТЬ @spodzh</span>
+            <span class="copy-label" data-i18n="cta_btn_copy">СКОПИРОВАТЬ @spodzh</span>
           </button>
         </div>
 
@@ -571,12 +587,12 @@
   <footer class="footer">
     <div class="container footer-inner">
       <span class="footer__left">ARCHIVE_v2.0 // END OF FILE</span>
-      <span class="footer__center hand">сделано с беспорядком в голове</span>
-      <a href="#home" class="footer__right">↑ BACK TO TOP</a>
+      <span class="footer__center hand" data-i18n="footer_text">сделано с беспорядком в голове</span>
+      <a href="#home" class="footer__right" data-i18n="footer_top">↑ BACK TO TOP</a>
     </div>
   </footer>
 
-  <!-- ================= ПАСХАЛКА (визуальный блок) ================= -->
+  <!-- ================= ПАСХАЛКА ================= -->
   <div class="easter-egg" id="easterEgg">
     <div class="easter-egg__inner">
       <span class="easter-egg__tag">[ ACCESS GRANTED ]</span>
@@ -589,21 +605,18 @@
   <div class="project-modal" id="projectModal" aria-hidden="true">
     <div class="project-modal__backdrop" data-close></div>
     <div class="project-modal__dialog">
-      <button class="project-modal__close" data-close aria-label="Закрыть">✕</button>
-
+      <button class="project-modal__close" data-close aria-label="Close">✕</button>
       <div class="project-modal__head">
         <span class="project-modal__code" id="modalCode">CUT_01</span>
         <span class="project-modal__tc" id="modalTc">0:20</span>
       </div>
-
       <div class="project-modal__media">
         <img id="modalImage" src="" alt="" />
       </div>
-
       <div class="project-modal__body">
         <div class="project-modal__meta" id="modalMeta"></div>
         <a id="modalLink" href="#" target="_blank" rel="noopener" class="btn btn--primary">
-          <span>ОТКРЫТЬ В TIKTOK</span>
+          <span data-i18n="btn_open_tiktok">ОТКРЫТЬ В TIKTOK</span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
@@ -613,7 +626,7 @@
   <!-- ================= ИНТЕРАКТИВ (V3) ================= -->
   <script src="js/interactive.js"></script>
 
-  <!-- ================= CORRUPTED ARCHIVE (пасхалка) ================= -->
+  <!-- ================= CORRUPTED ARCHIVE ================= -->
   <script src="js/corrupted.js"></script>
 
   <!-- ================= REVIEWS ================= -->
@@ -624,9 +637,229 @@
     (function () {
       'use strict';
 
-      try { var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear(); } catch (e) {}
+      /* ============================================================
+         i18n — ПЕРЕВОДЫ (RU / EN)
+         ============================================================ */
+      var I18N = {
+        ru: {
+          hero_sub: 'видеомонтажёр<span class="dot-slash">//</span>оператор<span class="dot-slash">//</span>контент-мейкер',
+          hero_desc: 'Делаю видео, которые <span class="hl">цепляют с первой секунды</span>. Съёмка, монтаж и креатив — от идеи до финального кадра.',
+          btn_view_works: 'СМОТРЕТЬ РАБОТЫ',
+          btn_story: 'МОЯ ИСТОРИЯ',
+          btn_contact: 'СВЯЗАТЬСЯ',
+          btn_open_tiktok: 'ОТКРЫТЬ В TIKTOK',
+          stat_subs: 'подписчиков в TikTok',
+          stat_years: 'в создании контента',
+          stat_age: 'года, Беларусь',
+          about_note: 'кто этот парень ↓',
+          about_p1: 'Меня зовут <strong>Влад</strong>, я известен как <strong>Spodzh</strong>. Снимаю видео почти <strong>3 года</strong>, собрал <strong>45 000+ подписчиков</strong> в TikTok.',
+          about_p2: 'Делал рекламу для брендов <span class="hl hl--yellow">LOOP</span> и <span class="hl hl--yellow">ANGOC</span>, снимал коллабы с другими блогерами. Умею монтировать в CapCut и работать с камерой.',
+          about_p3: 'Ищу творческие проекты, коллабы и интересных людей.',
+          fact_country: 'Беларусь',
+          fact_edit: 'CapCut / монтаж',
+          fact_shoot: 'Съёмка · оператор',
+          fact_ads: 'Реклама · коллабы',
+          skills_note: 'инструменты в работе →',
+          skill1_title: 'Видеомонтаж',
+          skill1_desc: 'CapCut, ритм, эффекты, субтитры, работа со звуком и цветокоррекция.',
+          skill2_title: 'Съёмка и оператор',
+          skill2_desc: 'Работа с камерой, светом, кадром и ракурсами. TikTok, Reels, влоги.',
+          skill3_title: 'SMM',
+          skill3_desc: 'Ведение соцсетей, работа с аудиторией, рост охватов и вовлечённости.',
+          skill4_title: 'Креатив',
+          skill4_desc: 'Генерация идей, сценарии, мемы и вирусные форматы под тренды.',
+          skill5_title: 'Иллюстрации',
+          skill5_desc: 'Скетчи и персонажи от руки, когда нужен авторский визуал.',
+          work_note: 'кликай на кадр ↓',
+          work_hint: 'стрелка справа →',
+          work_next: 'далее',
+          work_loading: 'портфолио загружается...',
+          new_badge: 'НОВОЕ',
+          services_note: 'с чем прийти →',
+          service1_title: 'Монтаж коротких видео',
+          service1_desc: 'TikTok, Reels, Shorts — темп, субтитры, звук, цвет и подача под площадку.',
+          service2_title: 'Съёмка и контент',
+          service2_desc: 'Идея, съёмка и сборка ролика под конкретную задачу: влог, реклама, бренд.',
+          service3_title: 'Коллабы и бренды',
+          service3_desc: 'Рекламные интеграции, совместные ролики с блогерами, творческие проекты.',
+          service_cta: 'ОБСУДИТЬ',
+          reviews_note: 'real people. real projects.',
+          contacts_note: 'пиши, отвечаю быстро ✎',
+          contact_telegram_hint: 'быстрее всего →',
+          contact_tiktok_hint: '45K+ подписчиков',
+          contact_ig_hint: 'визуал и бэкстейдж',
+          cta_hand: 'есть идея?',
+          cta_big: 'ДАВАЙ СДЕЛАЕМ',
+          cta_sub: 'Пришли задачу, площадку и сроки — отвечу в течение дня.',
+          cta_btn_telegram: 'НАПИСАТЬ В TELEGRAM',
+          cta_btn_copy: 'СКОПИРОВАТЬ @spodzh',
+          footer_text: 'сделано с беспорядком в голове',
+          footer_top: '↑ BACK TO TOP'
+        },
+        en: {
+          hero_sub: 'video editor<span class="dot-slash">//</span>cameraman<span class="dot-slash">//</span>content maker',
+          hero_desc: 'I make videos that <span class="hl">hook from the very first second</span>. Shooting, editing and creative — from idea to final cut.',
+          btn_view_works: 'VIEW WORKS',
+          btn_story: 'MY STORY',
+          btn_contact: 'CONTACT ME',
+          btn_open_tiktok: 'OPEN IN TIKTOK',
+          stat_subs: 'TikTok followers',
+          stat_years: 'creating content',
+          stat_age: 'years old, Belarus',
+          about_note: 'who is this guy ↓',
+          about_p1: 'My name is <strong>Vlad</strong>, known as <strong>Spodzh</strong>. I have been making videos for almost <strong>3 years</strong> and have built <strong>45,000+ followers</strong> on TikTok.',
+          about_p2: 'I have produced ads for brands <span class="hl hl--yellow">LOOP</span> and <span class="hl hl--yellow">ANGOC</span>, and collaborated with other creators. Skilled in CapCut editing and camera work.',
+          about_p3: 'Looking for creative projects, collabs and interesting people.',
+          fact_country: 'Belarus',
+          fact_edit: 'CapCut / editing',
+          fact_shoot: 'Shooting · cameraman',
+          fact_ads: 'Ads · collabs',
+          skills_note: 'tools I work with →',
+          skill1_title: 'Video editing',
+          skill1_desc: 'CapCut, pacing, effects, subtitles, sound design and color grading.',
+          skill2_title: 'Shooting & cameraman',
+          skill2_desc: 'Camera work, lighting, framing and angles. TikTok, Reels, vlogs.',
+          skill3_title: 'SMM',
+          skill3_desc: 'Social media management, audience growth and engagement.',
+          skill4_title: 'Creative',
+          skill4_desc: 'Idea generation, scripts, memes and viral formats aligned with trends.',
+          skill5_title: 'Illustrations',
+          skill5_desc: 'Hand-drawn sketches and characters when custom visuals are needed.',
+          work_note: 'click the frame ↓',
+          work_hint: 'arrow on the right →',
+          work_next: 'next',
+          work_loading: 'portfolio is loading...',
+          new_badge: 'NEW',
+          services_note: 'what I can do for you →',
+          service1_title: 'Short-form video editing',
+          service1_desc: 'TikTok, Reels, Shorts — pacing, subtitles, sound, color and platform-ready delivery.',
+          service2_title: 'Shooting & content',
+          service2_desc: 'Idea, shooting and editing for a specific task: vlog, ad, brand.',
+          service3_title: 'Collabs & brands',
+          service3_desc: 'Ad integrations, joint videos with creators, creative projects.',
+          service_cta: 'DISCUSS',
+          reviews_note: 'real people. real projects.',
+          contacts_note: 'drop a message — I reply fast ✎',
+          contact_telegram_hint: 'fastest way →',
+          contact_tiktok_hint: '45K+ followers',
+          contact_ig_hint: 'visuals & behind the scenes',
+          cta_hand: 'got an idea?',
+          cta_big: "LET'S MAKE IT",
+          cta_sub: 'Send me the task, platform and deadline — I will reply within a day.',
+          cta_btn_telegram: 'MESSAGE ON TELEGRAM',
+          cta_btn_copy: 'COPY @spodzh',
+          footer_text: 'made with chaos in mind',
+          footer_top: '↑ BACK TO TOP'
+        }
+      };
 
-      /* Бургер */
+      var currentLang = 'ru';
+
+      function applyLang(lang) {
+        if (!I18N[lang]) lang = 'ru';
+        currentLang = lang;
+
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          var key = el.getAttribute('data-i18n');
+          var val = I18N[lang][key];
+          if (typeof val === 'string') {
+            // если есть span/hl — обновляем через innerHTML, иначе textContent
+            if (val.indexOf('<') !== -1) el.innerHTML = val;
+            else el.textContent = val;
+          }
+        });
+
+        // Состояние кнопки языка
+        var cur = document.getElementById('langCurrent');
+        var oth = document.getElementById('langOther');
+        if (cur && oth) {
+          cur.textContent = lang.toUpperCase();
+          oth.textContent = lang === 'ru' ? 'EN' : 'RU';
+        }
+
+        document.documentElement.lang = lang;
+        try { localStorage.setItem('spodzh_lang', lang); } catch (e) {}
+      }
+
+      function initLang() {
+        var saved = null;
+        try { saved = localStorage.getItem('spodzh_lang'); } catch (e) {}
+        applyLang(saved === 'en' ? 'en' : 'ru');
+
+        var btn = document.getElementById('langSwitch');
+        if (btn) {
+          btn.addEventListener('click', function () {
+            applyLang(currentLang === 'ru' ? 'en' : 'ru');
+          });
+        }
+      }
+
+      initLang();
+
+      /* ============================================================
+         ПАСХАЛКА: набрать "spodzh" → призраки делают сальто
+         ============================================================ */
+      try {
+        var keyBuffer = '';
+        var eggActive = false;
+
+        window.addEventListener('keydown', function (e) {
+          // Только когда не в полях ввода
+          var tag = (e.target && e.target.tagName) || '';
+          if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
+
+          if (e.key.length === 1 && /[a-z]/i.test(e.key)) {
+            keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-6);
+
+            if (keyBuffer === 'spodzh' && !eggActive) {
+              eggActive = true;
+              keyBuffer = '';
+
+              // Всем призракам — сальто
+              var ghosts = document.querySelectorAll('.hero-ghost, .ghost-corner');
+              ghosts.forEach(function (g) {
+                g.classList.remove('is-flipping', 'is-wiggling', 'is-pixel');
+                void g.offsetWidth;
+                g.classList.add('is-flipping');
+                setTimeout(function () { g.classList.remove('is-flipping'); }, 1100);
+              });
+
+              // Показать маленькую подсказку
+              showEasterHint();
+
+              setTimeout(function () { eggActive = false; }, 1500);
+            }
+          }
+        });
+
+        function showEasterHint() {
+          var hint = document.createElement('div');
+          hint.className = 'egg-hint';
+          hint.textContent = '👻 SPODZH MODE';
+          hint.style.cssText =
+            'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.8);' +
+            'z-index:99999;pointer-events:none;font-family:"Archivo Black",sans-serif;' +
+            'font-size:clamp(1.4rem,4vw,2.6rem);letter-spacing:.15em;color:#ffd93d;' +
+            'text-shadow:0 0 30px rgba(255,217,61,.8),0 0 60px rgba(255,34,34,.6);' +
+            'opacity:0;transition:opacity .3s,transform .3s cubic-bezier(.22,1,.36,1);';
+          document.body.appendChild(hint);
+
+          requestAnimationFrame(function () {
+            hint.style.opacity = '1';
+            hint.style.transform = 'translate(-50%,-50%) scale(1)';
+          });
+
+          setTimeout(function () {
+            hint.style.opacity = '0';
+            hint.style.transform = 'translate(-50%,-50%) scale(1.15)';
+            setTimeout(function () { hint.remove(); }, 400);
+          }, 1200);
+        }
+      } catch (e) { console.warn('easter egg:', e); }
+
+      /* ============================================================
+         БУРГЕР
+         ============================================================ */
       try {
         var burger = document.getElementById('burger');
         var navLinks = document.getElementById('navLinks');
@@ -646,7 +879,9 @@
         }
       } catch (e) {}
 
-      /* Navbar + прогресс */
+      /* ============================================================
+         NAVBAR + прогресс
+         ============================================================ */
       try {
         var navbar = document.getElementById('navbar');
         var scrollProgress = document.getElementById('scrollProgress');
@@ -659,7 +894,9 @@
         }, { passive: true });
       } catch (e) {}
 
-      /* Reveal */
+      /* ============================================================
+         REVEAL
+         ============================================================ */
       try {
         var revealEls = document.querySelectorAll('.reveal');
         if ('IntersectionObserver' in window) {
@@ -677,7 +914,9 @@
         }
       } catch (e) {}
 
-      /* Счётчики */
+      /* ============================================================
+         СЧЁТЧИКИ
+         ============================================================ */
       try {
         var counters = document.querySelectorAll('[data-count]');
         function animateCount(el) {
@@ -703,7 +942,9 @@
         }
       } catch (e) {}
 
-      /* Магнитные кнопки */
+      /* ============================================================
+         МАГНИТНЫЕ КНОПКИ
+         ============================================================ */
       try {
         var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
         if (!isTouch) {
@@ -719,7 +960,9 @@
         }
       } catch (e) {}
 
-      /* Копирование */
+      /* ============================================================
+         КОПИРОВАНИЕ
+         ============================================================ */
       try {
         document.querySelectorAll('.copy-btn').forEach(function (btn) {
           btn.addEventListener('click', function () {
@@ -727,7 +970,7 @@
             var label = btn.querySelector('.copy-label');
             var orig = label ? label.textContent : '';
             function done() {
-              if (label) label.textContent = 'СКОПИРОВАНО ✓';
+              if (label) label.textContent = (currentLang === 'en' ? 'COPIED ✓' : 'СКОПИРОВАНО ✓');
               btn.classList.add('is-copied');
               setTimeout(function () {
                 if (label) label.textContent = orig;
@@ -741,7 +984,9 @@
         });
       } catch (e) {}
 
-      /* Плавный скролл */
+      /* ============================================================
+         ПЛАВНЫЙ СКРОЛЛ
+         ============================================================ */
       try {
         document.querySelectorAll('a[href^="#"]').forEach(function (a) {
           a.addEventListener('click', function (e) {
@@ -755,7 +1000,9 @@
         });
       } catch (e) {}
 
-      /* Активная секция */
+      /* ============================================================
+         АКТИВНАЯ СЕКЦИЯ
+         ============================================================ */
       try {
         var sections = document.querySelectorAll('section[id]');
         var navItems = document.querySelectorAll('[data-nav]');
@@ -774,7 +1021,9 @@
         }
       } catch (e) {}
 
-      /* Таймкоды */
+      /* ============================================================
+         ТАЙМКОДЫ
+         ============================================================ */
       try {
         var heroTc = document.getElementById('heroTimecode');
         var previewTc = document.getElementById('previewTime');
@@ -800,7 +1049,7 @@
       } catch (e) {}
 
       /* ============================================================
-         ПРОЕКТЫ — загрузка с API + пагинация по 3
+         ПРОЕКТЫ
          ============================================================ */
       try {
         var API_BASE = 'https://spodzh-reviews-api.ernest-chanel.workers.dev';
@@ -858,13 +1107,10 @@
         function renderMinis() {
           var N = projectState.videos.length;
           if (N < 2) {
-            var row = document.getElementById('workRow');
-            if (row) {
-              var mLeft = document.getElementById('miniLeft');
-              var mRight = document.getElementById('miniRight');
-              if (mLeft) mLeft.hidden = true;
-              if (mRight) mRight.hidden = true;
-            }
+            var mLeft = document.getElementById('miniLeft');
+            var mRight = document.getElementById('miniRight');
+            if (mLeft) mLeft.hidden = true;
+            if (mRight) mRight.hidden = true;
             return;
           }
 
@@ -874,7 +1120,6 @@
           function fill(side, idx) {
             var v = projectState.videos[idx];
             var prefix = side === 'Left' ? 'miniLeft' : 'miniRight';
-
             var img = document.getElementById(prefix + 'Img');
             var dur = document.getElementById(prefix + 'Dur');
             var tags = document.getElementById(prefix + 'Tags');
@@ -956,7 +1201,6 @@
           document.body.style.overflow = '';
         }
 
-        /* Стрелка вправо — всегда листает внутри сайта */
         var nextBtn = document.getElementById('workNext');
         if (nextBtn) {
           nextBtn.addEventListener('click', function (e) {
@@ -965,7 +1209,6 @@
           });
         }
 
-        /* Маленькие карточки — делают себя featured */
         var miniLeft = document.getElementById('miniLeft');
         if (miniLeft) {
           miniLeft.addEventListener('click', function () {
@@ -986,7 +1229,6 @@
           });
         }
 
-        /* Клик по featured media — открывает модалку всегда */
         if (fc) {
           var featuredMedia = fc.querySelector('.featured__media');
           if (featuredMedia) {
@@ -997,7 +1239,6 @@
           }
         }
 
-        /* Закрытие модалки */
         if (modal) {
           modal.querySelectorAll('[data-close]').forEach(function (el) {
             el.addEventListener('click', closeModal);
@@ -1007,7 +1248,6 @@
           });
         }
 
-        /* Загрузка видео с API */
         fetch(API_BASE + '/videos')
           .then(function (r) { return r.json(); })
           .then(function (data) {
@@ -1024,8 +1264,7 @@
       } catch (e) { console.warn('projects:', e); }
 
       /* ============================================================
-         FALLBACK ПАСХАЛКА — сработает если js/corrupted.js не подключён
-         5 кликов по логотипу → секретный экран
+         FALLBACK ПАСХАЛКА (5 кликов по логотипу)
          ============================================================ */
       try {
         if (!window.__spodzhCorrupted) {
@@ -1036,7 +1275,6 @@
           if (fbLogo && fbEgg) {
             fbLogo.addEventListener('click', function (e) {
               fbCount++;
-
               fbLogo.classList.remove('is-corrupting');
               void fbLogo.offsetWidth;
               fbLogo.classList.add('is-corrupting');
@@ -1045,9 +1283,7 @@
               if (fbCount >= 5) {
                 e.preventDefault();
                 fbCount = 0;
-
                 document.body.classList.add('corrupted-mode');
-
                 fbEgg.classList.add('show');
 
                 var flash = document.createElement('div');
@@ -1061,20 +1297,14 @@
                   fbEgg.classList.remove('show');
                   document.body.classList.remove('corrupted-mode');
                 }, 2400);
-
                 return;
               }
-
               clearTimeout(fbTimer);
               fbTimer = setTimeout(function () { fbCount = 0; }, 3000);
             });
           }
-
-          console.log('%c[fallback] Пасхалка через основной скрипт', 'color:#ffd93d; font-size:11px;');
-        } else {
-          console.log('%c[corrupted.js] Внешний модуль активен', 'color:#22c55e; font-size:11px;');
         }
-      } catch (e) { console.warn('easter egg fallback:', e); }
+      } catch (e) {}
 
       console.log('%cSPODZH // ARCHIVE_v2.0', 'color:#ff2222; font-size:20px; font-weight:bold; font-family: monospace;');
     })();

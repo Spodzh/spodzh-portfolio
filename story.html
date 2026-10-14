@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPODZH_STORY.psd</title>
+  <meta name="description" content="История Spodzh — открыта в Photoshop." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <style>
+    /* ============================================================
+       PHOTOSHOP WORKSPACE × ARCHIVE STYLE
+       ============================================================ */
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: #0a0a12;
+      color: var(--ink);
+      font-family: var(--f-body);
+    }
+
+    .ps-app {
+      display: grid;
+      grid-template-columns: 44px 1fr 268px;
+      grid-template-rows: 34px 1fr 26px;
+      height: 100vh;
+      width: 100vw;
+      background: #050508;
+      position: relative;
+    }
+
+    /* ============================================================
+       TOP MENUBAR
+       ============================================================ */
+    .ps-menubar {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 12px;
+      background: linear-gradient(180deg, #16161d, #0d0d14);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      user-select: none;
+      z-index: 50;
+      position: relative;
+    }
+    /* Тонкая неоновая полоска под menubar */
+    .ps-menubar::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: -1px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(0,229,255,.6) 30%,
+        rgba(255,45,117,.6) 70%,
+        transparent);
+      pointer-events: none;
+    }
+
+    .ps-logo {
+      display: grid;
+      place-items: center;
+      width: 20px; height: 20px;
+      background: #001e36;
+      color: #31a8ff;
+      border: 1px solid #31a8ff;
+      border-radius: 3px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0;
+      box-shadow: 0 0 10px rgba(49,168,255,.4);
+    }
+
+    .ps-doc-name {
+      color: var(--ink);
+      opacity: .9;
+      white-space: nowrap;
+    }
+    .ps-doc-meta {
+      color: var(--muted-2);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+    }
+
+    .ps-menu {
+      display: flex;
+      gap: 16px;
+      margin-left: 24px;
+      color: var(--ink-mute);
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+    .ps-menu span {
+      cursor: default;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+    .ps-menu span:hover { color: var(--ink); }
+
+    .ps-menubar__right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ps-workspace {
+      color: var(--cyan);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border: 1px solid rgba(0,229,255,.35);
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(0,229,255,.15);
+    }
+    .ps-close {
+      display: grid;
+      place-items: center;
+      width: 22px; height: 22px;
+      color: var(--muted);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 3px;
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1;
+      transition: var(--transition);
+    }
+    .ps-close:hover {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+      box-shadow: 0 0 16px rgba(255,34,34,.6);
+    }
+
+    /* ============================================================
+       LEFT TOOLBAR
+       ============================================================ */
+    .ps-toolbar {
+      grid-column: 1;
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 8px 0;
+      background: linear-gradient(180deg, #101017, #0a0a10);
+      border-right: 1px solid rgba(255,255,255,.05);
+      overflow-y: auto;
+      position: relative;
+      z-index: 20;
+    }
+    .ps-toolbar::-webkit-scrollbar { width: 0; }
+
+    .ps-tool {
+      position: relative;
+      width: 32px; height: 32px;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      color: var(--ink-mute);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .ps-tool svg { width: 16px; height: 16px; }
+    .ps-tool:hover {
+      background: rgba(255,255,255,.05);
+      color: var(--ink);
+    }
+    .ps-tool.is-active {
+      background: var(--cyan);
+      color: #0a0a12;
+      border-color: rgba(255,255,255,.2);
+      box-shadow: 0 0 16px rgba(0,229,255,.5);
+    }
+    .ps-tool__label {
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%) translateX(8px);
+      padding: 4px 8px;
+      background: #0a0a12;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+      z-index: 20;
+    }
+    .ps-tool:hover .ps-tool__label { opacity: 1; }
+
+    .ps-tool-divider {
+      width: 22px;
+      height: 1px;
+      background: rgba(255,255,255,.08);
+      margin: 4px 0;
+    }
+
+    /* ============================================================
+       CANVAS — теперь с крутым фоном
+       ============================================================ */
+    .ps-canvas {
+      grid-column: 2;
+      grid-row: 2;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: #050508;
+      scroll-behavior: smooth;
+    }
+    .ps-canvas::-webkit-scrollbar { width: 10px; }
+    .ps-canvas::-webkit-scrollbar-track { background: #0a0a12; }
+    .ps-canvas::-webkit-scrollbar-thumb {
+      background: #1f1f2a;
+      border: 2px solid #0a0a12;
+      border-radius: 6px;
+    }
+    .ps-canvas::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(var(--cyan), var(--magenta));
+    }
+
+    /* Слой фона canvas — mesh-градиенты как на основном сайте */
+    .canvas-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(0,229,255,.14), transparent 42%),
+        radial-gradient(circle at 85% 15%, rgba(255,45,117,.12), transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(79,125,255,.14), transparent 50%),
+        #050508;
+    }
+
+    /* Сетка как в Photoshop-холсте */
+    .canvas-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 90%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 90%);
+    }
+
+    /* Легкий шум поверх фона */
+    .canvas-noise {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .05;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    /* Пиксельные декорации — как PNG-объекты на макете */
+    .pixel-deco {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      image-rendering: pixelated;
+    }
+
+    /* Пиксель-облако из блоков */
+    .px-cloud {
+      width: 60px;
+      height: 20px;
+      display: grid;
+      grid-template-columns: repeat(6, 10px);
+      grid-template-rows: repeat(2, 10px);
+    }
+    .px-cloud span {
+      display: block;
+      background: var(--cyan);
+      box-shadow: 0 0 8px rgba(0,229,255,.6);
+      opacity: .5;
+    }
+    .px-cloud span:nth-child(1),
+    .px-cloud span:nth-child(6) { background: transparent; box-shadow: none; }
+    .px-cloud span:nth-child(7),
+    .px-cloud span:nth-child(12) { background: transparent; box-shadow: none; }
+
+    /* Пиксельный крестик */
+    .px-cross {
+      width: 20px;
+      height: 20px;
+      position: relative;
+    }
+    .px-cross::before,
+    .px-cross::after {
+      content: '';
+      position: absolute;
+      background: var(--magenta);
+      box-shadow: 0 0 10px rgba(255,45,117,.7);
+      opacity: .7;
+    }
+    .px-cross::before {
+      left: 0; top: 9px;
+      width: 20px; height: 2px;
+    }
+    .px-cross::after {
+      top: 0; left: 9px;
+      width: 2px; height: 20px;
+    }
+
+    /* Пиксельная стрелка */
+    .px-arrow {
+      width: 30px;
+      height: 30px;
+    }
+    .px-arrow svg {
+      width: 100%; height: 100%;
+      stroke: var(--yellow);
+      filter: drop-shadow(0 0 8px rgba(255,217,61,.7));
+      opacity: .7;
+    }
+
+    /* Пиксельные точки-артефакты */
+    .px-dots {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 10px);
+      grid-template-rows: repeat(4, 10px);
+    }
+    .px-dots span {
+      background: var(--cyan);
+      opacity: .3;
+    }
+    .px-dots span:nth-child(2n) { background: var(--magenta); }
+    .px-dots span:nth-child(3n) { background: transparent; }
+
+    /* Пиксельная линия (горизонтальная) */
+    .px-line {
+      width: 100px;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--cyan) 0,
+        var(--cyan) 6px,
+        transparent 6px,
+        transparent 10px
+      );
+      opacity: .5;
+      box-shadow: 0 0 12px rgba(0,229,255,.5);
+    }
+
+    /* Расположение декораций */
+    .px-1 { top: 6%; left: 6%; transform: rotate(-8deg); }
+    .px-2 { top: 18%; right: 5%; transform: rotate(12deg); }
+    .px-3 { top: 42%; left: 4%; transform: rotate(-4deg); }
+    .px-4 { top: 58%; right: 8%; transform: rotate(6deg); }
+    .px-5 { top: 76%; left: 8%; transform: rotate(-10deg); }
+    .px-6 { top: 88%; right: 6%; transform: rotate(4deg); }
+
+    /* Верхняя линейка — sticky */
+    .canvas-ruler {
+      position: sticky;
+      top: 0;
+      height: 20px;
+      background: linear-gradient(180deg, #12121a, #0d0d14);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-family: var(--f-mono);
+      font-size: 0.55rem;
+      color: var(--muted-2);
+      letter-spacing: 0.05em;
+      z-index: 10;
+      overflow: hidden;
+      position: relative;
+    }
+    .canvas-ruler::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      bottom: 0;
+      height: 8px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,.15) 0,
+          rgba(255,255,255,.15) 1px,
+          transparent 1px,
+          transparent 20px
+        );
+      pointer-events: none;
+    }
+    .canvas-ruler__marks {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 80px;
+      margin-left: 20px;
+    }
+
+    .canvas-inner {
+      padding: 32px 40px 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Угловые crop-метки */
+    .canvas-crop {
+      position: absolute;
+      width: 20px; height: 20px;
+      border: 1px solid rgba(0,229,255,.4);
+      pointer-events: none;
+      z-index: 5;
+    }
+    .canvas-crop--tl { top: 26px; left: 16px; border-right: none; border-bottom: none; }
+    .canvas-crop--tr { top: 26px; right: 16px; border-left: none; border-bottom: none; }
+    .canvas-crop--bl { bottom: 60px; left: 16px; border-right: none; border-top: none; border-color: rgba(255,45,117,.4); }
+    .canvas-crop--br { bottom: 60px; right: 16px; border-left: none; border-top: none; border-color: rgba(255,45,117,.4); }
+
+    /* Верхняя строка canvas — имя файла */
+    .canvas-file {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 12px;
+      margin-bottom: 24px;
+      background: rgba(255,255,255,.02);
+      border: 1px dashed rgba(255,255,255,.08);
+      border-radius: 4px;
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--muted-2);
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+    .canvas-file__name { color: var(--cyan); }
+    .canvas-file__right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .canvas-file__chip {
+      padding: 2px 8px;
+      background: rgba(255,45,117,.1);
+      border: 1px solid rgba(255,45,117,.35);
+      color: var(--red);
+      border-radius: 3px;
+      font-size: 0.58rem;
+    }
+
+    /* Контент истории */
+    .story-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ============================================================
+       RIGHT PANELS
+       ============================================================ */
+    .ps-panels {
+      grid-column: 3;
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: #050508;
+      border-left: 1px solid rgba(255,255,255,.05);
+      overflow-y: auto;
+      padding: 8px;
+      position: relative;
+      z-index: 20;
+    }
+    .ps-panels::-webkit-scrollbar { width: 8px; }
+    .ps-panels::-webkit-scrollbar-thumb {
+      background: #1f1f2a;
+      border-radius: 4px;
+    }
+
+    .ps-panel {
+      background: linear-gradient(180deg, #131320, #0d0d14);
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .ps-panel__head {
+      padding: 7px 12px;
+      background: linear-gradient(180deg, #1a1a28, #131320);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      color: var(--ink);
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ps-panel__head::after {
+      content: '▾';
+      color: var(--muted-2);
+      font-size: 0.7rem;
+    }
+    .ps-panel__body { padding: 8px; }
+
+    /* СЛОИ */
+    .ps-layer {
+      display: grid;
+      grid-template-columns: 20px 28px 1fr;
+      gap: 6px;
+      align-items: center;
+      padding: 5px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background .15s;
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+    .ps-layer:hover { background: rgba(255,255,255,.04); color: var(--ink); }
+    .ps-layer.is-active {
+      background: rgba(0,229,255,.08);
+      color: var(--cyan);
+      box-shadow: inset 2px 0 0 var(--cyan);
+    }
+    .ps-layer.is-active .ps-layer__name { color: var(--cyan); }
+    .ps-layer__eye {
+      display: grid; place-items: center;
+      width: 16px; height: 16px;
+      color: var(--muted);
+      font-size: 10px;
+      opacity: .6;
+    }
+    .ps-layer.is-active .ps-layer__eye { color: var(--cyan); opacity: 1; }
+    .ps-layer__thumb {
+      width: 24px; height: 20px;
+      background: #0a0a12;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 2px;
+      display: grid; place-items: center;
+      font-size: 0.55rem;
+      color: var(--muted-2);
+      overflow: hidden;
+    }
+    .ps-layer__thumb span {
+      background: linear-gradient(135deg, #1a1a28, #0a0a12);
+      width: 100%; height: 100%;
+      display: grid; place-items: center;
+    }
+    .ps-layer.is-active .ps-layer__thumb {
+      border-color: rgba(0,229,255,.4);
+    }
+    .ps-layer__name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: inherit;
+    }
+
+    .ps-layer-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 6px;
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      color: var(--yellow);
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+    }
+    .ps-layer-group::before { content: '📁'; font-size: 11px; }
+
+    /* СВОЙСТВА */
+    .ps-prop {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 8px;
+      align-items: center;
+      padding: 4px 6px;
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .ps-prop__label { color: var(--muted-2); text-transform: uppercase; }
+    .ps-prop__value { color: var(--ink); }
+    .ps-prop__value--accent { color: var(--cyan); }
+    .ps-prop__value--red { color: var(--red); }
+    .ps-prop__value--yellow { color: var(--yellow); }
+
+    .ps-swatch-row {
+      display: flex;
+      gap: 4px;
+      padding: 6px;
+    }
+    .ps-swatch {
+      width: 22px; height: 22px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,.15);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .ps-swatch:hover { transform: scale(1.1); }
+
+    /* ИСТОРИЯ */
+    .ps-hist {
+      padding: 5px 8px;
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      border-left: 2px solid transparent;
+      transition: var(--transition);
+    }
+    .ps-hist:hover { color: var(--ink); }
+    .ps-hist.is-current {
+      border-left-color: var(--cyan);
+      background: rgba(0,229,255,.05);
+      color: var(--cyan);
+    }
+
+    /* ============================================================
+       BOTTOM STATUS BAR
+       ============================================================ */
+    .ps-statusbar {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 14px;
+      background: linear-gradient(180deg, #0d0d14, #0a0a10);
+      border-top: 1px solid rgba(255,255,255,.06);
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      color: var(--muted-2);
+      user-select: none;
+      z-index: 50;
+      position: relative;
+    }
+    .ps-statusbar::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: -1px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(0,229,255,.5) 30%,
+        rgba(255,45,117,.5) 70%,
+        transparent);
+      pointer-events: none;
+    }
+    .ps-statusbar__zoom {
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .ps-statusbar__mem { color: var(--muted); }
+    .ps-statusbar__right {
+      margin-left: auto;
+      color: var(--red);
+      letter-spacing: 0.14em;
+    }
+    .ps-statusbar__right::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      margin-right: 6px;
+      box-shadow: 0 0 8px var(--red);
+      animation: recBlink 1.6s infinite;
+    }
+    @keyframes recBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .35; }
+    }
+
+    /* ============================================================
+       STORY CONTENT
+       ============================================================ */
+    .story-hero {
+      text-align: center;
+      margin-bottom: 90px;
+    }
+    .story-hero__tag {
+      display: inline-block;
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      color: var(--red);
+      padding: 7px 16px;
+      border: 1px solid var(--red);
+      margin-bottom: 28px;
+      text-transform: uppercase;
+      box-shadow: 0 0 20px rgba(255,45,117,.2);
+    }
+    .story-hero__title {
+      font-family: var(--f-cry);
+      font-size: clamp(2.2rem, 6.5vw, 4.4rem);
+      line-height: 0.94;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      display: inline-block;
+      position: relative;
+    }
+    .story-hero__title .accent { display: block; color: var(--red); }
+    .story-hero__title::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 5px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      border-radius: 3px;
+      box-shadow: 0 0 20px rgba(255,45,117,.4);
+    }
+    .story-hero__sub {
+      font-family: var(--f-hand);
+      font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+      color: var(--yellow);
+      transform: rotate(-2deg);
+      display: inline-block;
+      margin: 20px 0 28px;
+    }
+    .story-hero__desc {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--paper-dim);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .story-hero__stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .story-hero__stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: center;
+      padding: 0 12px;
+      position: relative;
+    }
+    .story-hero__stat:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -16px;
+      top: 10px; bottom: 10px;
+      width: 1px;
+      background: var(--line);
+    }
+    .story-hero__stat strong {
+      font-family: var(--f-cry);
+      font-size: 1.8rem;
+      display: inline-block;
+      color: #00e5ff;
+      background: linear-gradient(135deg, #00e5ff 0%, #4f7dff 45%, #ff2d75 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+      .story-hero__stat strong { color: #00e5ff; -webkit-text-fill-color: #00e5ff; }
+    }
+    .story-hero__stat span {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-mute);
+      text-transform: uppercase;
+    }
+
+    /* ТАЙМЛАЙН */
+    .story-timeline {
+      position: relative;
+      padding-left: 36px;
+    }
+    .story-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg,
+        var(--red) 0%, var(--red) 10%,
+        var(--line-strong) 10%, var(--line-strong) 100%);
+    }
+
+    .story-chapter {
+      position: relative;
+      margin-bottom: 80px;
+      padding-left: 20px;
+      scroll-margin-top: 40px;
+    }
+    .story-chapter::before {
+      content: '';
+      position: absolute;
+      left: -36px; top: 6px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 3px solid #050508;
+      box-shadow: 0 0 0 2px var(--red), 0 0 18px rgba(255,34,34,.55);
+      z-index: 2;
+    }
+    .story-chapter.is-last::before {
+      background: var(--yellow);
+      box-shadow: 0 0 0 2px var(--yellow), 0 0 18px rgba(255,217,61,.55);
+    }
+
+    .story-chapter__meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .story-chapter__file {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+    .story-chapter__date {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-mute);
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border: 1px solid var(--line-strong);
+    }
+    .story-chapter__title {
+      font-family: var(--f-cry);
+      font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    .story-chapter__title .accent { color: var(--red); }
+    .story-chapter p {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--paper-dim);
+      margin-bottom: 18px;
+      max-width: 600px;
+    }
+    .story-chapter strong {
+      color: var(--ink);
+      font-weight: 700;
+      background: linear-gradient(180deg, transparent 62%, rgba(255,34,34,.4) 62%);
+      padding: 0 3px;
+    }
+    .story-chapter em {
+      color: var(--yellow);
+      font-style: normal;
+      font-family: var(--f-hand);
+      font-size: 1.2em;
+    }
+
+    /* ЦИТАТА */
+    .story-quote {
+      position: relative;
+      padding: 22px 26px 22px 44px;
+      background: var(--bg-2);
+      border-left: 3px solid var(--red);
+      margin: 28px 0;
+      font-family: var(--f-hand);
+      font-size: 1.3rem;
+      line-height: 1.4;
+      color: var(--yellow);
+      transform: rotate(-0.5deg);
+      max-width: 580px;
+      box-shadow: 5px 5px 0 rgba(255,34,34,.15);
+    }
+    .story-quote::before {
+      content: '«';
+      position: absolute;
+      left: 14px; top: 10px;
+      font-family: var(--f-cry);
+      font-size: 2.2rem;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    /* ФОТО */
+    .story-floater {
+      margin: 28px 0;
+      display: flow-root;
+      clear: both;
+    }
+    .story-photo {
+      position: relative;
+      background: var(--bg-2);
+      transition: var(--transition);
+      overflow: hidden;
+      display: inline-block;
+      max-width: 100%;
+    }
+    .story-photo img {
+      width: 100%; height: auto; display: block;
+      transition: transform .5s var(--ease), filter .5s var(--ease);
+    }
+    .story-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0, transparent 2px,
+        rgba(0,0,0,.15) 2px, rgba(0,0,0,.15) 3px
+      );
+      mix-blend-mode: multiply;
+      z-index: 2;
+      opacity: .55;
+      transition: opacity .3s;
+    }
+    .story-photo:hover::after { opacity: .2; }
+
+    .story-photo__caption {
+      font-family: var(--f-hand);
+      font-size: 1.1rem;
+      color: var(--yellow);
+      text-align: center;
+      margin-top: 12px;
+      transform: rotate(-1deg);
+    }
+    .story-photo__num {
+      position: absolute;
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      color: var(--red);
+      text-transform: uppercase;
+      z-index: 3;
+    }
+
+    /* ПОЛАРОИД */
+    .story-photo--polaroid {
+      background: #f5f1e8;
+      padding: 12px 12px 54px;
+      border: 1px solid rgba(0,0,0,.2);
+      box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 2px 6px rgba(0,0,0,.3);
+      transform: rotate(-3deg);
+      max-width: 300px;
+    }
+    .story-photo--polaroid:hover {
+      transform: rotate(-1deg) translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.55), 0 4px 12px rgba(0,0,0,.4);
+    }
+    .story-photo--polaroid img {
+      border: 1px solid rgba(0,0,0,.15);
+      filter: contrast(1.05) saturate(.9) sepia(.08);
+    }
+    .story-photo--polaroid:hover img {
+      filter: contrast(1.1) saturate(1) sepia(0);
+      transform: scale(1.02);
+    }
+    .story-photo--polaroid .story-photo__caption {
+      position: absolute;
+      bottom: 14px; left: 0; right: 0;
+      color: #2a2a2a;
+      font-size: 1.15rem;
+      transform: rotate(-1.5deg);
+    }
+    .story-photo--polaroid .story-photo__num {
+      top: -10px; left: -10px;
+      background: var(--red); color: #fff;
+      padding: 3px 8px; border-radius: 3px;
+    }
+    .story-photo--polaroid.is-right { transform: rotate(3deg); }
+    .story-photo--polaroid.is-right:hover { transform: rotate(1deg) translateY(-4px); }
+
+    /* СКОТЧ */
+    .story-photo--taped {
+      background: var(--bg-2);
+      padding: 8px;
+      border: 1px solid var(--line-strong);
+      max-width: 300px;
+      transform: rotate(-2deg);
+    }
+    .story-photo--taped::before {
+      content: '';
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      width: 90px; height: 24px;
+      background: rgba(255,217,61,.7);
+      box-shadow: 0 2px 6px rgba(0,0,0,.3);
+      z-index: 3;
+      clip-path: polygon(2% 8%, 98% 0, 100% 94%, 0 100%);
+    }
+    .story-photo--taped:hover {
+      transform: rotate(0) translateY(-4px);
+      border-color: var(--red);
+      box-shadow: 0 20px 40px -20px rgba(255,34,34,.5);
+    }
+    .story-photo--taped img { filter: contrast(1.08) saturate(.85); }
+    .story-photo--taped:hover img { filter: contrast(1.1) saturate(1); }
+    .story-photo--taped .story-photo__num {
+      top: 14px; left: 14px; color: var(--yellow);
+    }
+    .story-photo--taped.is-right { transform: rotate(2deg); }
+    .story-photo--taped.is-right::before {
+      background: rgba(0,229,255,.55);
+      transform: translateX(-50%) rotate(4deg);
+    }
+    .story-photo--taped.is-right:hover { transform: rotate(0) translateY(-4px); }
+
+    /* НЕОН */
+    .story-photo--neon {
+      background: #0a0a0f;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background-image:
+        linear-gradient(#0a0a0f, #0a0a0f),
+        linear-gradient(135deg, var(--cyan), var(--red));
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      max-width: 380px;
+      box-shadow: 0 0 30px rgba(0,229,255,.3), 0 0 60px rgba(255,34,34,.2);
+      transform: rotate(2deg);
+    }
+    .story-photo--neon img { border-radius: 4px; filter: contrast(1.05) saturate(1.05); }
+    .story-photo--neon:hover {
+      transform: rotate(0) translateY(-6px);
+      box-shadow: 0 0 50px rgba(0,229,255,.5), 0 0 100px rgba(255,34,34,.35);
+    }
+    .story-photo--neon:hover img { transform: scale(1.02); filter: contrast(1.08) saturate(1.15); }
+    .story-photo--neon .story-photo__num {
+      top: -12px; left: 16px;
+      background: var(--grad); color: #000;
+      padding: 4px 10px; border-radius: 3px;
+      font-weight: 700; font-size: 0.62rem;
+    }
+    .story-photo--neon .story-photo__caption { color: var(--yellow); font-size: 1.3rem; }
+    .story-photo--neon.is-right { transform: rotate(-2deg); }
+    .story-photo--neon.is-right:hover { transform: rotate(0) translateY(-6px); }
+
+    /* СТИКЕР */
+    .story-photo--sticker {
+      background: var(--bg-2);
+      padding: 8px;
+      border: 2px solid var(--ink);
+      max-width: 220px;
+      transform: rotate(4deg);
+      box-shadow: 6px 6px 0 rgba(255,34,34,.5);
+    }
+    .story-photo--sticker::after {
+      content: '★';
+      position: absolute;
+      top: -18px; right: -18px;
+      width: 40px; height: 40px;
+      background: var(--yellow);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      color: #000; font-size: 1.2rem; font-weight: bold;
+      transform: rotate(12deg);
+      box-shadow: 2px 2px 0 rgba(0,0,0,.6);
+      z-index: 5;
+    }
+    .story-photo--sticker:hover {
+      transform: rotate(1deg) translateY(-4px);
+      box-shadow: 8px 8px 0 rgba(255,34,34,.7);
+    }
+    .story-photo--sticker img { filter: contrast(1.08) saturate(.9); }
+    .story-photo--sticker:hover img { filter: contrast(1.1) saturate(1.05); transform: scale(1.02); }
+    .story-photo--sticker .story-photo__num { display: none; }
+    .story-photo--sticker .story-photo__caption { font-size: 1rem; }
+
+    /* ВИДЕО */
+    .story-video {
+      position: relative;
+      background: #000;
+      border: 1px solid var(--line-strong);
+      overflow: hidden;
+      max-width: 380px;
+      margin: 28px auto;
+      transform: rotate(-1deg);
+      box-shadow: 8px 8px 0 rgba(255,34,34,.3), 0 0 40px rgba(0,229,255,.1);
+      transition: var(--transition);
+    }
+    .story-video:hover {
+      transform: rotate(0);
+      box-shadow: 10px 10px 0 rgba(255,34,34,.5), 0 0 60px rgba(0,229,255,.25);
+    }
+    .story-video::after {
+      content: '';
+      position: absolute; inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(180deg, transparent 0, transparent 2px, rgba(0,0,0,.2) 2px, rgba(0,0,0,.2) 3px),
+        radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.45) 100%);
+      z-index: 3;
+      mix-blend-mode: multiply;
+      opacity: .7;
+      transition: opacity .3s;
+    }
+    .story-video:hover::after { opacity: .3; }
+    .story-video::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad);
+      z-index: 4;
+    }
+    .story-video video {
+      width: 100%; height: auto; display: block;
+      filter: contrast(1.08) saturate(.95);
+    }
+    .story-video__caption {
+      font-family: var(--f-hand);
+      font-size: 1.1rem;
+      color: var(--yellow);
+      text-align: center;
+      padding: 10px;
+      background: var(--bg-2);
+      transform: rotate(-0.5deg);
+      position: relative;
+      z-index: 5;
+    }
+    .story-video__rec {
+      position: absolute;
+      top: 12px; left: 14px;
+      font-family: var(--f-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      color: var(--red);
+      background: rgba(0,0,0,.75);
+      padding: 4px 10px;
+      z-index: 5;
+      text-transform: uppercase;
+      animation: recBlink 1.4s infinite;
+      border: 1px solid rgba(255,34,34,.3);
+    }
+    .story-video__tc {
+      position: absolute;
+      bottom: 44px; right: 14px;
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--yellow);
+      background: rgba(0,0,0,.7);
+      padding: 3px 8px;
+      z-index: 5;
+    }
+    .story-video--small { max-width: 260px; margin: 28px 0; }
+
+    /* ДУО */
+    .story-duo {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 32px 0;
+    }
+    .story-duo .story-photo { margin: 0; }
+    .story-duo .story-photo--polaroid { max-width: 240px; }
+
+    /* ПОЗИЦИОНИРОВАНИЕ */
+    .story-floater--left { text-align: left; }
+    .story-floater--left .story-photo { margin-right: auto; }
+    .story-floater--right { text-align: right; }
+    .story-floater--right .story-photo { margin-left: auto; }
+    .story-floater--center { text-align: center; }
+
+    .story-floater__duo {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .story-floater__duo--right { justify-content: flex-end; }
+
+    /* ЭПИЛОГ */
+    .story-outro {
+      text-align: center;
+      margin-top: 80px;
+      padding: 60px 28px;
+      background: var(--bg-2);
+      border: 1px solid var(--line-strong);
+      position: relative;
+      box-shadow: 0 0 60px rgba(255,45,117,.15);
+    }
+    .story-outro::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1px dashed rgba(255,34,34,.35);
+      pointer-events: none;
+    }
+    .story-outro__tag {
+      display: inline-block;
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      color: var(--red);
+      padding: 7px 16px;
+      border: 1px solid var(--red);
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+    .story-outro__title {
+      font-family: var(--f-cry);
+      font-size: clamp(1.6rem, 4.4vw, 2.6rem);
+      line-height: 1;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .story-outro__title .hand {
+      font-family: var(--f-hand);
+      color: var(--yellow);
+      font-size: 0.7em;
+      display: block;
+      margin-top: 12px;
+      transform: rotate(-2deg);
+    }
+    .story-outro__text {
+      font-size: 1rem;
+      color: var(--ink-mute);
+      max-width: 440px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .story-outro__actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
+       МОБИЛЬНЫЕ
+       ============================================================ */
+    @media (max-width: 900px) {
+      .ps-app {
+        grid-template-columns: 1fr;
+        grid-template-rows: 32px 1fr 24px;
+      }
+      .ps-toolbar { display: none; }
+      .ps-panels { display: none; }
+      .ps-canvas { grid-column: 1; grid-row: 2; }
+      .ps-menu { display: none; }
+      .ps-workspace { display: none; }
+      .canvas-inner { padding: 20px 18px 60px; }
+      .canvas-crop { display: none; }
+      .canvas-file {
+        margin-bottom: 18px;
+        font-size: 0.58rem;
+        padding: 5px 10px;
+      }
+      /* Скрываем часть пиксельных декораций на мобиле */
+      .px-3, .px-4, .px-5, .px-6 { display: none; }
+      .px-1, .px-2 { opacity: .5; }
+
+      .story-timeline { padding-left: 28px; }
+      .story-timeline::before { left: 3px; }
+      .story-chapter { padding-left: 14px; margin-bottom: 60px; }
+      .story-chapter::before { left: -28px; width: 12px; height: 12px; }
+      .story-hero { margin-bottom: 60px; }
+      .story-hero__stats { gap: 20px; padding-top: 22px; }
+      .story-hero__stat strong { font-size: 1.5rem; }
+      .story-hero__stat span { font-size: 0.6rem; }
+
+      .story-floater--left,
+      .story-floater--right { text-align: center; }
+      .story-floater--left .story-photo,
+      .story-floater--right .story-photo { margin-left: auto; margin-right: auto; }
+      .story-photo--polaroid { max-width: 250px; padding: 10px 10px 46px; }
+      .story-photo--taped { max-width: 240px; }
+      .story-photo--neon { max-width: 100%; }
+      .story-photo--sticker { max-width: 190px; }
+
+      .story-floater__duo { flex-direction: column; align-items: center; gap: 18px; }
+      .story-duo { flex-direction: column; gap: 20px; margin: 26px 0; }
+      .story-duo .story-photo--polaroid { max-width: 220px; }
+
+      .story-video,
+      .story-video--small {
+        max-width: 100%;
+        margin: 24px auto;
+        transform: rotate(0);
+        box-shadow: 5px 5px 0 rgba(255,34,34,.35);
+      }
+      .story-video:hover { transform: none; }
+      .story-quote { padding: 18px 20px 18px 36px; font-size: 1.1rem; }
+      .story-quote::before { font-size: 2rem; left: 10px; top: 8px; }
+      .story-outro { padding: 44px 20px; margin-top: 60px; }
+      .story-outro__actions { flex-direction: column; gap: 12px; }
+      .story-outro__actions .btn { width: 100%; justify-content: center; }
+
+      .story-photo::after { opacity: .4; }
+      .story-video::after { opacity: .55; }
+    }
+
+    @media (max-width: 380px) {
+      .ps-doc-name { display: none; }
+      .story-hero__title { font-size: clamp(1.8rem, 10vw, 2.4rem); }
+      .story-chapter__title { font-size: 1.3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .story-video__rec,
+      .ps-statusbar__right::before {
+        animation: none !important;
+      }
+      .px-cloud span, .px-cross::before, .px-cross::after { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ps-app">
+
+  <!-- ============================================================
+       TOP MENUBAR
+       ============================================================ -->
+  <header class="ps-menubar">
+    <span class="ps-logo">Ps</span>
+    <span class="ps-doc-name">SPODZH_STORY.psd</span>
+    <span class="ps-doc-meta">@ 66.7% (RGB/8)</span>
+
+    <nav class="ps-menu">
+      <span>Файл</span>
+      <span>Редактирование</span>
+      <span>Изображение</span>
+      <span>Слой</span>
+      <span>Текст</span>
+      <span>Фильтр</span>
+      <span>Вид</span>
+      <span>Окно</span>
+      <span>Справка</span>
+    </nav>
+
+    <div class="ps-menubar__right">
+      <span class="ps-workspace">◉ ESSENTIAL</span>
+      <a href="index.html" class="ps-close" title="Закрыть">×</a>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       LEFT TOOLBAR
+       ============================================================ -->
+  <aside class="ps-toolbar" aria-label="Инструменты">
+
+    <button class="ps-tool is-active" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v12M2 8h12M8 2L6 4M8 2l2 2M8 14l-2-2M8 14l2-2M2 8l2-2M2 8l2 2M14 8l-2-2M14 8l-2 2"/></svg>
+      <span class="ps-tool__label">Перемещение (V)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2.5" y="2.5" width="11" height="11" stroke-dasharray="2 2"/></svg>
+      <span class="ps-tool__label">Область (M)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M3 9c0-3 3-5.5 5-5.5s5 2.5 5 5.5-2 4-5 4-3 .5-3 1.5"/></svg>
+      <span class="ps-tool__label">Лассо (L)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M4 2v10h10M2 4h10v10"/></svg>
+      <span class="ps-tool__label">Рамка (C)</span>
+    </button>
+
+    <div class="ps-tool-divider"></div>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M11 2l3 3-8 8-3 1 1-3z"/></svg>
+      <span class="ps-tool__label">Пипетка (I)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13c2-1 3-3 4-5l5-5 2 2-5 5c-2 1-4 2-5 4l-1-1z"/></svg>
+      <span class="ps-tool__label">Кисть (B)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M2 11l6-6 6 6-3 3H5z"/></svg>
+      <span class="ps-tool__label">Ластик (E)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h10v2.2h-1.4v7.6h-1.4V5.2H8.5v7.6H7.1V5.2H5.6v7.6H4.2V5.2H3z"/></svg>
+      <span class="ps-tool__label">Текст (T)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 2l3 4-3 8-3-8z"/><circle cx="8" cy="11" r="1" fill="currentColor"/></svg>
+      <span class="ps-tool__label">Перо (P)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2.5" y="2.5" width="8" height="8"/><circle cx="11" cy="11" r="3"/></svg>
+      <span class="ps-tool__label">Фигура (U)</span>
+    </button>
+
+    <div class="ps-tool-divider"></div>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M4 8l4-4 4 4M4 8v4h8V8M8 4v8"/></svg>
+      <span class="ps-tool__label">Рука (H)</span>
+    </button>
+
+    <button class="ps-tool" type="button">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+      <span class="ps-tool__label">Масштаб (Z)</span>
+    </button>
+
+  </aside>
+
+  <!-- ============================================================
+       CANVAS
+       ============================================================ -->
+  <main class="ps-canvas" id="psCanvas">
+
+    <!-- ФОНОВЫЕ СЛОИ -->
+    <div class="canvas-bg" aria-hidden="true"></div>
+    <div class="canvas-grid" aria-hidden="true"></div>
+    <div class="canvas-noise" aria-hidden="true"></div>
+
+    <!-- ПИКСЕЛЬНЫЕ ДЕКОРАЦИИ (как PNG-объекты на макете) -->
+
+    <!-- Пиксель-облако слева сверху -->
+    <div class="pixel-deco px-cloud px-1" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Пиксель-крестик справа -->
+    <div class="pixel-deco px-cross px-2" aria-hidden="true"></div>
+
+    <!-- Пиксельная стрелка слева -->
+    <div class="pixel-deco px-arrow px-3" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" stroke-width="2" stroke-linecap="square">
+        <path d="M6 26 L24 8"/>
+        <path d="M16 8 L24 8 L24 16"/>
+      </svg>
+    </div>
+
+    <!-- Пиксель-точки справа -->
+    <div class="pixel-deco px-dots px-4" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Пиксельная линия слева -->
+    <div class="pixel-deco px-line px-5" aria-hidden="true"></div>
+
+    <!-- Ещё одно пиксель-облако справа снизу -->
+    <div class="pixel-deco px-cloud px-6" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- РУЛЕР -->
+    <div class="canvas-ruler">
+      <span class="canvas-ruler__marks">
+        <span>0</span><span>200</span><span>400</span><span>600</span><span>800</span><span>1000</span>
+      </span>
+    </div>
+
+    <!-- CROP МЕТКИ -->
+    <span class="canvas-crop canvas-crop--tl" aria-hidden="true"></span>
+    <span class="canvas-crop canvas-crop--tr" aria-hidden="true"></span>
+    <span class="canvas-crop canvas-crop--bl" aria-hidden="true"></span>
+    <span class="canvas-crop canvas-crop--br" aria-hidden="true"></span>
+
+    <div class="canvas-inner">
+
+      <div class="canvas-file">
+        <span class="canvas-file__name">▸ SPODZH_STORY.PSD</span>
+        <div class="canvas-file__right">
+          <span>RGB · 8 бит · 1920×1080</span>
+          <span class="canvas-file__chip">88.6 МБ</span>
+        </div>
+      </div>
+
+      <!-- ================= STORY ================= -->
+      <div class="story-wrap">
+
+        <header class="story-hero">
+          <span class="story-hero__tag">[ FILE_000 / ORIGIN_STORY ]</span>
+          <h1 class="story-hero__title">
+            КАК Я
+            <span class="accent">СТАЛ SPODZH</span>
+          </h1>
+          <p class="story-hero__sub">путь от 12-летнего пацана до 45 000 подписчиков</p>
+          <p class="story-hero__desc">
+            Это не просто история успеха. Это история про мальчика из Гомеля,
+            который с 11 лет знал, что хочет снимать видео — и шёл к этому,
+            падал, вставал и продолжал.
+          </p>
+
+          <div class="story-hero__stats">
+            <div class="story-hero__stat">
+              <strong>2004</strong>
+              <span>год рождения</span>
+            </div>
+            <div class="story-hero__stat">
+              <strong>3 года</strong>
+              <span>в контенте</span>
+            </div>
+            <div class="story-hero__stat">
+              <strong>45K+</strong>
+              <span>подписчиков</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="story-timeline">
+
+          <!-- ГЛАВА 1 -->
+          <article class="story-chapter" id="chapter_01">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_001 ]</span>
+              <span class="story-chapter__date">2004 · Гомель</span>
+            </div>
+            <h2 class="story-chapter__title">Начало<span class="accent">.</span></h2>
+            <p>
+              Я родился <strong>18 июня 2004 года</strong> в Гомеле — небольшом городе
+              на востоке Беларуси. Настоящее имя — <strong>Владислав Жуков</strong>.
+              Рос в обычной семье, как и все другие дети.
+            </p>
+
+            <div class="story-video">
+              <span class="story-video__rec">● REC</span>
+              <span class="story-video__tc" data-tc>00:00</span>
+              <video class="story-video__el" muted autoplay loop playsinline preload="metadata">
+                <source src="assets/child.mp4" type="video/mp4">
+              </video>
+              <div class="story-video__caption">архив 2005 · детство</div>
+            </div>
+          </article>
+
+          <!-- ГЛАВА 2 -->
+          <article class="story-chapter" id="chapter_02">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_002 ]</span>
+              <span class="story-chapter__date">2011 · 7 лет</span>
+            </div>
+            <h2 class="story-chapter__title">Первое знакомство<span class="accent">.</span></h2>
+            <p>
+              В школе я учился <strong>средне</strong> — не был ни отличником,
+              ни двоечником. Обычный пацан. Но в 11 лет я открыл для себя
+              <strong>YouTube</strong> — и это перевернуло всё.
+            </p>
+
+            <div class="story-floater story-floater--left">
+              <div class="story-photo story-photo--polaroid">
+                <span class="story-photo__num">IMG_002</span>
+                <img src="https://i.ibb.co/pjNRTng5/image.png" alt="Школьное фото" loading="lazy">
+                <div class="story-photo__caption">школьные годы</div>
+              </div>
+            </div>
+
+            <p>
+              С того момента я мечтал стать популярным блогером. Другие профессии
+              меня <em>вообще не интересовали</em> — только контент, только камера,
+              только творчество.
+            </p>
+
+            <div class="story-floater story-floater--right">
+              <div class="story-floater__duo story-floater__duo--right">
+                <div class="story-photo story-photo--sticker">
+                  <img src="https://i.ibb.co/xSskfxML/image.png" alt="Детство" loading="lazy">
+                  <div class="story-photo__caption">архив</div>
+                </div>
+                <div class="story-photo story-photo--taped is-right">
+                  <span class="story-photo__num">IMG_003</span>
+                  <img src="https://i.ibb.co/kVvjPpCL/image.png" alt="Детство" loading="lazy">
+                  <div class="story-photo__caption">архив</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- ГЛАВА 3 -->
+          <article class="story-chapter" id="chapter_03">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_003 ]</span>
+              <span class="story-chapter__date">2016 · 12 лет</span>
+            </div>
+            <h2 class="story-chapter__title">Первое видео<span class="accent">.</span></h2>
+            <p>
+              Я с детства любил снимать. И в 2016 году, когда мне было
+              <strong>12 лет</strong>, я выложил своё первое видео. Это был
+              геймплей <strong>GTA 5</strong> — я просто записал экран и
+              попробовал, что получится.
+            </p>
+
+            <div class="story-floater story-floater--right">
+              <div class="story-photo story-photo--taped is-right">
+                <span class="story-photo__num">IMG_005</span>
+                <img src="https://i.ibb.co/LdT3QYV9/image.png" alt="Скриншот первого видео" loading="lazy">
+                <div class="story-photo__caption">то самое видео · я в правом нижнем углу</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- ГЛАВА 4 -->
+          <article class="story-chapter" id="chapter_04">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_004 ]</span>
+              <span class="story-chapter__date">2018–2021 · 14–17 лет</span>
+            </div>
+            <h2 class="story-chapter__title">TikTok era<span class="accent">.</span></h2>
+            <p>
+              В 2018 году я узнал, что такое <strong>TikTok</strong>. Но долго
+              не решался туда снимать — боялся, не знал, что делать, как это
+              работает.
+            </p>
+
+            <div class="story-quote">
+              Я не знал, что делаю. Но я знал, что хочу этим заниматься.
+            </div>
+
+            <p>
+              Только в <strong>2020 году</strong> я выложил первое видео в TikTok.
+              Тогда у меня <em>ничего не получалось</em>. Просмотры были копеечные,
+              подписчиков почти не было. Но я не бросил.
+            </p>
+
+            <div class="story-duo">
+              <div class="story-video story-video--small">
+                <span class="story-video__rec">● ARCHIVE</span>
+                <span class="story-video__tc" data-tc>00:00</span>
+                <video class="story-video__el" muted autoplay loop playsinline preload="metadata">
+                  <source src="assets/video2.mp4" type="video/mp4">
+                </video>
+                <div class="story-video__caption">ранние ролики · 2021</div>
+              </div>
+
+              <div class="story-photo story-photo--polaroid is-right">
+                <span class="story-photo__num">IMG_008</span>
+                <img src="https://i.ibb.co/pr6s4v9c/image.png" alt="TikTok era" loading="lazy">
+                <div class="story-photo__caption">тот самый период</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- ГЛАВА 5 -->
+          <article class="story-chapter" id="chapter_05">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_005 ]</span>
+              <span class="story-chapter__date">2021 · 17 лет</span>
+            </div>
+            <h2 class="story-chapter__title">Перезапуск<span class="accent">.</span></h2>
+            <p>
+              В <strong>2021 году</strong> я создал нынешний аккаунт. Раньше он
+              назывался <strong>«sweetasss»</strong> — и это было начало чего-то
+              нового.
+            </p>
+
+            <div class="story-floater story-floater--left">
+              <div class="story-photo story-photo--taped">
+                <span class="story-photo__num">IMG_006</span>
+                <img src="https://i.ibb.co/LHN4WPm/image.png" alt="Скриншот TikTok · начало 2024" loading="lazy">
+                <div class="story-photo__caption">аккаунт · начало 2024</div>
+              </div>
+            </div>
+
+            <p>
+              Я начал пробовать разные форматы, искать свой стиль. Пока однажды
+              не понял: <em>нужно просто быть собой</em>.
+            </p>
+          </article>
+
+          <!-- ГЛАВА 6 -->
+          <article class="story-chapter" id="chapter_06">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_006 ]</span>
+              <span class="story-chapter__date">2022 · 18 лет</span>
+            </div>
+            <h2 class="story-chapter__title">Переломный момент<span class="accent">.</span></h2>
+            <p>
+              Я решил попробовать: поставил камеру на штатив и снял себя
+              сверху вниз под песню <strong>Валентина Стрыкало — «45 лет»</strong>.
+              И тут <strong>всё началось</strong>.
+            </p>
+
+            <div class="story-floater story-floater--left">
+              <div class="story-video story-video--small">
+                <span class="story-video__rec">● REC</span>
+                <span class="story-video__tc" data-tc>00:00</span>
+                <video class="story-video__el" muted autoplay loop playsinline preload="metadata">
+                  <source src="assets/video1.mp4" type="video/mp4">
+                </video>
+                <div class="story-video__caption">тот самый формат · 2024</div>
+              </div>
+            </div>
+
+            <div class="story-quote">
+              Чувак, тебе 45 лет, пойди и найди работу. (с) Стрыкало — но я нашёл работу мечты.
+            </div>
+
+            <p>
+              Это видео попало в рекомендации. Я продолжил снимать под Стрыкало,
+              а потом добавил <strong>Noize MC, KSB Music, Anacondaz</strong> —
+              и других исполнителей в одном стиле. Мой стиль начал формироваться.
+            </p>
+          </article>
+
+          <!-- ГЛАВА 7 -->
+          <article class="story-chapter" id="chapter_07">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_007 ]</span>
+              <span class="story-chapter__date">2023 · 19 лет</span>
+            </div>
+            <h2 class="story-chapter__title">Эволюция<span class="accent">.</span></h2>
+            <p>
+              Через полгода после переломного момента я открыл для себя
+              <strong>CapCut</strong> — и начал уделять монтажу
+              <strong>1–2 часа в день</strong>.
+            </p>
+
+            <div class="story-floater story-floater--left">
+              <div class="story-photo story-photo--neon is-right">
+                <span class="story-photo__num">IMG_009</span>
+                <img src="https://i.ibb.co/svjgjGt7/image.png" alt="Эволюция" loading="lazy">
+                <div class="story-photo__caption">время первых монтажей</div>
+              </div>
+            </div>
+
+            <p>
+              Тут пошли <strong>первая коллаборация</strong>,
+              <strong>первая реклама</strong> и <strong>сотрудничества</strong>.
+              Я перестал быть просто «парнем с телефоном» — я стал монтажёром.
+            </p>
+          </article>
+
+          <!-- ГЛАВА 8 -->
+          <article class="story-chapter is-last" id="chapter_08">
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_008 ]</span>
+              <span class="story-chapter__date">2024–2026 · Сейчас</span>
+            </div>
+            <h2 class="story-chapter__title">Настоящее<span class="accent">.</span></h2>
+            <p>
+              На данный момент — <strong>октябрь 2026 года</strong> — я снимаю
+              видео более <strong>трёх лет</strong> и занимаюсь монтажом около
+              <strong>двух лет</strong>.
+            </p>
+            <p>
+              У меня <strong>45 000+ подписчиков</strong> в TikTok. Я работал
+              с брендами <strong>LOOP</strong> и <strong>ANGOC</strong>,
+              делал коллабы с блогерами. И это только начало.
+            </p>
+
+            <p>
+              Если ты читаешь это — значит, я всё ещё иду. И, кажется, у меня
+              получается. Но это только начало пути.
+            </p>
+
+            <div class="story-floater story-floater--center">
+              <div class="story-photo story-photo--neon">
+                <span class="story-photo__num">IMG_007 · NOW</span>
+                <img src="https://i.ibb.co/gLM2hYg3/image.png" alt="Нынешнее фото" loading="lazy">
+                <div class="story-photo__caption">сейчас · 2026</div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- ЭПИЛОГ -->
+        <div class="story-outro" id="story_outro">
+          <span class="story-outro__tag">[ FILE_009 / TO_BE_CONTINUED ]</span>
+          <h2 class="story-outro__title">
+            ПРОДОЛЖЕНИЕ СЛЕДУЕТ
+            <span class="hand">история только начинается</span>
+          </h2>
+          <p class="story-outro__text">
+            Я не знаю, куда это приведёт. Но я точно знаю одно:
+            я буду снимать, монтировать и создавать. И это только первая глава.
+          </p>
+          <div class="story-outro__actions">
+            <a href="index.html" class="btn btn--primary">
+              <span>ВЕРНУТЬСЯ НА САЙТ</span>
+            </a>
+            <a href="index.html#contacts" class="btn btn--ghost">
+              <span>СВЯЗАТЬСЯ СО МНОЙ</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       RIGHT PANELS
+       ============================================================ -->
+  <aside class="ps-panels">
+
+    <!-- СЛОИ -->
+    <div class="ps-panel">
+      <div class="ps-panel__head">Слои</div>
+      <div class="ps-panel__body ps-layers">
+        <div class="ps-layer-group">SPODZH_STORY.psd</div>
+
+        <div class="ps-layer is-active" data-target="chapter_01">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>01</span></span>
+          <span class="ps-layer__name">chapter_01_начало</span>
+        </div>
+        <div class="ps-layer" data-target="chapter_02">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>02</span></span>
+          <span class="ps-layer__name">chapter_02_знакомство</span>
+        </div>
+        <div class="ps-layer" data-target="chapter_03">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>03</span></span>
+          <span class="ps-layer__name">chapter_03_первое_видео</span>
+        </div>
+        <div class="ps-layer" data-target="chapter_04">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>04</span></span>
+          <span class="ps-layer__name">chapter_04_tiktok_era</span>
+        </div>
+        <div class="ps-layer" data-target="chapter_05">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>05</span></span>
+          <span class="ps-layer__name">chapter_05_перезапуск</span>
+        </div>
+        <div class="ps-layer" data-target="chapter_06">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>06</span></span>
+          <span class="ps-layer__name">chapter_06_перелом</span>
+        </div>
+        <div class="ps-layer" data-target="chapter_07">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>07</span></span>
+          <span class="ps-layer__name">chapter_07_эволюция</span>
+        </div>
+        <div class="ps-layer" data-target="chapter_08">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>08</span></span>
+          <span class="ps-layer__name">chapter_08_сейчас</span>
+        </div>
+        <div class="ps-layer" data-target="story_outro">
+          <span class="ps-layer__eye">👁</span>
+          <span class="ps-layer__thumb"><span>09</span></span>
+          <span class="ps-layer__name">outro_to_be_continued</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- СВОЙСТВА -->
+    <div class="ps-panel">
+      <div class="ps-panel__head">Свойства</div>
+      <div class="ps-panel__body">
+        <div class="ps-prop">
+          <span class="ps-prop__label">Документ</span>
+          <span class="ps-prop__value">1920 × 1080 px</span>
+        </div>
+        <div class="ps-prop">
+          <span class="ps-prop__label">Режим</span>
+          <span class="ps-prop__value ps-prop__value--accent">RGB / 8 бит</span>
+        </div>
+        <div class="ps-prop">
+          <span class="ps-prop__label">Разрешение</span>
+          <span class="ps-prop__value">72 ppi</span>
+        </div>
+        <div class="ps-prop">
+          <span class="ps-prop__label">Слоёв</span>
+          <span class="ps-prop__value ps-prop__value--yellow">09</span>
+        </div>
+        <div class="ps-prop">
+          <span class="ps-prop__label">Память</span>
+          <span class="ps-prop__value ps-prop__value--red">88.6 МБ</span>
+        </div>
+
+        <div class="ps-prop" style="margin-top:8px;">
+          <span class="ps-prop__label">Палитра</span>
+          <span class="ps-prop__value"></span>
+        </div>
+        <div class="ps-swatch-row">
+          <span class="ps-swatch" style="background:#0d0d14;"></span>
+          <span class="ps-swatch" style="background:#00e5ff;"></span>
+          <span class="ps-swatch" style="background:#4f7dff;"></span>
+          <span class="ps-swatch" style="background:#ff2d75;"></span>
+          <span class="ps-swatch" style="background:#ffd93d;"></span>
+          <span class="ps-swatch" style="background:#f5f1e8;"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ИСТОРИЯ -->
+    <div class="ps-panel">
+      <div class="ps-panel__head">История</div>
+      <div class="ps-panel__body">
+        <div class="ps-hist">Открыть файл</div>
+        <div class="ps-hist">Новый слой → фон</div>
+        <div class="ps-hist">Импорт фото</div>
+        <div class="ps-hist">Текст → заголовок</div>
+        <div class="ps-hist">Кисть → пометки</div>
+        <div class="ps-hist">Фильтр → зерно</div>
+        <div class="ps-hist">Экспорт → PNG</div>
+        <div class="ps-hist is-current">Текущий слой</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ============================================================
+       BOTTOM STATUS BAR
+       ============================================================ -->
+  <footer class="ps-statusbar">
+    <span class="ps-statusbar__zoom">66.7%</span>
+    <span class="ps-statusbar__mem">88.6М / 249.3М</span>
+    <span>Слой: <b style="color:var(--cyan)">chapter_01_начало</b></span>
+    <span class="ps-statusbar__right">SPODZH // PHOTOSHOP</span>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    'use strict';
+
+    /* ---------- Ускорение всех видео ×2 + автопауза ---------- */
+    var videos = document.querySelectorAll('.story-video__el');
+    videos.forEach(function (video) {
+      video.muted = true;
+      video.playbackRate = 2.0;
+      video.addEventListener('loadedmetadata', function () {
+        video.playbackRate = 2.0;
+      });
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              video.play().catch(function () {});
+            } else {
+              video.pause();
+            }
+          });
+        }, { threshold: 0.1 });
+        io.observe(video);
+      } else {
+        video.play().catch(function () {});
+      }
+    });
+
+    /* ---------- Таймкоды на видео ---------- */
+    document.querySelectorAll('[data-tc]').forEach(function (tcEl) {
+      var video = tcEl.parentElement.querySelector('video');
+      if (!video) return;
+      setInterval(function () {
+        var t = (video.currentTime || 0) * 2;
+        var m = Math.floor(t / 60);
+        var s = Math.floor(t % 60);
+        tcEl.textContent =
+          String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      }, 250);
+    });
+
+    /* ---------- Клик по слою — скролл к главе ---------- */
+    var canvas = document.getElementById('psCanvas');
+    var layerEls = document.querySelectorAll('.ps-layer');
+
+    layerEls.forEach(function (layer) {
+      layer.addEventListener('click', function () {
+        var id = layer.getAttribute('data-target');
+        var target = document.getElementById(id);
+        if (!target) return;
+        var canvasTop = canvas.getBoundingClientRect().top;
+        var targetTop = target.getBoundingClientRect().top;
+        var offset = targetTop - canvasTop + canvas.scrollTop - 60;
+        canvas.scrollTo({ top: offset, behavior: 'smooth' });
+      });
+    });
+
+    /* ---------- Автоподсветка активного слоя ---------- */
+    var chapters = document.querySelectorAll('.story-chapter, .story-outro');
+
+    function setActive(id) {
+      layerEls.forEach(function (el) {
+        el.classList.toggle('is-active', el.getAttribute('data-target') === id);
+      });
+      var statusLayer = document.querySelector('.ps-statusbar b');
+      if (statusLayer) {
+        var activeEl = document.querySelector('.ps-layer.is-active');
+        if (activeEl) {
+          var name = activeEl.querySelector('.ps-layer__name');
+          if (name) statusLayer.textContent = name.textContent;
+        }
+      }
+    }
+
+    if ('IntersectionObserver' in window && canvas) {
+      var chObs = new IntersectionObserver(function (entries) {
+        var visible = entries.filter(function (e) { return e.isIntersecting; });
+        if (!visible.length) return;
+        visible.sort(function (a, b) {
+          return a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top;
+        });
+        var id = visible[0].target.id;
+        if (id) setActive(id);
+      }, {
+        root: canvas,
+        threshold: 0.2,
+        rootMargin: '-60px 0px -50% 0px'
+      });
+      chapters.forEach(function (ch) {
+        if (ch.id) chObs.observe(ch);
+      });
+    }
+
+    console.log('%cPHOTOSHOP × SPODZH // story.psd loaded', 'color:#00e5ff; font-size:12px; font-family:monospace;');
+  })();
+</script>
+
+</body>
+</html>

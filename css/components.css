@@ -470,3 +470,77 @@
   .logo-text { font-size: 1rem; }
   .logo-text small { display: none; }
 }
+
+/* ============================================================
+   NAV ACTIONS (язык + бургер)
+   ============================================================ */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Переключатель языка */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  transition: var(--transition);
+  text-transform: uppercase;
+  font-weight: 500;
+  min-height: 44px;
+}
+.lang-switch:hover {
+  border-color: var(--red);
+  color: var(--ink);
+}
+.lang-switch__current {
+  color: var(--red);
+  font-weight: 700;
+}
+.lang-switch__divider {
+  opacity: .4;
+}
+.lang-switch__other {
+  transition: color .25s;
+}
+.lang-switch:hover .lang-switch__other {
+  color: var(--yellow);
+}
+
+/* Кнопка истории — с бейджем */
+.btn--story {
+  position: relative;
+}
+.btn--story::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 10px var(--yellow);
+  animation: storyDotPulse 2s ease-in-out infinite;
+}
+@keyframes storyDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .5; transform: scale(.85); }
+}
+
+@media (max-width: 767px) {
+  .lang-switch {
+    padding: 8px 10px;
+    font-size: 0.68rem;
+    min-height: 40px;
+  }
+}
