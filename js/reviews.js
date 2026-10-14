@@ -1,5 +1,6 @@
 /* ============================================================
    REVIEWS.JS — FEEDBACK ARCHIVE (Cloudflare Worker + D1)
+   С автовысотой textarea и улучшенной валидацией
    ============================================================ */
 (function () {
   'use strict';
@@ -211,7 +212,6 @@
       grid.appendChild(card);
     });
 
-    // Reveal
     if ('IntersectionObserver' in window) {
       var obs = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -231,11 +231,28 @@
   function bindForm(form) {
     var textarea = form.querySelector('[name="text"]');
     var counter = form.querySelector('[data-counter]');
+
     if (textarea && counter) {
+      /* Автовысота: textarea растёт при вводе длинного текста */
+      var autoGrow = function () {
+        textarea.style.height = 'auto';
+        var newHeight = Math.max(140, textarea.scrollHeight);
+        textarea.style.height = newHeight + 'px';
+      };
+
       textarea.addEventListener('input', function () {
         counter.textContent = textarea.value.length + ' / ' + MAX_TEXT;
         counter.classList.toggle('review-form__counter--warn',
           textarea.value.length > MAX_TEXT * 0.9);
+        autoGrow();
+      });
+
+      /* Стартовая высота */
+      autoGrow();
+
+      /* На случай сброса формы — возвращаем высоту к старту */
+      form.addEventListener('reset', function () {
+        setTimeout(autoGrow, 0);
       });
     }
 
@@ -251,14 +268,12 @@
       var honeypot = (form.website.value || '').trim();
       var agree = form.agree.checked;
 
-      // Honeypot
       if (honeypot) {
         showNotice('success', 'Спасибо! Отзыв получен.');
         form.reset();
         return;
       }
 
-      // Валидация
       if (author.length < 2) return showNotice('error', 'Имя слишком короткое');
       if (text.length < MIN_TEXT) return showNotice('error', 'Отзыв должен быть минимум ' + MIN_TEXT + ' символов');
       if (text.length > MAX_TEXT) return showNotice('error', 'Отзыв слишком длинный');
@@ -310,11 +325,12 @@
       });
     });
 
-    // Read more
-    form.addEventListener('click', function (e) {
+    /* Read more в карточках (клики) */
+    form.parentNode.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-action="read-more"]');
       if (!btn) return;
       var card = btn.closest('.review-card');
+      if (!card) return;
       var textEl = card.querySelector('.review-card__text');
       if (!textEl) return;
       var expanded = textEl.classList.toggle('expanded');
