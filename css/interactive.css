@@ -1,0 +1,478 @@
+/* ============================================================
+   INTERACTIVE.CSS — V3
+   Дудлы, призрак, пиксель-цензура, глитч, микроинтеракции.
+   Всё работает поверх существующего сайта.
+   Десктоп не изменяется: слои pointer-events: none.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Подстраховка: секция проектов должна быть relative
+   (если ещё не relative — сейчас добавим безопасно)
+   ------------------------------------------------------------ */
+.projects-new { position: relative; }
+
+/* ============================================================
+   1. DOODLE-СЛОЙ
+   ============================================================ */
+.doodle-item {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .7s cubic-bezier(.22, 1, .36, 1);
+  z-index: 4;
+}
+.doodle-item.visible { opacity: 1; }
+
+.doodle-item svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.doodle-item .draw {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.2s cubic-bezier(.22, 1, .36, 1);
+}
+.doodle-item.visible .draw { stroke-dashoffset: 0; }
+.doodle-item .draw--delay {
+  transition-delay: .4s;
+}
+
+/* Рукописные подписи */
+.doodle-item--hand {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  color: var(--yellow);
+  font-size: 1.5rem;
+  line-height: 1;
+  white-space: nowrap;
+  transform: rotate(var(--rot, -4deg));
+  text-shadow: 0 0 20px rgba(255, 217, 61, .35);
+}
+.doodle-item--hand.doodle-note-hero    { --rot: -6deg; }
+.doodle-item--hand.doodle-note-about   { --rot: 4deg; }
+.doodle-item--hand.doodle-note-work    { --rot: -3deg; }
+.doodle-item--hand.doodle-note-services { --rot: 5deg; }
+.doodle-item--hand.doodle-note-contact { --rot: -5deg; }
+
+/* Позиции внутри секций */
+.doodle-arrow-hero    { top: 20%; right: 3%;  width: 96px; height: 56px; }
+.doodle-arrow-work    { top: 6%;  right: 44%; width: 76px; height: 44px; }
+.doodle-note-hero     { top: 16%; right: 2%; }
+.doodle-note-about    { top: 5%;  right: 3%; }
+.doodle-note-work     { top: 3%;  right: 3%; }
+.doodle-note-services { top: 5%;  right: 3%; }
+.doodle-note-contact  { top: 5%;  right: 3%; }
+.doodle-star-1        { top: 40%; left: 3%;  width: 32px; height: 32px; }
+.doodle-star-2        { bottom: 12%; right: 4%; width: 26px; height: 26px; }
+.doodle-cross-1       { bottom: 8%; left: 4%; width: 24px; height: 24px; }
+
+/* Мобильные: уменьшаем количество декораций */
+@media (max-width: 767px) {
+  .doodle-arrow-hero,
+  .doodle-arrow-work,
+  .doodle-star-1,
+  .doodle-star-2,
+  .doodle-cross-1 { display: none; }
+
+  .doodle-item--hand { font-size: 1.2rem; }
+  .doodle-note-hero { top: auto; bottom: -22px; right: 0; }
+  .doodle-note-about,
+  .doodle-note-work,
+  .doodle-note-services,
+  .doodle-note-contact { top: 0; right: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodle-item,
+  .doodle-item .draw {
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   2. ПРИЗРАК-МАСКОТ (bottom-right corner)
+   ============================================================ */
+.ghost-corner {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 62px;
+  height: 62px;
+  z-index: 950;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s cubic-bezier(.22, 1, .36, 1),
+              transform .6s cubic-bezier(.22, 1, .36, 1);
+  animation: ghostFloat 3.2s ease-in-out infinite;
+}
+.ghost-corner.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ghost-corner img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(74, 155, 168, .65))
+          drop-shadow(0 0 28px rgba(255, 34, 34, .3));
+  transition: filter .3s;
+}
+.ghost-corner:hover img {
+  filter: drop-shadow(0 0 22px rgba(255, 34, 34, .85))
+          drop-shadow(0 0 44px rgba(255, 34, 34, .5));
+}
+
+.ghost-corner__hint {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  color: var(--yellow);
+  font-family: var(--f-hand);
+  font-size: 1.15rem;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none;
+  box-shadow: 0 0 20px rgba(0,0,0,.6);
+}
+.ghost-corner:hover .ghost-corner__hint,
+.ghost-corner.show-hint .ghost-corner__hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Анимации-отклики при клике */
+.hero-ghost.is-wiggling,
+.ghost-corner.is-wiggling {
+  animation: ghostWiggle .9s ease-in-out;
+}
+@keyframes ghostWiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  20%      { transform: rotate(-16deg) scale(1.08); }
+  45%      { transform: rotate(14deg) scale(1.14); }
+  70%      { transform: rotate(-8deg) scale(1.06); }
+  100%     { transform: rotate(0) scale(1); }
+}
+
+.ghost-corner.is-flipping {
+  animation: ghostFlip .95s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes ghostFlip {
+  0%   { transform: rotate(0) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.18); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.ghost-corner.is-pixel {
+  animation: ghostPixel .9s steps(6);
+}
+@keyframes ghostPixel {
+  0%, 100% { filter: none; }
+  40%      { filter: blur(2px) contrast(3) saturate(0); }
+  70%      { filter: blur(0) contrast(2) hue-rotate(90deg); }
+}
+
+@media (max-width: 767px) {
+  .ghost-corner {
+    width: 52px;
+    height: 52px;
+    bottom: 18px;
+    right: 18px;
+  }
+  .ghost-corner__hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ghost-corner { animation: none; }
+  .ghost-corner.is-wiggling,
+  .ghost-corner.is-flipping,
+  .ghost-corner.is-pixel { animation: none; }
+}
+
+/* ============================================================
+   3. ГЛИТЧ-ФЛЕШ (переход между состояниями)
+   ============================================================ */
+.glitch-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent 0, rgba(255,34,34,.32) 22%, transparent 24%),
+    linear-gradient(90deg, transparent 76%, rgba(74,155,168,.32) 78%, transparent 80%);
+  mix-blend-mode: screen;
+}
+.glitch-flash.run {
+  animation: glitchFlash .34s steps(3);
+}
+@keyframes glitchFlash {
+  0%   { opacity: 0; transform: translateX(0); }
+  25%  { opacity: 1; transform: translateX(-7px); }
+  50%  { opacity: .6; transform: translateX(5px); }
+  75%  { opacity: .3; transform: translateX(-2px); }
+  100% { opacity: 0; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glitch-flash { display: none; }
+}
+
+/* ============================================================
+   4. ПИКСЕЛЬ-ЦЕНЗУРА (волна блоков при hover)
+   ============================================================ */
+.tile__thumb .pixel-censor,
+.featured__media .pixel-censor {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  opacity: 0;
+  transition: opacity .15s;
+}
+.tile:hover .tile__thumb .pixel-censor,
+.featured:hover .featured__media .pixel-censor {
+  opacity: 1;
+}
+.pixel-censor i {
+  background: #000;
+  display: block;
+  opacity: 0;
+}
+.tile:hover .tile__thumb .pixel-censor i,
+.featured:hover .featured__media .pixel-censor i {
+  animation: pixelCell 700ms steps(2) 1;
+}
+.pixel-censor i:nth-child(3n)    { animation-delay: 40ms; }
+.pixel-censor i:nth-child(3n+1)  { animation-delay: 90ms; }
+.pixel-censor i:nth-child(5n)    { animation-delay: 160ms; }
+.pixel-censor i:nth-child(7n)    { animation-delay: 240ms; }
+.pixel-censor i:nth-child(11n)   { animation-delay: 300ms; }
+.pixel-censor i:nth-child(13n)   { animation-delay: 360ms; }
+
+@keyframes pixelCell {
+  0%   { opacity: 1; }
+  45%  { opacity: 0; }
+  60%  { opacity: .7; }
+  100% { opacity: 0; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .tile__thumb .pixel-censor,
+  .featured__media .pixel-censor { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile__thumb .pixel-censor,
+  .featured__media .pixel-censor { display: none; }
+}
+
+/* ============================================================
+   5. МИКРОИНТЕРАКЦИИ
+   ============================================================ */
+
+/* Nav-ссылки — бегущая красная линия */
+.nav-links a {
+  position: relative;
+  overflow: hidden;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.active::after { transform: scaleX(1); }
+
+/* Кнопки — мягкое свечение при hover */
+.btn--primary {
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1),
+              box-shadow .35s,
+              background .3s,
+              color .3s,
+              border-color .3s;
+}
+.btn--primary:hover {
+  box-shadow: 0 0 32px 0 rgba(255, 34, 34, .45);
+}
+.btn:active { transform: translateY(2px); }
+
+/* Стрелки в CTA-сервисах — сдвиг при hover */
+.service-card__cta svg { transition: transform .3s cubic-bezier(.22, 1, .36, 1); }
+.service-card:hover .service-card__cta svg { transform: translateX(6px); }
+
+/* Contact-карточки — красная полоска сверху при hover */
+.contact-card {
+  position: relative;
+  overflow: hidden;
+}
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--red);
+  transition: width .4s cubic-bezier(.22, 1, .36, 1);
+}
+.contact-card:hover::before { width: 100%; }
+
+/* Nav-подсветка активной секции уже есть в существующем JS — 
+   здесь просто чуть дружелюбнее transition */
+.nav-links a { transition: color .25s, background .25s, border-color .25s; }
+
+@media (hover: none), (pointer: coarse) {
+  .nav-links a::after,
+  .contact-card::before { display: none; }
+}
+
+/* ============================================================
+   6. ПАСХАЛКА — ARCHIVE UNLOCKED
+   ============================================================ */
+.archive-unlocked {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s cubic-bezier(.22, 1, .36, 1), visibility .35s;
+  background: rgba(13, 13, 16, .92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 24px;
+  pointer-events: none;
+}
+.archive-unlocked.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.archive-unlocked__inner {
+  position: relative;
+  max-width: 520px;
+  width: 100%;
+  padding: 52px 40px 44px;
+  background: var(--bg);
+  border: 2px solid var(--red);
+  box-shadow: 0 0 80px rgba(255, 34, 34, .6);
+  text-align: center;
+  transform: scale(.94);
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+}
+.archive-unlocked.show .archive-unlocked__inner { transform: scale(1); }
+
+.archive-unlocked__corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--red);
+}
+.archive-unlocked__corner--tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+.archive-unlocked__corner--tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+.archive-unlocked__corner--bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+.archive-unlocked__corner--br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+.archive-unlocked__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background .25s, color .25s, transform .3s;
+  display: grid;
+  place-items: center;
+}
+.archive-unlocked__close:hover {
+  background: var(--yellow);
+  color: #000;
+  transform: rotate(90deg);
+}
+
+.archive-unlocked__ghost {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  margin: 0 auto 22px;
+  display: block;
+  filter: drop-shadow(0 0 26px rgba(255, 34, 34, .7));
+  animation: ghostFloat 2.4s ease-in-out infinite;
+}
+
+.archive-unlocked__tag {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .28em;
+  color: var(--red);
+  padding: 6px 14px;
+  border: 1px solid var(--red);
+  margin-bottom: 22px;
+  text-transform: uppercase;
+}
+
+.archive-unlocked__title {
+  font-family: var(--f-cry);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+
+.archive-unlocked__text {
+  font-family: var(--f-hand);
+  font-size: 1.7rem;
+  color: var(--yellow);
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+.archive-unlocked__hint {
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  letter-spacing: .22em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+  .archive-unlocked__inner { padding: 40px 22px 34px; }
+  .archive-unlocked__ghost { width: 68px; height: 68px; margin-bottom: 16px; }
+  .archive-unlocked__text { font-size: 1.35rem; }
+}
+
+/* ============================================================
+   7. БЕЗОПАСНОСТЬ: отключаем hover-залипания на тач
+   ============================================================ */
+@media (hover: none), (pointer: coarse) {
+  .btn--primary:hover { box-shadow: none; }
+  .service-card:hover .service-card__cta svg { transform: none; }
+}
