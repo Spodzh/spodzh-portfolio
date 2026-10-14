@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spodzh — видеомонтажёр, контент-мейкер, оператор</title>
-  <meta name="description" content="Видеомонтажёр и контент-мейкер из Беларуси. Реклама, коллабы, короткие видео." />
+  <title>SPODZH // ARCHIVE_v2.0</title>
+  <meta name="description" content="Видеомонтажёр Spodzh. Секретный видеоархив." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
@@ -22,12 +22,17 @@
     <div class="loader-inner">
       <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" class="loader-logo" />
       <div class="loader-bar"><span></span></div>
-      <p class="loader-text">SPODZH</p>
+      <p class="loader-text">LOADING_ARCHIVE_v2.0...</p>
     </div>
   </div>
 
-  <div class="bg-mesh"></div>
-  <div class="bg-noise"></div>
+  <!-- ================= ФОН ================= -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-scanlines" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <!-- ================= СКРОЛЛ-ПРОГРЕСС ================= -->
   <div class="scroll-progress" id="scrollProgress"></div>
 
   <!-- ================= NAVBAR ================= -->
@@ -37,148 +42,119 @@
         <span class="logo-mark">
           <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="Spodzh" />
         </span>
-        <span class="logo-text">SPODZH<span class="dot">.</span></span>
+        <span class="logo-text">
+          SPODZH
+          <small>ARCHIVE_v2.0</small>
+        </span>
       </a>
 
       <nav class="nav-links" id="navLinks">
-        <a href="#home" data-nav="home">Главная</a>
-        <a href="#about" data-nav="about">Обо мне</a>
-        <a href="#skills" data-nav="skills">Навыки</a>
-        <a href="#projects" data-nav="projects">Проекты</a>
-        <a href="#services" data-nav="services">Услуги</a>
-        <a href="#contacts" data-nav="contacts">Контакты</a>
+        <a href="#home" data-nav="home"><b>01</b> INTRO</a>
+        <a href="#about" data-nav="about"><b>02</b> ABOUT</a>
+        <a href="#skills" data-nav="skills"><b>03</b> SKILLS</a>
+        <a href="#projects" data-nav="projects"><b>04</b> WORK</a>
+        <a href="#services" data-nav="services"><b>05</b> SERVICES</a>
+        <a href="#contacts" data-nav="contacts"><b>06</b> CONTACT</a>
       </nav>
 
       <button class="burger" id="burger" aria-label="Меню">
-        <span></span><span></span>
+        <span></span><span></span><span></span>
       </button>
-    </div>
-
-    <div class="timeline" id="timeline">
-      <div class="timeline__track">
-        <a href="#home"     class="timeline__marker" data-target="home">INTRO</a>
-        <a href="#about"    class="timeline__marker" data-target="about">ABOUT</a>
-        <a href="#skills"   class="timeline__marker" data-target="skills">SKILLS</a>
-        <a href="#projects" class="timeline__marker" data-target="projects">CUTS</a>
-        <a href="#services" class="timeline__marker" data-target="services">SERVICES</a>
-        <a href="#contacts" class="timeline__marker" data-target="contacts">CONTACT</a>
-      </div>
-      <div class="timeline__progress" id="timelineProgress"></div>
     </div>
   </header>
 
   <!-- ================= HERO ================= -->
   <section class="hero" id="home">
-    <div class="hero-smoke hero-smoke--left"></div>
-    <div class="hero-smoke hero-smoke--right"></div>
+
+    <div class="hero-timeline" aria-hidden="true">
+      <span class="hero-timeline__rec">● REC</span>
+      <span class="hero-timeline__tc" id="heroTimecode">00:00:00:12</span>
+      <span class="hero-timeline__num">FILE_001 / ARCHIVE / BY_SPODZH</span>
+      <span class="hero-timeline__bar"><i></i></span>
+    </div>
 
     <div class="container hero-inner">
       <div class="hero-grid">
 
         <div class="hero-content">
-          <div class="hero-tech reveal">
-            <span>SPODZH.</span>
-            <span class="tech-sep">/</span>
-            <span>BELARUS</span>
-            <span class="tech-sep">/</span>
-            <span>2026</span>
-            <span class="tech-sep">/</span>
-            <span class="rec"><span class="rec-dot"></span> REC</span>
+
+          <div class="hero-meta reveal">
+            <span class="chip chip--red">UNCLASSIFIED</span>
+            <span class="chip chip--yellow">PLAY ▶</span>
+            <span class="chip">GOMEL · BY</span>
+            <span class="chip">22 y.o.</span>
           </div>
 
-          <h1 class="hero-name reveal">
-            <span class="line">Привет, я</span>
-            <span class="line gradient-text">Spodzh</span>
-            <span class="line small">— Влад, 22</span>
+          <h1 class="hero-title reveal" data-text="SPODZH">
+            <span class="hero-title__main">SPODZH</span>
+            <span class="hero-title__glitch" aria-hidden="true">SPODZH</span>
           </h1>
 
-          <p class="hero-sub reveal">
-            Видеомонтажёр <span class="sep">/</span> Контент-мейкер <span class="sep">/</span> Оператор
-          </p>
+          <div class="hero-subtitle reveal">
+            <span>видеомонтажёр</span>
+            <span class="dot-slash">//</span>
+            <span>оператор</span>
+            <span class="dot-slash">//</span>
+            <span>контент-мейкер</span>
+          </div>
 
           <p class="hero-desc reveal">
-            Делаю видео, которые цепляют с первой секунды. Съёмка, монтаж и креатив —
-            от идеи до финального кадра. Открыт к коллабам и интересным проектам.
+            Делаю видео, которые <span class="hl">цепляют с первой секунды</span>.
+            Съёмка, монтаж и креатив — от идеи до финального кадра.
           </p>
 
-          <div class="hero-buttons reveal">
-            <a href="#contacts" class="btn btn-primary magnetic">
-              <span>Связаться</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="hero-actions reveal">
+            <a href="#projects" class="btn btn--primary magnetic">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span>СМОТРЕТЬ РАБОТЫ</span>
             </a>
-            <a href="#projects" class="btn btn-ghost magnetic">
-              <span>Смотреть работы</span>
+            <a href="#contacts" class="btn btn--ghost magnetic">
+              <span>СВЯЗАТЬСЯ</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </div>
 
           <div class="hero-stats reveal">
             <div class="stat">
+              <span class="stat__label">SUBS_TIKTOK</span>
               <strong data-count="45000" data-suffix="+">0</strong>
-              <span>подписчиков в TikTok</span>
             </div>
-            <div class="stat-divider"></div>
             <div class="stat">
-              <strong data-count="3" data-suffix=" года">0</strong>
-              <span>в создании контента</span>
+              <span class="stat__label">YEARS_ACTIVE</span>
+              <strong data-count="3" data-suffix="">0</strong>
             </div>
-            <div class="stat-divider"></div>
             <div class="stat">
-              <strong data-count="22" data-suffix="">0</strong>
-              <span>года, Беларусь</span>
+              <span class="stat__label">AGE</span>
+              <strong>22</strong>
             </div>
           </div>
         </div>
 
-        <div class="hero-visual reveal">
-          <div class="hero-float hero-float--crown" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 18h18M4 8l4 4 4-8 4 8 4-4-2 10H6L4 8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="hero-preview reveal">
+          <div class="preview-frame">
+            <span class="preview-corner preview-corner--tl"></span>
+            <span class="preview-corner preview-corner--tr"></span>
+            <span class="preview-corner preview-corner--bl"></span>
+            <span class="preview-corner preview-corner--br"></span>
+
+            <div class="preview-header">
+              <span class="preview-rec">● REC</span>
+              <span class="preview-tc" id="previewTime">00:12 / 00:28</span>
+            </div>
+
+            <div class="preview-media">
+              <video src="assets/hero.mp4" autoplay muted loop playsinline></video>
+            </div>
+
+            <div class="preview-footer">
+              <span>PREVIEW.mp4</span>
+              <span class="preview-progress"><i id="previewProgress"></i></span>
+              <span>9:16</span>
+            </div>
           </div>
 
-          <div class="hero-float hero-float--caption" aria-hidden="true">
-            <span>КАДР.</span>
-            <span>РИТМ.</span>
-            <span>ПОЕХАЛИ.</span>
-          </div>
-
-          <div class="hero-float hero-float--ghost" aria-hidden="true">
+          <div class="hero-ghost">
             <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" />
-          </div>
-
-          <div class="video-card">
-            <div class="video-card__top">
-              <span class="video-card__rec">
-                <span class="video-card__rec-dot"></span> REC
-              </span>
-              <span class="video-card__time" id="videoTime">00:12 / 00:28</span>
-            </div>
-
-            <div class="video-card__media">
-              <!-- Локальное видео из папки assets -->
-              <video
-                src="assets/hero.mp4"
-                autoplay
-                muted
-                loop
-                playsinline
-              ></video>
-              <button class="video-card__play" aria-label="Воспроизвести">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-              <div class="video-card__scan"></div>
-            </div>
-
-            <div class="video-card__bottom">
-              <span class="video-card__ratio">9:16</span>
-              <div class="video-card__progress"><span id="videoProgress"></span></div>
-              <span class="video-card__fullscreen" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9V5a1 1 0 011-1h4M20 9V5a1 1 0 00-1-1h-4M4 15v4a1 1 0 001 1h4M20 15v4a1 1 0 01-1 1h-4"/></svg>
-              </span>
-            </div>
-          </div>
-
-          <div class="hero-films" aria-hidden="true">
-            <div class="film-row"><span></span><span></span><span></span><span></span></div>
-            <div class="film-row"><span></span><span></span><span></span><span></span></div>
           </div>
         </div>
 
@@ -186,79 +162,78 @@
     </div>
 
     <div class="scroll-hint">
-      <span>scroll</span>
-      <div class="scroll-line"></div>
+      <span>SCROLL</span>
+      <div class="scroll-hint__line"></div>
     </div>
   </section>
 
   <!-- ================= MARQUEE ================= -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
-      <span>ВИДЕОМОНТАЖ</span><span class="star">✦</span>
-      <span>TIKTOK · REELS</span><span class="star">✦</span>
-      <span>СЪЁМКА</span><span class="star">✦</span>
-      <span>КОЛЛАБЫ</span><span class="star">✦</span>
-      <span>КОНТЕНТ-ПЛАН</span><span class="star">✦</span>
-      <span>ВИДЕОМОНТАЖ</span><span class="star">✦</span>
-      <span>TIKTOK · REELS</span><span class="star">✦</span>
-      <span>СЪЁМКА</span><span class="star">✦</span>
-      <span>КОЛЛАБЫ</span><span class="star">✦</span>
-      <span>КОНТЕНТ-ПЛАН</span><span class="star">✦</span>
+      <span>RAW FOOTAGE</span><span class="marquee__dot">●</span>
+      <span>VIDEO EDIT</span><span class="marquee__dot">●</span>
+      <span>TIKTOK · REELS</span><span class="marquee__dot">●</span>
+      <span>MOTION</span><span class="marquee__dot">●</span>
+      <span>COLLABS</span><span class="marquee__dot">●</span>
+      <span>AD CAMPAIGN</span><span class="marquee__dot">●</span>
+      <span>RAW FOOTAGE</span><span class="marquee__dot">●</span>
+      <span>VIDEO EDIT</span><span class="marquee__dot">●</span>
+      <span>TIKTOK · REELS</span><span class="marquee__dot">●</span>
+      <span>MOTION</span><span class="marquee__dot">●</span>
+      <span>COLLABS</span><span class="marquee__dot">●</span>
+      <span>AD CAMPAIGN</span><span class="marquee__dot">●</span>
     </div>
   </div>
 
   <!-- ================= ABOUT ================= -->
-  <section class="section" id="about">
+  <section class="section about" id="about">
     <div class="container">
 
-      <div class="section-hero reveal">
-        <div class="section-hero__main">
-          <span class="section-num">[ S-01 / ABOUT ]</span>
-          <h2 class="section-hero__title">ОБО МНЕ</h2>
-          <p class="section-hero__sub">Кто я и чем занимаюсь</p>
-        </div>
-        <div class="section-hero__deco">
-          <div class="section-hero__caption">
-            <span>СНИМАЮ.</span>
-            <span>МОНТИРУЮ.</span>
-            <span>ЖИВУ ЭТИМ.</span>
-          </div>
-          <div class="section-hero__badge">
-            <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" />
-            <div class="section-hero__info">
-              <span>ABOUT</span>
-              <span>SPODZH</span>
-              <span>BELARUS</span>
-              <span>2026</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <header class="sec-head reveal">
+        <span class="sec-head__num">[ FILE_002 / 05 ]</span>
+        <h2 class="sec-head__title">
+          <span class="mask-line">ABOUT</span>
+        </h2>
+        <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
+          <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
+        </svg>
+        <span class="sec-head__note hand">кто этот парень ↓</span>
+      </header>
 
       <div class="about-grid">
         <div class="about-photo reveal">
-          <div class="photo-frame">
-            <div class="photo-inner">
-              <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="Spodzh" class="photo-ghost" />
+          <div class="photo-censor">
+            <div class="photo-censor__media">
+              <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" />
             </div>
-            <div class="photo-glow"></div>
+            <div class="photo-censor__meta">
+              <span>ID_001</span>
+              <span>SPODZH</span>
+              <span>22 / BY</span>
+            </div>
           </div>
         </div>
 
-        <div class="about-text">
-          <p class="reveal">
-            Меня зовут Влад, я известен как <strong>Spodzh</strong>. Снимаю видео почти 3 года,
-            собрал десятки тысяч подписчиков в TikTok. Делал рекламу для брендов
-            (<strong>LOOP</strong>, <strong>ANGOC</strong>), снимал коллабы с другими блогерами.
+        <div class="about-text reveal">
+          <p class="about-text__pre">// RAW_TRANSCRIPT.txt</p>
+          <p>
+            Меня зовут <strong>Влад</strong>, я известен как <strong>Spodzh</strong>.
+            Снимаю видео почти <strong>3 года</strong>, собрал <strong>45 000+ подписчиков</strong> в TikTok.
+          </p>
+          <p>
+            Делал рекламу для брендов <span class="hl hl--yellow">LOOP</span> и
+            <span class="hl hl--yellow">ANGOC</span>, снимал коллабы с другими блогерами.
             Умею монтировать в CapCut и работать с камерой.
+          </p>
+          <p>
             Ищу творческие проекты, коллабы и интересных людей.
           </p>
 
-          <div class="about-tags reveal">
-            <div class="info-tag"><span>🎬</span> CapCut / монтаж</div>
-            <div class="info-tag"><span>🎥</span> Съёмка · оператор</div>
-            <div class="info-tag"><span>✂️</span> Reels · Shorts · TikTok</div>
-            <div class="info-tag"><span>💼</span> Реклама · сотрудничество · коллабы</div>
+          <div class="about-facts">
+            <div class="fact"><span>📍</span> Беларусь</div>
+            <div class="fact"><span>🎬</span> CapCut / монтаж</div>
+            <div class="fact"><span>🎥</span> Съёмка · оператор</div>
+            <div class="fact"><span>💼</span> Реклама · коллабы</div>
           </div>
         </div>
       </div>
@@ -266,267 +241,236 @@
   </section>
 
   <!-- ================= SKILLS ================= -->
-  <section class="section" id="skills">
+  <section class="section skills" id="skills">
     <div class="container">
 
-      <div class="section-hero reveal">
-        <div class="section-hero__main">
-          <span class="section-num">[ S-02 / SKILLS ]</span>
-          <h2 class="section-hero__title">НАВЫКИ</h2>
-          <p class="section-hero__sub">Что я умею делать</p>
-        </div>
-        <div class="section-hero__deco">
-          <div class="section-hero__caption">
-            <span>МОНТАЖ.</span>
-            <span>СЪЁМКА.</span>
-            <span>ИДЕИ.</span>
-          </div>
-          <div class="section-hero__badge">
-            <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" />
-            <div class="section-hero__info">
-              <span>TOOLS</span>
-              <span>EDIT · SHOOT</span>
-              <span>CREATE</span>
-              <span>2026</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <header class="sec-head reveal">
+        <span class="sec-head__num">[ FILE_003 / 05 ]</span>
+        <h2 class="sec-head__title">
+          <span class="mask-line">SKILLS</span>
+        </h2>
+        <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
+          <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
+        </svg>
+        <span class="sec-head__note hand">инструменты в работе →</span>
+      </header>
 
-      <div class="skills-grid">
-        <div class="skill-card glass reveal">
-          <h3>Видеомонтаж</h3>
-          <p>CapCut, ритм, эффекты, субтитры, работа со звуком и цветокоррекция.</p>
-        </div>
+      <div class="skills-list">
+        <article class="skill-row reveal">
+          <span class="skill-row__num">/ 01</span>
+          <h3 class="skill-row__title">Видеомонтаж</h3>
+          <p class="skill-row__desc">CapCut, ритм, эффекты, субтитры, работа со звуком и цветокоррекция.</p>
+          <span class="skill-row__level">
+            <i></i><i></i><i></i><i></i><i></i>
+          </span>
+        </article>
 
-        <div class="skill-card glass reveal">
-          <h3>Съёмка и оператор</h3>
-          <p>Работа с камерой, светом, кадром и ракурсами. TikTok, Reels, влоги.</p>
-        </div>
+        <article class="skill-row reveal">
+          <span class="skill-row__num">/ 02</span>
+          <h3 class="skill-row__title">Съёмка и оператор</h3>
+          <p class="skill-row__desc">Работа с камерой, светом, кадром и ракурсами. TikTok, Reels, влоги.</p>
+          <span class="skill-row__level">
+            <i></i><i></i><i></i><i></i><i class="off"></i>
+          </span>
+        </article>
 
-        <div class="skill-card glass reveal">
-          <h3>SMM</h3>
-          <p>Ведение соцсетей, работа с аудиторией, рост охватов и вовлечённости.</p>
-        </div>
+        <article class="skill-row reveal">
+          <span class="skill-row__num">/ 03</span>
+          <h3 class="skill-row__title">SMM</h3>
+          <p class="skill-row__desc">Ведение соцсетей, работа с аудиторией, рост охватов и вовлечённости.</p>
+          <span class="skill-row__level">
+            <i></i><i></i><i></i><i></i><i class="off"></i>
+          </span>
+        </article>
 
-        <div class="skill-card glass reveal">
-          <h3>Креатив</h3>
-          <p>Генерация идей, сценарии, мемы и вирусные форматы под тренды.</p>
-        </div>
+        <article class="skill-row reveal">
+          <span class="skill-row__num">/ 04</span>
+          <h3 class="skill-row__title">Креатив</h3>
+          <p class="skill-row__desc">Генерация идей, сценарии, мемы и вирусные форматы под тренды.</p>
+          <span class="skill-row__level">
+            <i></i><i></i><i></i><i></i><i></i>
+          </span>
+        </article>
 
-        <div class="skill-card glass reveal">
-          <h3>Иллюстрации</h3>
-          <p>Скетчи и персонажи от руки, когда нужен авторский визуал.</p>
-        </div>
+        <article class="skill-row reveal">
+          <span class="skill-row__num">/ 05</span>
+          <h3 class="skill-row__title">Иллюстрации</h3>
+          <p class="skill-row__desc">Скетчи и персонажи от руки, когда нужен авторский визуал.</p>
+          <span class="skill-row__level">
+            <i></i><i></i><i></i><i class="off"></i><i class="off"></i>
+          </span>
+        </article>
       </div>
     </div>
   </section>
 
   <!-- ================= PROJECTS ================= -->
-  <section class="projects-new" id="projects">
+  <section class="section projects-new" id="projects">
     <div class="container">
 
-      <div class="section-hero reveal">
-        <div class="section-hero__main">
-          <span class="section-num">[ S-03 / PROJECTS ]</span>
-          <h2 class="section-hero__title">ПРОЕКТЫ</h2>
-          <p class="section-hero__sub">Мои работы в TikTok — кликай, чтобы посмотреть</p>
-        </div>
-        <div class="section-hero__deco">
-          <div class="section-hero__caption">
-            <span>КАДР.</span>
-            <span>РИТМ.</span>
-            <span>ПОЕХАЛИ.</span>
-          </div>
-          <div class="section-hero__badge">
-            <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" />
-            <div class="section-hero__info">
-              <span>SPODZH</span>
-              <span>CREATIVE</span>
-              <span>VIDEO EDITOR</span>
-              <span>2026</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <header class="sec-head reveal">
+        <span class="sec-head__num">[ FILE_004 / 05 ]</span>
+        <h2 class="sec-head__title">
+          <span class="mask-line">WORK</span>
+        </h2>
+        <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
+          <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
+        </svg>
+        <span class="sec-head__note hand">кликай на кадр ↓</span>
+      </header>
 
       <article class="featured reveal" id="featuredCard">
         <div class="featured__media">
           <img id="featuredImg" src="" alt="" />
-          <button class="featured__play" id="featuredPlay" aria-label="Смотреть">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <span class="featured__duration" id="featuredDuration">0:33</span>
-          <span class="featured__tiktok" aria-hidden="true">♪</span>
+          <div class="featured__tc" id="featuredTc">CUT_01 · 0:33</div>
+          <div class="featured__badge">FILE_004</div>
+          <span class="featured__social">♪</span>
         </div>
 
         <div class="featured__info">
-          <span class="featured__index" id="featuredIndex">01 / 08</span>
           <span class="featured__label" id="featuredLabel">МОНТАЖ</span>
+          <span class="featured__index" id="featuredIndex">01 / 08</span>
           <div class="featured__meta" id="featuredMeta"></div>
           <div class="featured__actions">
-            <a class="btn btn-primary" id="featuredLink" href="#" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z"/></svg>
-              <span>Смотреть видео</span>
+            <a class="btn btn--primary" id="featuredLink" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span>ОТКРЫТЬ В TIKTOK</span>
             </a>
-            <a class="featured__more" id="featuredMore" href="#" target="_blank" rel="noopener">
-              Открыть в TikTok →
-            </a>
+            <span class="featured__hint hand">или выбери ниже ↓</span>
           </div>
         </div>
       </article>
 
       <div class="projects-tiles reveal" id="projectsTiles"></div>
-
     </div>
-
-    <div class="projects-deco-left" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 18h18M4 8l4 4 4-8 4 8 4-4-2 10H6L4 8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>БОЛЬШЕ,</span>
-      <span>ЧЕМ ПРОСТО</span>
-      <span>МОНТАЖ</span>
-    </div>
-    <div class="projects-deco-right" aria-hidden="true">SPODZH / PROJECTS</div>
   </section>
 
   <!-- ================= SERVICES ================= -->
-  <section class="section" id="services">
+  <section class="section services" id="services">
     <div class="container">
 
-      <div class="section-hero reveal">
-        <div class="section-hero__main">
-          <span class="section-num">[ S-04 / SERVICES ]</span>
-          <h2 class="section-hero__title">УСЛУГИ</h2>
-          <p class="section-hero__sub">С какими задачами ко мне можно прийти</p>
-        </div>
-        <div class="section-hero__deco">
-          <div class="section-hero__caption">
-            <span>ТЗ.</span>
-            <span>РАБОТА.</span>
-            <span>РЕЗУЛЬТАТ.</span>
-          </div>
-          <div class="section-hero__badge">
-            <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" />
-            <div class="section-hero__info">
-              <span>ORDER</span>
-              <span>VIDEO</span>
-              <span>CONTENT</span>
-              <span>2026</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <header class="sec-head reveal">
+        <span class="sec-head__num">[ FILE_005 / 05 ]</span>
+        <h2 class="sec-head__title">
+          <span class="mask-line">SERVICES</span>
+        </h2>
+        <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
+          <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
+        </svg>
+        <span class="sec-head__note hand">с чем прийти →</span>
+      </header>
 
-      <div class="services-grid">
-        <div class="service-card glass reveal">
-          <span class="service-num">SCENE 01</span>
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          </div>
+      <div class="services-list">
+        <article class="service-card reveal">
+          <span class="service-card__num">/ 01</span>
           <h3>Монтаж коротких видео</h3>
           <p>TikTok, Reels, Shorts — темп, субтитры, звук, цвет и подача под площадку.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-cta">
-            Обсудить задачу
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
+            ОБСУДИТЬ
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-        </div>
+          <svg class="service-card__doodle" viewBox="0 0 60 60" aria-hidden="true">
+            <path d="M8 50 C 20 36, 30 24, 52 12" fill="none" stroke="#ffd93d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M44 10 L 54 10 L 52 20" fill="none" stroke="#ffd93d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </article>
 
-        <div class="service-card glass reveal">
-          <span class="service-num">SCENE 02</span>
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          </div>
+        <article class="service-card reveal">
+          <span class="service-card__num">/ 02</span>
           <h3>Съёмка и контент</h3>
           <p>Идея, съёмка и сборка ролика под конкретную задачу: влог, реклама, бренд.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-cta">
-            Обсудить задачу
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
+            ОБСУДИТЬ
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-        </div>
+          <svg class="service-card__doodle" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="30" cy="30" r="18" fill="none" stroke="#ffd93d" stroke-width="2" stroke-dasharray="2 4" stroke-linecap="round"/>
+          </svg>
+        </article>
 
-        <div class="service-card glass reveal">
-          <span class="service-num">SCENE 03</span>
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </div>
+        <article class="service-card reveal">
+          <span class="service-card__num">/ 03</span>
           <h3>Коллабы и бренды</h3>
           <p>Рекламные интеграции, совместные ролики с блогерами, творческие проекты.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-cta">
-            Обсудить задачу
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
+            ОБСУДИТЬ
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-        </div>
+          <svg class="service-card__doodle" viewBox="0 0 60 60" aria-hidden="true">
+            <path d="M30 8 L34 24 L50 26 L38 36 L42 52 L30 42 L18 52 L22 36 L10 26 L26 24 Z" fill="none" stroke="#ffd93d" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </article>
       </div>
     </div>
   </section>
 
   <!-- ================= CONTACTS ================= -->
-  <section class="section" id="contacts">
+  <section class="section contacts" id="contacts">
     <div class="container">
 
-      <div class="section-hero reveal">
-        <div class="section-hero__main">
-          <span class="section-num">[ S-05 / CONTACT ]</span>
-          <h2 class="section-hero__title">КОНТАКТЫ</h2>
-          <p class="section-hero__sub">Пиши по коллабам и проектам — отвечаю быстро</p>
-        </div>
-        <div class="section-hero__deco">
-          <div class="section-hero__caption">
-            <span>ПИШИ.</span>
-            <span>ДАВАЙ.</span>
-            <span>СДЕЛАЕМ.</span>
-          </div>
-          <div class="section-hero__badge">
-            <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" />
-            <div class="section-hero__info">
-              <span>CONTACT</span>
-              <span>DM · TELEGRAM</span>
-              <span>REPLY FAST</span>
-              <span>2026</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <header class="sec-head reveal">
+        <span class="sec-head__num">[ END OF FILE ]</span>
+        <h2 class="sec-head__title">
+          <span class="mask-line">CONTACT</span>
+        </h2>
+        <svg class="sec-head__underline" viewBox="0 0 400 20" aria-hidden="true">
+          <path d="M6 12 Q 100 4, 200 12 T 394 8" fill="none" stroke="#ff2222" stroke-width="3" stroke-linecap="round" pathLength="1" class="draw"/>
+        </svg>
+        <span class="sec-head__note hand">пиши, отвечаю быстро ✎</span>
+      </header>
 
       <div class="contacts-grid">
-        <a href="https://tiktok.com/@spodzh" target="_blank" class="contact-card glass reveal">
-          <span class="contact-arrow">↗</span>
-          <h3>TikTok</h3>
-          <p>@spodzh</p>
-          <span class="contact-hint">45K+ подписчиков</span>
+        <a href="https://t.me/spodzh" target="_blank" class="contact-card contact-card--accent reveal">
+          <span class="contact-card__status">● ONLINE</span>
+          <span class="contact-card__net">TELEGRAM</span>
+          <span class="contact-card__handle">@spodzh</span>
+          <span class="contact-card__hint">быстрее всего →</span>
         </a>
 
-        <a href="https://t.me/spodzh" target="_blank" class="contact-card glass reveal">
-          <span class="contact-arrow">↗</span>
-          <h3>Telegram</h3>
-          <p>@spodzh</p>
-          <span class="contact-hint">Быстрее всего</span>
+        <a href="https://tiktok.com/@spodzh" target="_blank" class="contact-card reveal">
+          <span class="contact-card__status">◉ ACTIVE</span>
+          <span class="contact-card__net">TIKTOK</span>
+          <span class="contact-card__handle">@spodzh</span>
+          <span class="contact-card__hint">45K+ подписчиков</span>
         </a>
 
-        <a href="https://instagram.com/spodzh" target="_blank" class="contact-card glass reveal">
-          <span class="contact-arrow">↗</span>
-          <h3>Instagram</h3>
-          <p>@spodzh</p>
-          <span class="contact-hint">Визуал и бэкстейдж</span>
+        <a href="https://instagram.com/spodzh" target="_blank" class="contact-card reveal">
+          <span class="contact-card__status">◯ IDLE</span>
+          <span class="contact-card__net">INSTAGRAM</span>
+          <span class="contact-card__handle">@spodzh</span>
+          <span class="contact-card__hint">визуал и бэкстейдж</span>
         </a>
       </div>
 
       <div class="cta-final reveal">
-        <span class="cta-tag">[ FINAL CUT / 2026 ]</span>
-        <h2 class="cta-heading">
-          Есть идея?<br>
-          <span class="gradient-text">Давай соберём её в ролик.</span>
+        <div class="cta-final__frame" aria-hidden="true">
+          <span class="cta-final__corner cta-final__corner--tl"></span>
+          <span class="cta-final__corner cta-final__corner--tr"></span>
+          <span class="cta-final__corner cta-final__corner--bl"></span>
+          <span class="cta-final__corner cta-final__corner--br"></span>
+        </div>
+
+        <span class="cta-final__tag">[ SAVE PROJECT? ]</span>
+        <h2 class="cta-final__heading">
+          <span class="hand">есть идея?</span>
+          <span class="big">ДАВАЙ СДЕЛАЕМ</span>
         </h2>
-        <p class="cta-hint">Пришли задачу, площадку и сроки — отвечу в течение дня.</p>
-        <div class="cta-actions">
-          <a href="https://t.me/spodzh" target="_blank" class="btn btn-primary magnetic">
-            <span>Обсудить проект</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="cta-final__sub">Пришли задачу, площадку и сроки — отвечу в течение дня.</p>
+
+        <div class="cta-final__actions">
+          <a href="https://t.me/spodzh" target="_blank" class="btn btn--primary magnetic">
+            <span>НАПИСАТЬ В TELEGRAM</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <button class="btn btn-ghost copy-btn" data-copy="@spodzh">
-            <span class="copy-label">Скопировать @spodzh</span>
+          <button class="btn btn--ghost copy-btn" data-copy="@spodzh">
+            <span class="copy-label">СКОПИРОВАТЬ @spodzh</span>
           </button>
         </div>
+
+        <svg class="cta-final__ghost-arrow" viewBox="0 0 100 60" aria-hidden="true">
+          <path d="M8 50 C 30 42, 55 30, 88 14" fill="none" stroke="#ffd93d" stroke-width="2.4" stroke-linecap="round" pathLength="1" class="draw"/>
+          <path d="M78 10 L 92 12 L 84 24" fill="none" stroke="#ffd93d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw draw--delay"/>
+        </svg>
       </div>
     </div>
   </section>
@@ -534,31 +478,54 @@
   <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© <span id="year"></span> Spodzh — портфолио <span class="footer-mono">/ v1.0</span></p>
-      <a href="#home" class="back-top">Наверх ↑</a>
+      <span class="footer__left">ARCHIVE_v2.0 // END OF FILE</span>
+      <span class="footer__center hand">сделано с беспорядком в голове</span>
+      <a href="#home" class="footer__right">↑ BACK TO TOP</a>
     </div>
   </footer>
 
-  <!-- ================= ПРИЗРАК-ПРОВОДНИК ================= -->
-  <div class="ghost-guide" id="ghostGuide">
-    <div class="ghost-guide__bubble" id="ghostBubble">Привет! Я Spodzh 👻</div>
-    <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" class="ghost-guide__img" />
-  </div>
-
   <!-- ================= ПАСХАЛКА ================= -->
   <div class="easter-egg" id="easterEgg">
-    <div class="easter-egg__glitch">Ты нашёл секретный кадр 👻</div>
-    <div class="easter-egg__sub">SHHH... только между нами</div>
+    <div class="easter-egg__inner">
+      <span class="easter-egg__tag">[ ACCESS GRANTED ]</span>
+      <p class="easter-egg__text">Ты нашёл секретный кадр 👻</p>
+      <span class="easter-egg__sub">SHHH... только между нами</span>
+    </div>
   </div>
 
-  <!-- ================= ВСТРОЕННЫЙ СКРИПТ ================= -->
+  <!-- ================= МОДАЛКА ПРОЕКТА ================= -->
+  <div class="project-modal" id="projectModal" aria-hidden="true">
+    <div class="project-modal__backdrop" data-close></div>
+    <div class="project-modal__dialog">
+      <button class="project-modal__close" data-close aria-label="Закрыть">✕</button>
+
+      <div class="project-modal__head">
+        <span class="project-modal__code" id="modalCode">CUT_01</span>
+        <span class="project-modal__tc" id="modalTc">0:33</span>
+      </div>
+
+      <div class="project-modal__media">
+        <img id="modalImage" src="" alt="" />
+      </div>
+
+      <div class="project-modal__body">
+        <div class="project-modal__meta" id="modalMeta"></div>
+        <a id="modalLink" href="#" target="_blank" rel="noopener" class="btn btn--primary">
+          <span>ОТКРЫТЬ В TIKTOK</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= СКРИПТ ================= -->
   <script>
     (function () {
       'use strict';
 
       var PROJECTS = [
         { label: 'МОНТАЖ', duration: '0:33', img: 'https://i.ibb.co/pvkDGByS/image.png', link: 'https://www.tiktok.com/@spodzh/video/7429328023184215301', tags: ['TikTok', 'Монтаж', 'Цвет', 'Ритм'] },
-        { label: 'ИГРОВОЙ КОНТЕНТ', duration: '0:29', img: 'https://i.ibb.co/V0Yn50dS/image.png', link: 'https://www.tiktok.com/@spodzh/video/7441217389426969912', tags: ['TikTok', 'Игровой', 'Юмор', 'Мемы'] },
+        { label: 'ИГРОВОЙ', duration: '0:29', img: 'https://i.ibb.co/V0Yn50dS/image.png', link: 'https://www.tiktok.com/@spodzh/video/7441217389426969912', tags: ['TikTok', 'Игровой', 'Юмор', 'Мемы'] },
         { label: 'СКЕТЧ', duration: '0:30', img: 'https://i.ibb.co/vCG3bhMS/image.png', link: 'https://www.tiktok.com/@spodzh/video/7409249005063933190', tags: ['TikTok', 'Юмор', 'Скетч'] },
         { label: 'КОЛЛАБ', duration: '0:14', img: 'https://i.ibb.co/CLJyNHv/image.png', link: 'https://www.tiktok.com/@spodzh/video/7600069280239029525', tags: ['TikTok', 'Коллаб', 'Монтаж'] },
         { label: 'ПОП-КУЛЬТУРА', duration: '0:18', img: 'https://i.ibb.co/0pXTDbYP/image.png', link: 'https://www.tiktok.com/@spodzh/video/7695352945033923861', tags: ['TikTok', 'Поп-культура', 'Референс'] },
@@ -569,6 +536,7 @@
 
       try { var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear(); } catch (e) {}
 
+      /* Бургер */
       try {
         var burger = document.getElementById('burger');
         var navLinks = document.getElementById('navLinks');
@@ -578,8 +546,8 @@
             navLinks.classList.toggle('open');
             document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
           });
-          navLinks.querySelectorAll('a').forEach(function (link) {
-            link.addEventListener('click', function () {
+          navLinks.querySelectorAll('a').forEach(function (a) {
+            a.addEventListener('click', function () {
               burger.classList.remove('active');
               navLinks.classList.remove('open');
               document.body.style.overflow = '';
@@ -588,442 +556,299 @@
         }
       } catch (e) {}
 
+      /* Navbar + прогресс */
       try {
         var navbar = document.getElementById('navbar');
         var scrollProgress = document.getElementById('scrollProgress');
         window.addEventListener('scroll', function () {
           if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 30);
           if (scrollProgress) {
-            var scrollTop = window.scrollY;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            scrollProgress.style.width = progress + '%';
+            var h = document.documentElement.scrollHeight - window.innerHeight;
+            scrollProgress.style.width = (h > 0 ? window.scrollY / h * 100 : 0) + '%';
           }
-        });
+        }, { passive: true });
       } catch (e) {}
 
+      /* Reveal */
       try {
-        var revealElements = document.querySelectorAll('.reveal');
+        var revealEls = document.querySelectorAll('.reveal');
         if ('IntersectionObserver' in window) {
-          var revealObserver = new IntersectionObserver(function (entries) {
+          var obs = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
               if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                revealObserver.unobserve(entry.target);
+                obs.unobserve(entry.target);
               }
             });
-          }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-          revealElements.forEach(function (el) { revealObserver.observe(el); });
+          }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+          revealEls.forEach(function (el) { obs.observe(el); });
         } else {
-          revealElements.forEach(function (el) { el.classList.add('visible'); });
+          revealEls.forEach(function (el) { el.classList.add('visible'); });
         }
-      } catch (e) {
-        document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
-      }
+      } catch (e) {}
 
+      /* Счётчики */
       try {
         var counters = document.querySelectorAll('[data-count]');
-        if ('IntersectionObserver' in window && counters.length) {
-          var counterObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                animateCount(entry.target);
-                counterObserver.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.5 });
-          counters.forEach(function (c) { counterObserver.observe(c); });
-        }
         function animateCount(el) {
           var target = parseInt(el.dataset.count, 10);
           var suffix = el.dataset.suffix || '';
-          var duration = 1800;
-          var start = performance.now();
+          var dur = 1600, start = performance.now();
           function tick(now) {
-            var progress = Math.min((now - start) / duration, 1);
-            var eased = 1 - Math.pow(1 - progress, 3);
-            var value = Math.floor(target * eased);
-            el.textContent = value.toLocaleString('ru-RU') + suffix;
-            if (progress < 1) requestAnimationFrame(tick);
+            var p = Math.min((now - start) / dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.floor(target * eased).toLocaleString('ru-RU') + suffix;
+            if (p < 1) requestAnimationFrame(tick);
             else el.textContent = target.toLocaleString('ru-RU') + suffix;
           }
           requestAnimationFrame(tick);
         }
+        if ('IntersectionObserver' in window && counters.length) {
+          var cntObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) { animateCount(e.target); cntObs.unobserve(e.target); }
+            });
+          }, { threshold: 0.5 });
+          counters.forEach(function (c) { cntObs.observe(c); });
+        }
       } catch (e) {}
 
+      /* Магнитные кнопки */
       try {
-        document.querySelectorAll('.magnetic').forEach(function (btn) {
-          btn.addEventListener('mousemove', function (e) {
-            var rect = btn.getBoundingClientRect();
-            var x = e.clientX - rect.left - rect.width / 2;
-            var y = e.clientY - rect.top - rect.height / 2;
-            btn.style.transform = 'translate(' + (x * 0.25) + 'px, ' + (y * 0.35) + 'px)';
+        var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        if (!isTouch) {
+          document.querySelectorAll('.magnetic').forEach(function (btn) {
+            btn.addEventListener('mousemove', function (e) {
+              var r = btn.getBoundingClientRect();
+              var x = e.clientX - r.left - r.width / 2;
+              var y = e.clientY - r.top - r.height / 2;
+              btn.style.transform = 'translate(' + x * 0.15 + 'px, ' + y * 0.25 + 'px)';
+            });
+            btn.addEventListener('mouseleave', function () { btn.style.transform = ''; });
           });
-          btn.addEventListener('mouseleave', function () { btn.style.transform = ''; });
-        });
+        }
       } catch (e) {}
 
+      /* Копирование */
       try {
         document.querySelectorAll('.copy-btn').forEach(function (btn) {
           btn.addEventListener('click', function () {
             var text = btn.dataset.copy;
             var label = btn.querySelector('.copy-label');
-            var original = label ? label.textContent : '';
+            var orig = label ? label.textContent : '';
             function done() {
-              if (label) label.textContent = 'Скопировано ✓';
+              if (label) label.textContent = 'СКОПИРОВАНО ✓';
               btn.classList.add('is-copied');
               setTimeout(function () {
-                if (label) label.textContent = original;
+                if (label) label.textContent = orig;
                 btn.classList.remove('is-copied');
               }, 1800);
             }
             if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(text).then(done).catch(function () {
-                var tmp = document.createElement('textarea');
-                tmp.value = text; document.body.appendChild(tmp); tmp.select();
-                try { document.execCommand('copy'); } catch (err) {}
-                document.body.removeChild(tmp); done();
-              });
-            } else {
-              var tmp = document.createElement('textarea');
-              tmp.value = text; document.body.appendChild(tmp); tmp.select();
-              try { document.execCommand('copy'); } catch (err) {}
-              document.body.removeChild(tmp); done();
-            }
+              navigator.clipboard.writeText(text).then(done).catch(done);
+            } else { done(); }
           });
         });
       } catch (e) {}
 
+      /* Плавный скролл */
       try {
-        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-          anchor.addEventListener('click', function (e) {
-            var target = document.querySelector(this.getAttribute('href'));
-            if (target) {
+        document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            var t = document.querySelector(this.getAttribute('href'));
+            if (t) {
               e.preventDefault();
-              var top = target.getBoundingClientRect().top + window.scrollY - 90;
+              var top = t.getBoundingClientRect().top + window.scrollY - 80;
               window.scrollTo({ top: top, behavior: 'smooth' });
             }
           });
         });
       } catch (e) {}
 
+      /* Активная секция */
       try {
         var sections = document.querySelectorAll('section[id]');
         var navItems = document.querySelectorAll('[data-nav]');
-        var timelineMarkers = document.querySelectorAll('.timeline__marker');
-        var sectionObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              var id = entry.target.id;
-              navItems.forEach(function (item) { item.classList.toggle('active', item.dataset.nav === id); });
-              timelineMarkers.forEach(function (m) { m.classList.toggle('active', m.dataset.target === id); });
-            }
-          });
-        }, { threshold: 0.35 });
-        sections.forEach(function (s) { sectionObserver.observe(s); });
-      } catch (e) {}
-
-      try {
-        var timeline = document.getElementById('timeline');
-        var timelineProgress = document.getElementById('timelineProgress');
-        window.addEventListener('scroll', function () {
-          if (!timeline) return;
-          timeline.classList.toggle('visible', window.scrollY > window.innerHeight * 0.8);
-          if (timelineProgress) {
-            var scrollTop = window.scrollY;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            timelineProgress.style.width = progress + '%';
-          }
-        });
-      } catch (e) {}
-
-      try {
-        var logoTrigger = document.getElementById('logoTrigger');
-        var easterEgg = document.getElementById('easterEgg');
-        var clickCount = 0;
-        var clickTimer = null;
-        if (logoTrigger && easterEgg) {
-          logoTrigger.addEventListener('click', function (e) {
-            clickCount++;
-            if (clickCount >= 5) {
-              e.preventDefault();
-              clickCount = 0;
-              easterEgg.classList.add('show');
-              document.body.classList.add('glitch-active');
-              setTimeout(function () {
-                easterEgg.classList.remove('show');
-                document.body.classList.remove('glitch-active');
-              }, 2400);
-            }
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(function () { clickCount = 0; }, 2000);
-          });
-        }
-      } catch (e) {}
-
-      try {
-        var ghostBubble = document.getElementById('ghostBubble');
-        var ghostGuide = document.getElementById('ghostGuide');
-        var ghostMessages = {
-          home: 'Привет! Я Spodzh 👻',
-          about: 'Снимаю видео 3 года',
-          skills: 'Смотри, что умею 🎬',
-          projects: 'Кликай на работы →',
-          services: 'Тут можно заказать',
-          contacts: 'Пиши в Telegram →'
-        };
-        if (ghostBubble && ghostGuide && 'IntersectionObserver' in window) {
-          var ghostSections = document.querySelectorAll('section[id]');
-          var ghostObserver = new IntersectionObserver(function (entries) {
+        if ('IntersectionObserver' in window) {
+          var secObs = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
               if (entry.isIntersecting) {
-                var msg = ghostMessages[entry.target.id];
-                if (msg) {
-                  ghostBubble.style.opacity = '0';
-                  setTimeout(function () {
-                    ghostBubble.textContent = msg;
-                    ghostBubble.style.opacity = '1';
-                  }, 200);
-                }
-              }
-            });
-          }, { threshold: 0.5 });
-          ghostSections.forEach(function (s) { ghostObserver.observe(s); });
-          var ghostTimeout = setTimeout(function () {
-            ghostGuide.classList.add('ghost-guide--minimized');
-          }, 12000);
-          ghostGuide.addEventListener('mouseenter', function () {
-            ghostGuide.classList.remove('ghost-guide--minimized');
-            clearTimeout(ghostTimeout);
-          });
-        }
-      } catch (e) {}
-
-      try {
-        var videoTime = document.getElementById('videoTime');
-        var videoProgress = document.getElementById('videoProgress');
-        var totalSeconds = 28;
-        var currentSeconds = 12;
-        function fmt(n) { return '00:' + String(n).padStart(2, '0'); }
-        setInterval(function () {
-          if (!videoTime) return;
-          currentSeconds++;
-          if (currentSeconds > totalSeconds) currentSeconds = 1;
-          videoTime.textContent = fmt(currentSeconds) + ' / ' + fmt(totalSeconds);
-          if (videoProgress) videoProgress.style.width = (currentSeconds / totalSeconds * 100) + '%';
-        }, 2000);
-        if (videoProgress) videoProgress.style.width = (currentSeconds / totalSeconds * 100) + '%';
-      } catch (e) {}
-
-      /* ---------- ПРОЕКТЫ ---------- */
-      try {
-        var featuredCard = document.getElementById('featuredCard');
-        if (!featuredCard || !PROJECTS.length) return;
-
-        var els = {
-          img: document.getElementById('featuredImg'),
-          label: document.getElementById('featuredLabel'),
-          duration: document.getElementById('featuredDuration'),
-          meta: document.getElementById('featuredMeta'),
-          index: document.getElementById('featuredIndex'),
-          link: document.getElementById('featuredLink'),
-          more: document.getElementById('featuredMore'),
-          play: document.getElementById('featuredPlay'),
-          tiles: document.getElementById('projectsTiles')
-        };
-
-        var current = 0;
-        function pad(n) { return String(n).padStart(2, '0'); }
-
-        function renderFeatured(index) {
-          var p = PROJECTS[index];
-          if (!p) return;
-          featuredCard.style.opacity = '0';
-          setTimeout(function () {
-            els.img.src = p.img;
-            els.img.alt = '';
-            els.label.textContent = p.label;
-            els.duration.textContent = p.duration;
-            els.link.href = p.link;
-            els.more.href = p.link;
-            els.index.textContent = pad(index + 1) + ' / ' + pad(PROJECTS.length);
-
-            els.meta.innerHTML = '';
-            p.tags.forEach(function (tag) {
-              var s = document.createElement('span');
-              s.className = 'featured__tag';
-              s.textContent = tag;
-              els.meta.appendChild(s);
-            });
-
-            featuredCard.style.opacity = '1';
-          }, 200);
-        }
-
-        function renderTiles(excludeIdx) {
-          if (!els.tiles) return;
-          els.tiles.innerHTML = '';
-          PROJECTS.forEach(function (p, idx) {
-            if (idx === excludeIdx) return;
-
-            var card = document.createElement('button');
-            card.type = 'button';
-            card.className = 'tile';
-            card.dataset.index = idx;
-
-            var num = '[' + pad(idx + 1) + ']';
-            var tagsHTML = p.tags.map(function (t) {
-              return '<span class="tile__tag">' + t + '</span>';
-            }).join('');
-
-            card.innerHTML =
-              '<span class="tile__num">' + num + '</span>' +
-              '<span class="tile__thumb">' +
-                '<img src="' + p.img + '" alt="" />' +
-                '<span class="tile__duration">' + p.duration + '</span>' +
-                '<span class="tile__tiktok">♪</span>' +
-              '</span>' +
-              '<span class="tile__tags">' + tagsHTML + '</span>';
-
-            card.addEventListener('click', function () {
-              if (window.matchMedia('(max-width: 900px)').matches) {
-                window.open(p.link, '_blank');
-                return;
-              }
-              current = idx;
-              renderFeatured(current);
-              renderTiles(current);
-              var rect = featuredCard.getBoundingClientRect();
-              if (rect.top < 0 || rect.bottom > window.innerHeight) {
-                window.scrollTo({
-                  top: featuredCard.getBoundingClientRect().top + window.scrollY - 120,
-                  behavior: 'smooth'
+                var id = entry.target.id;
+                navItems.forEach(function (n) {
+                  n.classList.toggle('active', n.dataset.nav === id);
                 });
               }
             });
-
-            els.tiles.appendChild(card);
-          });
+          }, { threshold: 0.35 });
+          sections.forEach(function (s) { secObs.observe(s); });
         }
+      } catch (e) {}
 
-        if (els.play) {
-          els.play.addEventListener('click', function () {
-            var p = PROJECTS[current];
-            if (p && p.link) window.open(p.link, '_blank');
-          });
-        }
-
-        els.img.src = PROJECTS[0].img;
-        renderFeatured(0);
-        renderTiles(0);
-        featuredCard.style.transition = 'opacity 0.3s ease';
-      } catch (e) { console.warn('projects:', e); }
-
-      console.log('%cSPODZH 👻', 'color:#00e5ff; font-size:24px; font-weight:bold;');
-      console.log('%cСайт загружен. Привет, Влад!', 'color:#ff2d75; font-size:14px;');
-
-            /* ============================================================
-         ОПТИМИЗАЦИЯ ПОД ТЕЛЕФОНЫ
-         ============================================================ */
+      /* Пасхалка */
       try {
-        var isMobile = window.matchMedia('(max-width: 900px)').matches;
-        var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        /* ---------- 1. Экономия трафика: не автоплеим видео на медленном интернете ---------- */
-        var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        var saveData = conn && conn.saveData;
-        var slowConn = conn && /2g|slow-2g|3g/.test(conn.effectiveType || '');
-        var heroVideo = document.querySelector('.video-card__media video');
-
-        if (heroVideo) {
-          // Если включён режим экономии трафика или медленное соединение — не грузим видео
-          if (saveData || slowConn) {
-            heroVideo.autoplay = false;
-            heroVideo.removeAttribute('src');
-            heroVideo.load();
-            // Вместо видео — призрак-заглушка
-            var media = heroVideo.parentElement;
-            var ph = document.createElement('div');
-            ph.className = 'video-card__placeholder';
-            ph.innerHTML = '<img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="Spodzh" />';
-            media.insertBefore(ph, heroVideo);
-          } else {
-            // Обычный сценарий — запускаем, но с мягкой обработкой ошибок
-            heroVideo.play().catch(function () {
-              // Автоплей заблокирован браузером — молча игнорируем
-            });
-          }
+        var logo = document.getElementById('logoTrigger');
+        var egg = document.getElementById('easterEgg');
+        var clicks = 0, timer = null;
+        if (logo && egg) {
+          logo.addEventListener('click', function (e) {
+            clicks++;
+            if (clicks >= 5) {
+              e.preventDefault();
+              clicks = 0;
+              egg.classList.add('show');
+              setTimeout(function () { egg.classList.remove('show'); }, 2400);
+            }
+            clearTimeout(timer);
+            timer = setTimeout(function () { clicks = 0; }, 2000);
+          });
         }
+      } catch (e) {}
 
-        /* ---------- 2. Пауза видео, когда hero ушёл за экран (экономит батарею) ---------- */
-        if (heroVideo && !saveData && !slowConn) {
-          var heroSection = document.getElementById('home');
-          if (heroSection && 'IntersectionObserver' in window) {
-            var videoObserver = new IntersectionObserver(function (entries) {
-              entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                  heroVideo.play().catch(function () {});
-                } else {
-                  heroVideo.pause();
+      /* Таймкоды */
+      try {
+        var heroTc = document.getElementById('heroTimecode');
+        var previewTc = document.getElementById('previewTime');
+        var previewProgress = document.getElementById('previewProgress');
+        var total = 28, cur = 12;
+        function fmt2(n) { return String(n).padStart(2, '0'); }
+        function fmtTC(sec) {
+          var m = Math.floor(sec / 60);
+          var s = sec % 60;
+          return '00:' + fmt2(m) + ':' + fmt2(s) + ':' + fmt2(Math.floor(Math.random() * 24));
+        }
+        setInterval(function () {
+          if (heroTc) heroTc.textContent = fmtTC(cur);
+        }, 1000);
+        setInterval(function () {
+          if (!previewTc) return;
+          cur++;
+          if (cur > total) cur = 1;
+          previewTc.textContent = '00:' + fmt2(cur) + ' / 00:' + fmt2(total);
+          if (previewProgress) previewProgress.style.width = (cur / total * 100) + '%';
+        }, 2000);
+        if (previewProgress) previewProgress.style.width = (cur / total * 100) + '%';
+      } catch (e) {}
+
+      /* Проекты + модалка */
+      try {
+        var fc = document.getElementById('featuredCard');
+        var modal = document.getElementById('projectModal');
+        if (fc && PROJECTS.length) {
+          var els = {
+            img: document.getElementById('featuredImg'),
+            label: document.getElementById('featuredLabel'),
+            meta: document.getElementById('featuredMeta'),
+            index: document.getElementById('featuredIndex'),
+            link: document.getElementById('featuredLink'),
+            tc: document.getElementById('featuredTc'),
+            tiles: document.getElementById('projectsTiles')
+          };
+          var current = 0;
+          function pad(n) { return String(n).padStart(2, '0'); }
+
+          function renderFeatured(idx) {
+            var p = PROJECTS[idx];
+            fc.style.opacity = '0';
+            setTimeout(function () {
+              els.img.src = p.img;
+              els.label.textContent = p.label;
+              els.link.href = p.link;
+              els.index.textContent = pad(idx + 1) + ' / ' + pad(PROJECTS.length);
+              if (els.tc) els.tc.textContent = 'CUT_' + pad(idx + 1) + ' · ' + p.duration;
+              els.meta.innerHTML = '';
+              p.tags.forEach(function (t) {
+                var s = document.createElement('span');
+                s.className = 'featured__tag';
+                s.textContent = t;
+                els.meta.appendChild(s);
+              });
+              fc.style.opacity = '1';
+            }, 180);
+          }
+
+          function renderTiles(exclude) {
+            els.tiles.innerHTML = '';
+            PROJECTS.forEach(function (p, i) {
+              if (i === exclude) return;
+              var card = document.createElement('button');
+              card.type = 'button';
+              card.className = 'tile';
+              var tagsHTML = p.tags.map(function (t) {
+                return '<span class="tile__tag">' + t + '</span>';
+              }).join('');
+              card.innerHTML =
+                '<span class="tile__num">CUT_' + pad(i + 1) + '</span>' +
+                '<span class="tile__thumb">' +
+                  '<img src="' + p.img + '" alt="" />' +
+                  '<span class="tile__duration">' + p.duration + '</span>' +
+                  '<span class="tile__tiktok">♪</span>' +
+                '</span>' +
+                '<span class="tile__tags">' + tagsHTML + '</span>';
+              card.addEventListener('click', function () {
+                if (window.matchMedia('(max-width: 900px)').matches) {
+                  window.open(p.link, '_blank');
+                  return;
+                }
+                current = i;
+                renderFeatured(current);
+                renderTiles(current);
+                var r = fc.getBoundingClientRect();
+                if (r.top < 0 || r.bottom > window.innerHeight) {
+                  window.scrollTo({
+                    top: fc.getBoundingClientRect().top + window.scrollY - 100,
+                    behavior: 'smooth'
+                  });
                 }
               });
-            }, { threshold: 0.2 });
-            videoObserver.observe(heroSection);
-          }
-        }
-
-        /* ---------- 3. Отключаем прелоадер быстрее на мобильных ---------- */
-        if (isMobile && !reducedMotion) {
-          var loader = document.getElementById('loader');
-          if (loader) {
-            // Ждём максимум 1.2 сек, не дольше
-            setTimeout(function () {
-              loader.style.animationDuration = '0.4s';
-            }, 800);
-          }
-        }
-
-        /* ---------- 4. Принудительно убираем «магнитные» кнопки на тач ---------- */
-        if (isTouch) {
-          document.querySelectorAll('.magnetic').forEach(function (btn) {
-            btn.style.transform = '';
-          });
-        }
-
-        /* ---------- 5. Ускоряем появление карточек на медленных устройствах ---------- */
-        if (isMobile || reducedMotion) {
-          // Сразу делаем все .reveal видимыми (без анимации при скролле)
-          // — так на слабых телефонах меньше работы для браузера
-          setTimeout(function () {
-            document.querySelectorAll('.reveal:not(.visible)').forEach(function (el, i) {
-              setTimeout(function () { el.classList.add('visible'); }, i * 40);
+              els.tiles.appendChild(card);
             });
-          }, 100);
-        }
+          }
 
-        /* ---------- 6. Меньше параллакса при скролле на мобиле ---------- */
-        if (isMobile) {
-          document.documentElement.style.setProperty('--container', '96%');
-        }
+          els.img.src = PROJECTS[0].img;
+          renderFeatured(0);
+          renderTiles(0);
+          fc.style.transition = 'opacity .3s ease';
 
-        /* ---------- 7. Логируем оптимизацию (можно убрать) ---------- */
-        if (isMobile || isTouch || reducedMotion) {
-          console.log('%cМобильная оптимизация активна',
-            'color:#22d3a8; font-size:12px;',
-            {
-              mobile: isMobile,
-              touch: isTouch,
-              reducedMotion: reducedMotion,
-              saveData: !!saveData,
-              slowConnection: !!slowConn
-            }
-          );
+          var featuredMedia = fc.querySelector('.featured__media');
+          if (modal && featuredMedia) {
+            featuredMedia.style.cursor = 'pointer';
+            featuredMedia.addEventListener('click', function () {
+              var p = PROJECTS[current];
+              document.getElementById('modalImage').src = p.img;
+              document.getElementById('modalCode').textContent = 'CUT_' + pad(current + 1);
+              document.getElementById('modalTc').textContent = p.duration;
+              document.getElementById('modalLink').href = p.link;
+              var mm = document.getElementById('modalMeta');
+              mm.innerHTML = '';
+              p.tags.forEach(function (t) {
+                var s = document.createElement('span');
+                s.className = 'featured__tag';
+                s.textContent = t;
+                mm.appendChild(s);
+              });
+              modal.classList.add('open');
+              modal.setAttribute('aria-hidden', 'false');
+              document.body.style.overflow = 'hidden';
+            });
+          }
+
+          function closeModal() {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+          }
+          if (modal) {
+            modal.querySelectorAll('[data-close]').forEach(function (el) {
+              el.addEventListener('click', closeModal);
+            });
+            document.addEventListener('keydown', function (e) {
+              if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+            });
+          }
         }
-      } catch (e) {
-        console.warn('mobile optimization:', e);
-      }
+      } catch (e) { console.warn('projects:', e); }
+
+      console.log('%cSPODZH // ARCHIVE_v2.0', 'color:#ff2222; font-size:20px; font-weight:bold; font-family: monospace;');
     })();
   </script>
 
