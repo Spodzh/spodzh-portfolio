@@ -576,7 +576,7 @@
     </div>
   </footer>
 
-  <!-- ================= ПАСХАЛКА ================= -->
+  <!-- ================= ПАСХАЛКА (визуальный блок) ================= -->
   <div class="easter-egg" id="easterEgg">
     <div class="easter-egg__inner">
       <span class="easter-egg__tag">[ ACCESS GRANTED ]</span>
@@ -1022,6 +1022,59 @@
           });
 
       } catch (e) { console.warn('projects:', e); }
+
+      /* ============================================================
+         FALLBACK ПАСХАЛКА — сработает если js/corrupted.js не подключён
+         5 кликов по логотипу → секретный экран
+         ============================================================ */
+      try {
+        if (!window.__spodzhCorrupted) {
+          var fbLogo = document.getElementById('logoTrigger');
+          var fbEgg = document.getElementById('easterEgg');
+          var fbCount = 0, fbTimer = null;
+
+          if (fbLogo && fbEgg) {
+            fbLogo.addEventListener('click', function (e) {
+              fbCount++;
+
+              fbLogo.classList.remove('is-corrupting');
+              void fbLogo.offsetWidth;
+              fbLogo.classList.add('is-corrupting');
+              setTimeout(function () { fbLogo.classList.remove('is-corrupting'); }, 520);
+
+              if (fbCount >= 5) {
+                e.preventDefault();
+                fbCount = 0;
+
+                document.body.classList.add('corrupted-mode');
+
+                fbEgg.classList.add('show');
+
+                var flash = document.createElement('div');
+                flash.className = 'corrupt-invert-flash run';
+                document.body.appendChild(flash);
+                setTimeout(function () {
+                  if (flash.parentNode) flash.parentNode.removeChild(flash);
+                }, 1400);
+
+                setTimeout(function () {
+                  fbEgg.classList.remove('show');
+                  document.body.classList.remove('corrupted-mode');
+                }, 2400);
+
+                return;
+              }
+
+              clearTimeout(fbTimer);
+              fbTimer = setTimeout(function () { fbCount = 0; }, 3000);
+            });
+          }
+
+          console.log('%c[fallback] Пасхалка через основной скрипт', 'color:#ffd93d; font-size:11px;');
+        } else {
+          console.log('%c[corrupted.js] Внешний модуль активен', 'color:#22c55e; font-size:11px;');
+        }
+      } catch (e) { console.warn('easter egg fallback:', e); }
 
       console.log('%cSPODZH // ARCHIVE_v2.0', 'color:#ff2222; font-size:20px; font-weight:bold; font-family: monospace;');
     })();
