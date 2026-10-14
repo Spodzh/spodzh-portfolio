@@ -14,17 +14,45 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/sections.css" />
   <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/interactive.css" />
+  <link rel="stylesheet" href="css/corrupted.css" />
 </head>
 <body>
 
   <!-- ================= ПРЕЛОАДЕР ================= -->
   <div class="loader" id="loader">
     <div class="loader-inner">
-      <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" class="loader-logo" />
-      <div class="loader-bar"><span></span></div>
-      <p class="loader-text">LOADING_ARCHIVE_v2.0...</p>
+      <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" class="loader-logo"
+           style="width:110px !important;height:110px !important;max-width:110px !important;max-height:110px !important;object-fit:contain !important;display:block !important;" />
+      <div class="loader-bar" style="width:280px;height:3px;background:rgba(242,237,227,.1);overflow:hidden;margin-top:22px;">
+        <span style="display:block;height:100%;width:0;background:#ff2222;animation:loadBar 1.6s cubic-bezier(.22,1,.36,1) forwards;"></span>
+      </div>
+      <p class="loader-text" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:#8a8578;text-transform:uppercase;margin-top:16px;">LOADING_ARCHIVE_v2.0...</p>
     </div>
   </div>
+  <style>
+    @keyframes loadBar { to { width: 100%; } }
+    #loader { position: fixed; inset: 0; background: #0d0d10; z-index: 9999;
+              display: flex; align-items: center; justify-content: center;
+              transition: opacity .4s ease, visibility .4s ease; }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    #loader.done  { display: none !important; }
+  </style>
+  <script>
+    (function () {
+      var l = document.getElementById('loader');
+      if (!l) return;
+      setTimeout(function () {
+        l.classList.add('hidden');
+        setTimeout(function () { l.classList.add('done'); }, 500);
+      }, 1800);
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          l.classList.add('hidden', 'done');
+        }, 600);
+      });
+    })();
+  </script>
 
   <!-- ================= ФОН ================= -->
   <div class="bg-grid" aria-hidden="true"></div>
@@ -484,15 +512,6 @@
     </div>
   </footer>
 
-  <!-- ================= ПАСХАЛКА ================= -->
-  <div class="easter-egg" id="easterEgg">
-    <div class="easter-egg__inner">
-      <span class="easter-egg__tag">[ ACCESS GRANTED ]</span>
-      <p class="easter-egg__text">Ты нашёл секретный кадр 👻</p>
-      <span class="easter-egg__sub">SHHH... только между нами</span>
-    </div>
-  </div>
-
   <!-- ================= МОДАЛКА ПРОЕКТА ================= -->
   <div class="project-modal" id="projectModal" aria-hidden="true">
     <div class="project-modal__backdrop" data-close></div>
@@ -518,7 +537,17 @@
     </div>
   </div>
 
-  <!-- ================= СКРИПТ ================= -->
+  <!-- ================= ИНТЕРАКТИВ (V3) ================= -->
+    <script src="js/interactive.js"></script>
+  <script src="js/corrupted.js"></script>
+  <script>
+    (function () {
+      // твой основной скрипт
+    })();
+  </script>
+
+
+  <!-- ================= ОСНОВНОЙ СКРИПТ ================= -->
   <script>
     (function () {
       'use strict';
@@ -681,26 +710,6 @@
             });
           }, { threshold: 0.35 });
           sections.forEach(function (s) { secObs.observe(s); });
-        }
-      } catch (e) {}
-
-      /* Пасхалка */
-      try {
-        var logo = document.getElementById('logoTrigger');
-        var egg = document.getElementById('easterEgg');
-        var clicks = 0, timer = null;
-        if (logo && egg) {
-          logo.addEventListener('click', function (e) {
-            clicks++;
-            if (clicks >= 5) {
-              e.preventDefault();
-              clicks = 0;
-              egg.classList.add('show');
-              setTimeout(function () { egg.classList.remove('show'); }, 2400);
-            }
-            clearTimeout(timer);
-            timer = setTimeout(function () { clicks = 0; }, 2000);
-          });
         }
       } catch (e) {}
 
