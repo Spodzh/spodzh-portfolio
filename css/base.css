@@ -47,6 +47,13 @@
   --ease: cubic-bezier(.22, 1, .36, 1);
   --transition: .3s var(--ease);
   --radius: 4px;
+
+  /* ДОП. ПАЛИТРА (используется в story.html) */
+  --muted: #6a6a7a;
+  --muted-2: #4a4a58;
+  --border: rgba(255, 255, 255, 0.08);
+  --magenta: #ff2d75;
+  --grad: linear-gradient(135deg, #00e5ff 0%, #4f7dff 45%, #ff2d75 100%);
 }
 
 /* СБРОС */

@@ -4,7 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SPODZH // ARCHIVE_v2.0</title>
-  <meta name="description" content="Видеомонтажёр Spodzh. Секретный видеоархив." />
+  <meta name="description" content="Видеомонтажёр Spodzh. 45K+ в TikTok. Съёмка, монтаж, креатив — от идеи до финального кадра." />
+
+  <link rel="icon" type="image/png" href="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
+  <link rel="apple-touch-icon" href="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
+
+  <meta name="theme-color" content="#0d0d10" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://spodzh.github.io/spodzh-portfolio/index.html" />
+  <meta property="og:title" content="SPODZH // ARCHIVE_v2.0" />
+  <meta property="og:description" content="Видеомонтажёр Spodzh. 45K+ в TikTok. Съёмка, монтаж, креатив." />
+  <meta property="og:image" content="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SPODZH // ARCHIVE_v2.0" />
+  <meta name="twitter:description" content="Видеомонтажёр Spodzh. 45K+ в TikTok." />
+  <meta name="twitter:image" content="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,6 +33,9 @@
   <link rel="stylesheet" href="css/interactive.css" />
   <link rel="stylesheet" href="css/corrupted.css" />
   <link rel="stylesheet" href="css/reviews.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+
+  <link rel="manifest" href="manifest.webmanifest" />
 </head>
 <body>
 
@@ -47,7 +66,6 @@
       var pct = document.getElementById('renderPercent');
       if (!l) return;
 
-      // Сценарий "рендера"
       var stages = [
         { at: 0,    text: 'INITIALIZING_RENDER...' },
         { at: 400,  text: 'LOADING_FOOTAGE...' },
@@ -62,7 +80,6 @@
         }, s.at);
       });
 
-      // Прогресс-бар
       var start = performance.now();
       var total = 1900;
       function tick(now) {
@@ -111,13 +128,13 @@
       </a>
 
       <nav class="nav-links" id="navLinks">
-        <a href="#home" data-nav="home"><b>01</b> INTRO</a>
-        <a href="#about" data-nav="about"><b>02</b> ABOUT</a>
-        <a href="#skills" data-nav="skills"><b>03</b> SKILLS</a>
-        <a href="#projects" data-nav="projects"><b>04</b> WORK</a>
-        <a href="#services" data-nav="services"><b>05</b> SERVICES</a>
-        <a href="#reviews" data-nav="reviews"><b>06</b> REVIEWS</a>
-        <a href="#contacts" data-nav="contacts"><b>07</b> CONTACT</a>
+        <a href="#home" data-nav="home"><b>01</b> <span data-i18n="nav_home">INTRO</span></a>
+        <a href="#about" data-nav="about"><b>02</b> <span data-i18n="nav_about">ABOUT</span></a>
+        <a href="#skills" data-nav="skills"><b>03</b> <span data-i18n="nav_skills">SKILLS</span></a>
+        <a href="#projects" data-nav="projects"><b>04</b> <span data-i18n="nav_work">WORK</span></a>
+        <a href="#services" data-nav="services"><b>05</b> <span data-i18n="nav_services">SERVICES</span></a>
+        <a href="#reviews" data-nav="reviews"><b>06</b> <span data-i18n="nav_reviews">REVIEWS</span></a>
+        <a href="#contacts" data-nav="contacts"><b>07</b> <span data-i18n="nav_contacts">CONTACT</span></a>
       </nav>
 
       <div class="nav-actions">
@@ -410,7 +427,7 @@
         </div>
       </article>
 
-      <div class="work-row reveal" id="workRow">
+      <div class="work-row reveal stagger-parent" id="workRow">
 
         <button class="work-mini" id="miniLeft" aria-label="Previous video">
           <span class="work-mini__num">CUT_02</span>
@@ -443,12 +460,76 @@
 
       </div>
 
+      <!-- ================= YOUTUBE CLIPS ================= -->
+      <div class="work-clips reveal">
+        <button class="work-clips__btn" id="clipsBtn" type="button">
+          <span class="work-clips__icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </span>
+          <span class="work-clips__label">YOUTUBE CLIPS</span>
+          <span class="work-clips__count">02</span>
+          <span class="work-clips__arrow">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+      </div>
+
       <div class="work-empty" id="workEmpty" hidden>
         <span class="work-empty__text">> <i data-i18n="work_loading">портфолио загружается...</i></span>
       </div>
 
     </div>
   </section>
+
+  <!-- ================= МОДАЛКА YOUTUBE CLIPS ================= -->
+  <div class="clips-modal" id="clipsModal" aria-hidden="true">
+    <div class="clips-modal__backdrop" data-close-clips></div>
+    <div class="clips-modal__dialog">
+      <button class="clips-modal__close" data-close-clips aria-label="Close">✕</button>
+
+      <header class="clips-modal__head">
+        <span class="clips-modal__tag">[ ARCHIVE_CLIPS / 02 ]</span>
+        <h3 class="clips-modal__title">MUSIC CLIPS</h3>
+        <p class="clips-modal__sub">два клипа, которые вышли за пределы TikTok</p>
+      </header>
+
+      <div class="clips-modal__grid">
+
+        <a class="clip-card" href="https://www.youtube.com/watch?v=CNVz_u516Wg" target="_blank" rel="noopener">
+          <div class="clip-card__media">
+            <img src="https://i.ibb.co/TB4DTrTT/maxresdefault.jpg" alt="Новогодний клип" loading="lazy">
+            <span class="clip-card__play" aria-hidden="true">▶</span>
+            <span class="clip-card__badge">CLIP_01</span>
+          </div>
+          <div class="clip-card__info">
+            <h4 class="clip-card__title">Новогодний клип-пародия</h4>
+            <span class="clip-card__meta">25 дек 2024 · хромакей у друга</span>
+            <span class="clip-card__cta">
+              СМОТРЕТЬ НА YOUTUBE
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a class="clip-card" href="https://www.youtube.com/watch?v=TOeKtNYVjcI" target="_blank" rel="noopener">
+          <div class="clip-card__media">
+            <img src="https://i.ibb.co/XxZ7N0sb/image.png" alt="Дисс на Жюри" loading="lazy">
+            <span class="clip-card__play" aria-hidden="true">▶</span>
+            <span class="clip-card__badge">CLIP_02</span>
+          </div>
+          <div class="clip-card__info">
+            <h4 class="clip-card__title">Дисс на Жюри</h4>
+            <span class="clip-card__meta">янв 2025 · шоу Мафани</span>
+            <span class="clip-card__cta">
+              СМОТРЕТЬ НА YOUTUBE
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
 
   <!-- ================= SERVICES ================= -->
   <section class="section services" id="services">
@@ -533,6 +614,13 @@
           <span class="contact-card__net">TELEGRAM</span>
           <span class="contact-card__handle">@spodzh</span>
           <span class="contact-card__hint" data-i18n="contact_telegram_hint">быстрее всего →</span>
+        </a>
+
+        <a href="https://t.me/ssspodzh" target="_blank" class="contact-card reveal">
+          <span class="contact-card__status">◉ CHANNEL</span>
+          <span class="contact-card__net">TG_CHANNEL</span>
+          <span class="contact-card__handle">@ssspodzh</span>
+          <span class="contact-card__hint">сподж · 319 подписчиков</span>
         </a>
 
         <a href="https://tiktok.com/@spodzh" target="_blank" class="contact-card reveal">
@@ -631,6 +719,33 @@
 
   <!-- ================= REVIEWS ================= -->
   <script src="js/reviews.js"></script>
+  <script src="js/enhancements.js"></script>
+
+  <!-- ================= АДМИН-ПАНЕЛЬ ================= -->
+  <div class="admin-panel" id="adminPanel" aria-hidden="true">
+    <div class="admin-panel__backdrop" data-admin-close></div>
+    <div class="admin-panel__dialog">
+      <header class="admin-panel__head">
+        <span class="admin-panel__tag">[ ADMIN_PANEL · Ctrl+Shift+A ]</span>
+        <h3 class="admin-panel__title">SPODZH // CONTROL</h3>
+        <button class="admin-panel__close" data-admin-close aria-label="Close">✕</button>
+      </header>
+
+      <div class="admin-panel__stats" id="adminStats">
+        <div class="admin-stat"><span>Отзывы</span><strong data-admin="reviews_total">—</strong></div>
+        <div class="admin-stat"><span>В очереди</span><strong data-admin="reviews_pending">—</strong></div>
+        <div class="admin-stat"><span>Опубликовано</span><strong data-admin="reviews_approved">—</strong></div>
+        <div class="admin-stat"><span>Видео</span><strong data-admin="videos_total">—</strong></div>
+      </div>
+
+      <div class="admin-panel__pending" id="adminPending"></div>
+
+      <div class="admin-panel__actions">
+        <a href="https://t.me/ssspodzh" target="_blank" class="btn btn--ghost">TG-канал</a>
+        <button class="btn btn--ghost" data-admin-refresh type="button">ОБНОВИТЬ</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ================= ОСНОВНОЙ СКРИПТ ================= -->
   <script>
@@ -642,6 +757,13 @@
          ============================================================ */
       var I18N = {
         ru: {
+          nav_home: 'INTRO',
+          nav_about: 'ABOUT',
+          nav_skills: 'SKILLS',
+          nav_work: 'WORK',
+          nav_services: 'SERVICES',
+          nav_reviews: 'REVIEWS',
+          nav_contacts: 'CONTACT',
           hero_sub: 'видеомонтажёр<span class="dot-slash">//</span>оператор<span class="dot-slash">//</span>контент-мейкер',
           hero_desc: 'Делаю видео, которые <span class="hl">цепляют с первой секунды</span>. Съёмка, монтаж и креатив — от идеи до финального кадра.',
           btn_view_works: 'СМОТРЕТЬ РАБОТЫ',
@@ -697,6 +819,13 @@
           footer_top: '↑ BACK TO TOP'
         },
         en: {
+          nav_home: 'INTRO',
+          nav_about: 'ABOUT',
+          nav_skills: 'SKILLS',
+          nav_work: 'WORK',
+          nav_services: 'SERVICES',
+          nav_reviews: 'REVIEWS',
+          nav_contacts: 'CONTACT',
           hero_sub: 'video editor<span class="dot-slash">//</span>cameraman<span class="dot-slash">//</span>content maker',
           hero_desc: 'I make videos that <span class="hl">hook from the very first second</span>. Shooting, editing and creative — from idea to final cut.',
           btn_view_works: 'VIEW WORKS',
@@ -763,13 +892,11 @@
           var key = el.getAttribute('data-i18n');
           var val = I18N[lang][key];
           if (typeof val === 'string') {
-            // если есть span/hl — обновляем через innerHTML, иначе textContent
             if (val.indexOf('<') !== -1) el.innerHTML = val;
             else el.textContent = val;
           }
         });
 
-        // Состояние кнопки языка
         var cur = document.getElementById('langCurrent');
         var oth = document.getElementById('langOther');
         if (cur && oth) {
@@ -804,7 +931,6 @@
         var eggActive = false;
 
         window.addEventListener('keydown', function (e) {
-          // Только когда не в полях ввода
           var tag = (e.target && e.target.tagName) || '';
           if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
 
@@ -815,7 +941,6 @@
               eggActive = true;
               keyBuffer = '';
 
-              // Всем призракам — сальто
               var ghosts = document.querySelectorAll('.hero-ghost, .ghost-corner');
               ghosts.forEach(function (g) {
                 g.classList.remove('is-flipping', 'is-wiggling', 'is-pixel');
@@ -824,7 +949,6 @@
                 setTimeout(function () { g.classList.remove('is-flipping'); }, 1100);
               });
 
-              // Показать маленькую подсказку
               showEasterHint();
 
               setTimeout(function () { eggActive = false; }, 1500);
@@ -1022,22 +1146,29 @@
       } catch (e) {}
 
       /* ============================================================
-         ТАЙМКОДЫ
+         ТАЙМКОДЫ (плавный инкремент кадров)
          ============================================================ */
       try {
         var heroTc = document.getElementById('heroTimecode');
         var previewTc = document.getElementById('previewTime');
         var previewProgress = document.getElementById('previewProgress');
         var total = 28, cur = 12;
+        var heroFrame = 12;
+
         function fmt2(n) { return String(n).padStart(2, '0'); }
-        function fmtTC(sec) {
+        function fmtTC(sec, frame) {
           var m = Math.floor(sec / 60);
           var s = sec % 60;
-          return '00:' + fmt2(m) + ':' + fmt2(s) + ':' + fmt2(Math.floor(Math.random() * 24));
+          return '00:' + fmt2(m) + ':' + fmt2(s) + ':' + fmt2(frame);
         }
+
         setInterval(function () {
-          if (heroTc) heroTc.textContent = fmtTC(cur);
+          if (heroTc) {
+            heroFrame = (heroFrame + 1) % 24;
+            heroTc.textContent = fmtTC(cur, heroFrame);
+          }
         }, 1000);
+
         setInterval(function () {
           if (!previewTc) return;
           cur++;
@@ -1045,6 +1176,7 @@
           previewTc.textContent = '00:' + fmt2(cur) + ' / 00:' + fmt2(total);
           if (previewProgress) previewProgress.style.width = (cur / total * 100) + '%';
         }, 2000);
+
         if (previewProgress) previewProgress.style.width = (cur / total * 100) + '%';
       } catch (e) {}
 
@@ -1106,16 +1238,14 @@
 
         function renderMinis() {
           var N = projectState.videos.length;
+          var mLeft = document.getElementById('miniLeft');
+          var mRight = document.getElementById('miniRight');
+
           if (N < 2) {
-            var mLeft = document.getElementById('miniLeft');
-            var mRight = document.getElementById('miniRight');
             if (mLeft) mLeft.hidden = true;
             if (mRight) mRight.hidden = true;
             return;
           }
-
-          var idxLeft = (projectState.current + 1) % N;
-          var idxRight = N > 2 ? (projectState.current + 2) % N : idxLeft;
 
           function fill(side, idx) {
             var v = projectState.videos[idx];
@@ -1143,8 +1273,20 @@
             return idx;
           }
 
+          // Левая карточка — всегда следующая после текущей
+          var idxLeft = (projectState.current + 1) % N;
+          if (mLeft) mLeft.hidden = false;
           projectState.miniLeftIndex = fill('Left', idxLeft);
-          projectState.miniRightIndex = fill('Right', idxRight);
+
+          // Правая карточка — если есть что показать (N > 2)
+          if (N === 2) {
+            if (mRight) mRight.hidden = true;
+            projectState.miniRightIndex = null;
+          } else {
+            if (mRight) mRight.hidden = false;
+            var idxRight = (projectState.current + 2) % N;
+            projectState.miniRightIndex = fill('Right', idxRight);
+          }
         }
 
         function renderAll() {
@@ -1248,6 +1390,21 @@
           });
         }
 
+        // Placeholder до получения списка видео от API
+        (function initPlaceholders() {
+          var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100">' +
+            '<rect width="160" height="100" fill="#14141a"/>' +
+            '<text x="80" y="52" font-family="monospace" font-size="9" fill="#565248" text-anchor="middle" letter-spacing="2">LOADING...</text>' +
+            '</svg>';
+          var ph = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+          var fImg = document.getElementById('featuredImg');
+          var mli = document.getElementById('miniLeftImg');
+          var mri = document.getElementById('miniRightImg');
+          if (fImg) fImg.src = ph;
+          if (mli) mli.src = ph;
+          if (mri) mri.src = ph;
+        })();
+
         fetch(API_BASE + '/videos')
           .then(function (r) { return r.json(); })
           .then(function (data) {
@@ -1262,6 +1419,39 @@
           });
 
       } catch (e) { console.warn('projects:', e); }
+
+      /* ============================================================
+         YOUTUBE CLIPS — модалка
+         ============================================================ */
+      try {
+        var clipsModal = document.getElementById('clipsModal');
+        var clipsBtn = document.getElementById('clipsBtn');
+
+        if (clipsModal && clipsBtn) {
+          function openClips() {
+            clipsModal.classList.add('open');
+            clipsModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+          }
+          function closeClips() {
+            clipsModal.classList.remove('open');
+            clipsModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+          }
+
+          clipsBtn.addEventListener('click', openClips);
+
+          clipsModal.querySelectorAll('[data-close-clips]').forEach(function (el) {
+            el.addEventListener('click', closeClips);
+          });
+
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && clipsModal.classList.contains('open')) {
+              closeClips();
+            }
+          });
+        }
+      } catch (e) { console.warn('clips:', e); }
 
       /* ============================================================
          FALLBACK ПАСХАЛКА (5 кликов по логотипу)

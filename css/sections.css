@@ -364,7 +364,7 @@
    ОБЩИЕ СТИЛИ СЕКЦИЙ
    ============================================================ */
 .section {
-  padding: 160px 0;
+  padding: 100px 0;
   position: relative;
   scroll-margin-top: 100px;
 }
@@ -540,7 +540,7 @@
    PROJECTS
    ============================================================ */
 .projects-new {
-  padding: 160px 0 120px;
+  padding: 100px 0 80px;
   scroll-margin-top: 100px;
 }
 
@@ -553,6 +553,8 @@
   border: 1px solid var(--line-strong);
   margin-bottom: 24px;
   transition: opacity .3s ease;
+  height: 400px;
+  overflow: hidden;
 }
 .featured::before {
   content: '';
@@ -565,13 +567,16 @@
 
 .featured__media {
   position: relative;
-  aspect-ratio: 16/10;
+  height: 100%;
   overflow: hidden;
-  background: #000;
+  background: linear-gradient(135deg, #14141a 0%, #1c1c24 100%);
   border-right: 1px solid var(--line-strong);
   cursor: pointer;
+  min-height: 0;
 }
 .featured__media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -627,11 +632,13 @@
 }
 
 .featured__info {
-  padding: 52px 48px;
+  padding: 36px 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 22px;
+  gap: 18px;
+  min-height: 0;
+  overflow: hidden;
 }
 .featured__label {
   align-self: flex-start;
@@ -670,7 +677,7 @@
   flex-wrap: wrap;
   gap: 20px;
   align-items: center;
-  margin-top: 12px;
+  margin-top: 4px;
 }
 .featured__hint {
   font-size: 1.4rem;
@@ -709,7 +716,6 @@
   align-items: stretch;
 }
 
-/* Маленькая карточка */
 .work-mini {
   position: relative;
   display: flex;
@@ -881,7 +887,6 @@
   color: var(--red);
 }
 
-/* Пульсация вокруг стрелки */
 .work-next__arrow::after {
   content: '';
   position: absolute;
@@ -1007,11 +1012,17 @@
    ============================================================ */
 .contacts-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
   margin-bottom: 80px;
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .contacts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .contact-card {
   position: relative;
@@ -1188,7 +1199,7 @@
   .hero-preview { max-width: min(340px, 28vw); }
   .about-grid { grid-template-columns: 340px 1fr; gap: 60px; }
   .skill-row { grid-template-columns: 70px 1.2fr 1.5fr 140px; gap: 32px; }
-  .featured__info { padding: 40px 36px; }
+  .featured__info { padding: 32px 28px; }
 }
 
 @media (max-width: 900px) {
@@ -1227,7 +1238,7 @@
   .scroll-hint { position: static; margin: 50px auto 0; transform: none; align-items: center; }
 
   .section,
-  .projects-new { padding: 100px 0; scroll-margin-top: 80px; }
+  .projects-new { padding: 80px 0; scroll-margin-top: 80px; }
 
   .about-grid { grid-template-columns: 1fr; gap: 48px; }
   .photo-censor { max-width: 340px; margin: 0 auto; }
@@ -1246,13 +1257,26 @@
   .skill-row__level i { width: 14px; height: 14px; }
   .skill-row:hover { padding-left: 16px; }
 
-  .featured { grid-template-columns: 1fr; margin-bottom: 20px; }
+  /* Featured — на планшете возвращаем вертикальную раскладку */
+  .featured {
+    grid-template-columns: 1fr;
+    height: auto;
+    max-height: none;
+    margin-bottom: 20px;
+    overflow: visible;
+  }
   .featured__media {
     aspect-ratio: 16/10;
-    border-right: none;
-    border-bottom: 1px solid var(--line-strong);
+    height: auto;
+    min-height: 0;
   }
-  .featured__info { padding: 36px 28px; gap: 18px; }
+  .featured__media img {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+  }
+  .featured__info { padding: 36px 28px; gap: 18px; overflow: visible; }
 
   /* WORK ROW — на планшете: 2 превью + стрелка во всю ширину */
   .work-row {
@@ -1278,6 +1302,12 @@
 
   .cta-final { padding: 70px 32px 60px; }
   .cta-final__ghost-arrow { width: 70px; height: 42px; right: 24px; bottom: 24px; }
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .contacts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
@@ -1314,7 +1344,7 @@
 
   .section,
   .projects-new {
-    padding: 80px 0;
+    padding: 64px 0;
     scroll-margin-top: 70px;
   }
 
@@ -1407,9 +1437,6 @@
   .footer__center { font-size: 1.25rem; }
 }
 
-/* ============================================================
-   ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ — до 380px
-   ============================================================ */
 @media (max-width: 380px) {
   .hero-title__main,
   .hero-title__glitch { font-size: clamp(2.4rem, 14vw, 3.8rem); }
@@ -1418,9 +1445,6 @@
   .chip { font-size: 0.6rem; padding: 5px 10px; }
 }
 
-/* ============================================================
-   ЛАНДШАФТ ТЕЛЕФОНА
-   ============================================================ */
 @media (max-height: 500px) and (orientation: landscape) {
   .hero { padding: 90px 0 50px; }
   .hero-preview { max-width: 220px; margin: 20px auto; }
@@ -1461,4 +1485,356 @@
 
   .featured:hover .featured__media img { transform: scale(1.04); }
   .featured__media:hover .featured__social { background: rgba(0,0,0,.8); border-color: var(--line-strong); }
+}
+
+/* ============================================================
+   YOUTUBE CLIPS — кнопка + модалка
+   ============================================================ */
+
+.work-clips {
+  margin-top: 24px;
+}
+
+.work-clips__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 0.88rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.work-clips__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,34,34,.12));
+  transform: translateX(-100%);
+  transition: transform .6s var(--ease);
+  pointer-events: none;
+}
+.work-clips__btn:hover {
+  border-color: var(--red);
+  color: #fff;
+}
+.work-clips__btn:hover::before {
+  transform: translateX(0);
+}
+
+.work-clips__icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(255,34,34,.5);
+}
+.work-clips__icon svg {
+  width: 18px;
+  height: 18px;
+  margin-left: 2px;
+}
+
+.work-clips__label {
+  flex: 1;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.work-clips__count {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--yellow);
+  padding: 4px 10px;
+  border: 1px solid var(--yellow);
+  background: rgba(255,217,61,.08);
+  position: relative;
+  z-index: 1;
+}
+
+.work-clips__arrow {
+  display: grid;
+  place-items: center;
+  color: var(--red);
+  transition: transform .3s var(--ease);
+  position: relative;
+  z-index: 1;
+}
+.work-clips__btn:hover .work-clips__arrow {
+  transform: translateX(5px);
+}
+
+/* ---------- МОДАЛКА ---------- */
+.clips-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+.clips-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.clips-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(13,13,16,.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.clips-modal__dialog {
+  position: relative;
+  z-index: 2;
+  width: min(960px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-2);
+  border: 2px solid var(--red);
+  box-shadow: 0 0 80px rgba(255,34,34,.35);
+  padding: 40px 40px 44px;
+  transform: scale(.96);
+  transition: transform .4s var(--ease);
+}
+.clips-modal.open .clips-modal__dialog {
+  transform: scale(1);
+}
+.clips-modal__dialog::-webkit-scrollbar { width: 8px; }
+.clips-modal__dialog::-webkit-scrollbar-thumb {
+  background: var(--red);
+  border-radius: 4px;
+}
+
+.clips-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .25s, color .25s, transform .3s;
+  z-index: 5;
+}
+.clips-modal__close:hover {
+  background: var(--yellow);
+  color: #000;
+  transform: rotate(90deg);
+}
+
+.clips-modal__head {
+  margin-bottom: 32px;
+  padding-right: 60px;
+}
+.clips-modal__tag {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .24em;
+  color: var(--red);
+  padding: 5px 12px;
+  border: 1px solid var(--red);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.clips-modal__title {
+  font-family: var(--f-cry);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.clips-modal__sub {
+  font-family: var(--f-hand);
+  font-size: 1.35rem;
+  color: var(--yellow);
+  transform: rotate(-1.5deg);
+  display: inline-block;
+}
+
+.clips-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ---------- КАРТОЧКА КЛИПА ---------- */
+.clip-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-3);
+  border: 1px solid var(--line-strong);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+.clip-card:hover {
+  border-color: var(--red);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px rgba(255,34,34,.5);
+}
+
+.clip-card__media {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #000;
+  overflow: hidden;
+}
+.clip-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s var(--ease);
+}
+.clip-card:hover .clip-card__media img {
+  transform: scale(1.06);
+}
+
+.clip-card__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2.4rem;
+  color: #fff;
+  background: rgba(0,0,0,.35);
+  transition: background .3s;
+  z-index: 2;
+  text-shadow: 0 0 20px rgba(0,0,0,.9);
+}
+.clip-card:hover .clip-card__play {
+  background: rgba(255,34,34,.55);
+}
+
+.clip-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  letter-spacing: .16em;
+  background: var(--red);
+  color: #fff;
+  padding: 4px 10px;
+  z-index: 3;
+  font-weight: 700;
+}
+
+.clip-card__info {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.clip-card__title {
+  font-family: var(--f-cry);
+  font-size: 1.1rem;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.clip-card__meta {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .12em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.clip-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: .16em;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  transition: color .25s, gap .25s;
+}
+.clip-card:hover .clip-card__cta {
+  color: var(--yellow);
+  gap: 12px;
+}
+
+/* ---------- АДАПТИВ ---------- */
+@media (max-width: 900px) {
+  .clips-modal {
+    padding: 16px;
+  }
+  .clips-modal__dialog {
+    padding: 28px 22px 32px;
+  }
+  .clips-modal__grid {
+    grid-template-columns: 1fr;
+  }
+  .clips-modal__title {
+    font-size: 1.6rem;
+  }
+  .clips-modal__sub {
+    font-size: 1.15rem;
+  }
+  .work-clips__btn {
+    padding: 16px 18px;
+    font-size: 0.78rem;
+    gap: 12px;
+  }
+  .work-clips__icon {
+    width: 36px;
+    height: 36px;
+  }
+  .work-clips__icon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .work-clips__label {
+    font-size: 0.72rem;
+    letter-spacing: .1em;
+  }
+  .work-clips__count {
+    font-size: 0.64rem;
+    padding: 3px 7px;
+  }
+  .clip-card__title {
+    font-size: 1rem;
+  }
 }

@@ -1,0 +1,32 @@
+{
+  "name": "SPODZH // ARCHIVE",
+  "short_name": "SPODZH",
+  "description": "Видеомонтажёр Spodzh. Портфолио и архив.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d0d10",
+  "theme_color": "#0d0d10",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/G46gG6hM/SPODZHLOGO.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/G46gG6hM/SPODZHLOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.ibb.co/G46gG6hM/SPODZHLOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
