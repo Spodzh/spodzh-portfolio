@@ -39,7 +39,7 @@
 </head>
 <body>
 
-  <!-- ================= ПРЕЛОАДЕР / ЭКРАН РЕНДЕРА ================= -->
+  <!-- ================= ПРЕЛОАДЕР ================= -->
   <div class="loader" id="loader">
     <div class="loader-inner">
       <img src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="" class="loader-logo"
@@ -711,22 +711,12 @@
     </div>
   </div>
 
-  <!-- ================= ИНТЕРАКТИВ (V3) ================= -->
-  <script src="js/interactive.js"></script>
-
-  <!-- ================= CORRUPTED ARCHIVE ================= -->
-  <script src="js/corrupted.js"></script>
-
-  <!-- ================= REVIEWS ================= -->
-  <script src="js/reviews.js"></script>
-  <script src="js/enhancements.js"></script>
-
   <!-- ================= АДМИН-ПАНЕЛЬ ================= -->
   <div class="admin-panel" id="adminPanel" aria-hidden="true">
     <div class="admin-panel__backdrop" data-admin-close></div>
     <div class="admin-panel__dialog">
       <header class="admin-panel__head">
-        <span class="admin-panel__tag">[ ADMIN_PANEL · Ctrl+Shift+A ]</span>
+        <span class="admin-panel__tag">[ ADMIN_PANEL · Ctrl+Alt+A ]</span>
         <h3 class="admin-panel__title">SPODZH // CONTROL</h3>
         <button class="admin-panel__close" data-admin-close aria-label="Close">✕</button>
       </header>
@@ -746,6 +736,155 @@
       </div>
     </div>
   </div>
+
+  <!-- ================= ИНТЕРАКТИВ ================= -->
+  <script src="js/interactive.js"></script>
+
+  <!-- ================= CORRUPTED ARCHIVE ================= -->
+  <script src="js/corrupted.js"></script>
+
+  <!-- ================= REVIEWS ================= -->
+  <script src="js/reviews.js"></script>
+
+  <!-- ================= ENHANCEMENTS ================= -->
+  <script src="js/enhancements.js"></script>
+
+  <!-- ================= ADMIN — встроенная логика ================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      var panel = document.getElementById('adminPanel');
+      if (!panel) {
+        console.warn('[admin] panel element not found');
+        return;
+      }
+
+      var API_BASE = 'https://spodzh-reviews-api.ernest-chanel.workers.dev';
+      var KEY_STORAGE = 'spodzh_admin_key';
+
+      var statsEl = panel.querySelector('#adminStats');
+      var pendingEl = panel.querySelector('#adminPending');
+
+      function openPanel() {
+        var key = null;
+        try { key = localStorage.getItem(KEY_STORAGE); } catch (e) {}
+        if (!key) {
+          key = window.prompt('ADMIN KEY:');
+          if (!key) return;
+          try { localStorage.setItem(KEY_STORAGE, key); } catch (e) {}
+        }
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        loadStats(key);
+      }
+
+      function closePanel() {
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      function loadStats(key) {
+        fetch(API_BASE + '/admin/stats?key=' + encodeURIComponent(key))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.error) {
+              pendingEl.innerHTML = '<div class="admin-error">⚠ ' + data.error + '</div>';
+              return;
+            }
+            setVal('reviews_total', data.reviews_total);
+            setVal('reviews_pending', data.reviews_pending);
+            setVal('reviews_approved', data.reviews_approved);
+            setVal('videos_total', data.videos_total);
+          })
+          .catch(function (err) {
+            pendingEl.innerHTML = '<div class="admin-error">⚠ Сеть: ' + err.message + '</div>';
+          });
+
+        fetch(API_BASE + '/admin/pending?key=' + encodeURIComponent(key))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            var items = (data && data.items) || [];
+            if (!items.length) {
+              pendingEl.innerHTML = '<div class="admin-empty">✨ Очередь пуста</div>';
+              return;
+            }
+            pendingEl.innerHTML = '<div class="admin-pending__head">ОЧЕРЕДЬ · ' + items.length + '</div>' +
+              items.map(function (r) {
+                return '<div class="admin-pending__item">' +
+                  '<strong>#' + r.id + ' · ' + escapeHtml(r.author) + '</strong>' +
+                  (r.role ? ' <em>· ' + escapeHtml(r.role) + '</em>' : '') +
+                  '<p>' + escapeHtml((r.text || '').slice(0, 120)) + '…</p>' +
+                  '</div>';
+              }).join('');
+          })
+          .catch(function () {
+            pendingEl.innerHTML = '<div class="admin-error">⚠ Не удалось загрузить очередь</div>';
+          });
+      }
+
+      function setVal(name, val) {
+        var el = statsEl.querySelector('[data-admin="' + name + '"]');
+        if (el) el.textContent = (val != null) ? val : '—';
+      }
+
+      function escapeHtml(s) {
+        return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && e.altKey && !e.shiftKey && !e.metaKey) {
+          var isA = (e.code === 'KeyA') || (e.key && e.key.toLowerCase() === 'a');
+          if (isA) {
+            e.preventDefault();
+            if (panel.classList.contains('open')) closePanel();
+            else openPanel();
+          }
+        }
+        if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+      });
+
+      try {
+        var url = new URL(location.href);
+        if (url.searchParams.get('admin') === '1') {
+          setTimeout(openPanel, 500);
+        }
+      } catch (e) {}
+
+      var footerCenter = document.querySelector('.footer__center');
+      if (footerCenter) {
+        var clicks = 0, timer = null;
+        footerCenter.addEventListener('click', function () {
+          clicks++;
+          clearTimeout(timer);
+          if (clicks >= 3) {
+            clicks = 0;
+            if (panel.classList.contains('open')) closePanel();
+            else openPanel();
+            return;
+          }
+          timer = setTimeout(function () { clicks = 0; }, 800);
+        });
+      }
+
+      panel.querySelectorAll('[data-admin-close]').forEach(function (el) {
+        el.addEventListener('click', closePanel);
+      });
+
+      var refreshBtn = panel.querySelector('[data-admin-refresh]');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+          var key = null;
+          try { key = localStorage.getItem(KEY_STORAGE); } catch (e) {}
+          if (key) loadStats(key);
+        });
+      }
+
+      console.log('%c[admin] ready · Ctrl+Alt+A · ?admin=1 · 3x клик по футеру', 'color:#ff2222; font-family:monospace;');
+    })();
+  </script>
 
   <!-- ================= ОСНОВНОЙ СКРИПТ ================= -->
   <script>
@@ -924,7 +1063,7 @@
       initLang();
 
       /* ============================================================
-         ПАСХАЛКА: набрать "spodzh" → призраки делают сальто
+         ПАСХАЛКА: набрать "spodzh"
          ============================================================ */
       try {
         var keyBuffer = '';
@@ -1146,7 +1285,7 @@
       } catch (e) {}
 
       /* ============================================================
-         ТАЙМКОДЫ (плавный инкремент кадров)
+         ТАЙМКОДЫ
          ============================================================ */
       try {
         var heroTc = document.getElementById('heroTimecode');
@@ -1273,12 +1412,10 @@
             return idx;
           }
 
-          // Левая карточка — всегда следующая после текущей
           var idxLeft = (projectState.current + 1) % N;
           if (mLeft) mLeft.hidden = false;
           projectState.miniLeftIndex = fill('Left', idxLeft);
 
-          // Правая карточка — если есть что показать (N > 2)
           if (N === 2) {
             if (mRight) mRight.hidden = true;
             projectState.miniRightIndex = null;
@@ -1390,7 +1527,6 @@
           });
         }
 
-        // Placeholder до получения списка видео от API
         (function initPlaceholders() {
           var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100">' +
             '<rect width="160" height="100" fill="#14141a"/>' +

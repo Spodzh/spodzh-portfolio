@@ -1,11 +1,12 @@
 /* ============================================================
-   ENHANCEMENTS.JS — PWA, админ-панель, курсор, glitch, stagger
+   ENHANCEMENTS.JS — PWA, курсор, glitch, stagger
+   Админ-панель вынесена в index.html (inline)
    ============================================================ */
 (function () {
   'use strict';
 
   /* ============================================================
-     11. PWA — регистрация service worker
+     PWA — регистрация service worker
      Только для владельца: ?install=spodzh один раз открыть
      ============================================================ */
   (function initPWA() {
@@ -31,7 +32,7 @@
   })();
 
   /* ============================================================
-     17. КАСТОМНЫЙ КУРСОР — красный крестик (только desktop)
+     КАСТОМНЫЙ КУРСОР — красный крестик (только desktop)
      ============================================================ */
   (function initCursor() {
     var hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -68,17 +69,18 @@
       if (!rafId) rafId = requestAnimationFrame(loop);
     }, { passive: true });
 
-    // Расширение курсора на интерактивных элементах
+    var interactiveSel = 'a, button, [role="button"], input, textarea, .work-mini, .clip-card, .work-clips__btn, .clip-card__cta';
+
     document.addEventListener('mouseover', function (e) {
       var t = e.target;
-      if (t.closest && t.closest('a, button, [role="button"], input, textarea, .work-mini, .clip-card')) {
+      if (t.closest && t.closest(interactiveSel)) {
         cursor.classList.add('cursor-crosshair--active');
       }
     });
 
     document.addEventListener('mouseout', function (e) {
       var t = e.target;
-      if (t.closest && t.closest('a, button, [role="button"], input, textarea, .work-mini, .clip-card')) {
+      if (t.closest && t.closest(interactiveSel)) {
         cursor.classList.remove('cursor-crosshair--active');
       }
     });
@@ -92,7 +94,7 @@
   })();
 
   /* ============================================================
-     19. GLITCH НА СЧЁТЧИКАХ — при достижении финального значения
+     GLITCH НА СЧЁТЧИКАХ — при достижении финального значения
      ============================================================ */
   (function initCounterGlitch() {
     var counters = document.querySelectorAll('[data-count]');
@@ -110,13 +112,11 @@
       var suffix = el.dataset.suffix || '';
       var finalText = target.toLocaleString('ru-RU') + suffix;
 
-      // Если анимация уже закончилась — триггерим сразу
       if (el.textContent === finalText) {
         triggerGlitch(el);
         return;
       }
 
-      // Иначе слушаем изменения
       var obs = new MutationObserver(function () {
         if (el.textContent === finalText) {
           triggerGlitch(el);
@@ -125,7 +125,6 @@
       });
       obs.observe(el, { childList: true, characterData: true, subtree: true });
 
-      // Страховка: триггерим через 3 секунды, если по какой-то причине не поймали
       setTimeout(function () {
         if (el.dataset.glitchDone !== '1') {
           triggerGlitch(el);
@@ -136,120 +135,7 @@
   })();
 
   /* ============================================================
-     14. АДМИН-ПАНЕЛЬ — Ctrl+Shift+A
-     ============================================================ */
-  (function initAdmin() {
-    var panel = document.getElementById('adminPanel');
-    if (!panel) return;
-
-    var API_BASE = 'https://spodzh-reviews-api.ernest-chanel.workers.dev';
-    var KEY_STORAGE = 'spodzh_admin_key';
-
-    var statsEl = panel.querySelector('#adminStats');
-    var pendingEl = panel.querySelector('#adminPending');
-    var refreshBtn = panel.querySelector('[data-admin-refresh]');
-
-    function getKey() {
-      var key = null;
-      try { key = localStorage.getItem(KEY_STORAGE); } catch (e) {}
-      if (!key) {
-        key = window.prompt('ADMIN KEY:');
-        if (!key) return null;
-        try { localStorage.setItem(KEY_STORAGE, key); } catch (e) {}
-      }
-      return key;
-    }
-
-    function openPanel() {
-      var key = getKey();
-      if (!key) return;
-      panel.classList.add('open');
-      panel.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      loadStats(key);
-    }
-
-    function closePanel() {
-      panel.classList.remove('open');
-      panel.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    function loadStats(key) {
-      // Stats
-      fetch(API_BASE + '/admin/stats?key=' + encodeURIComponent(key))
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          if (data.error) {
-            pendingEl.innerHTML = '<div class="admin-error">⚠ ' + (data.error || 'Ошибка') + '</div>';
-            return;
-          }
-          statsEl.querySelector('[data-admin="reviews_total"]').textContent = data.reviews_total ?? '—';
-          statsEl.querySelector('[data-admin="reviews_pending"]').textContent = data.reviews_pending ?? '—';
-          statsEl.querySelector('[data-admin="reviews_approved"]').textContent = data.reviews_approved ?? '—';
-          statsEl.querySelector('[data-admin="videos_total"]').textContent = data.videos_total ?? '—';
-        })
-        .catch(function (err) {
-          pendingEl.innerHTML = '<div class="admin-error">⚠ Сеть: ' + err.message + '</div>';
-        });
-
-      // Pending reviews
-      fetch(API_BASE + '/admin/pending?key=' + encodeURIComponent(key))
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          var items = (data && data.items) || [];
-          if (!items.length) {
-            pendingEl.innerHTML = '<div class="admin-empty">✨ Очередь пуста</div>';
-            return;
-          }
-          pendingEl.innerHTML = '<div class="admin-pending__head">ОЧЕРЕДЬ · ' + items.length + '</div>' +
-            items.map(function (r) {
-              return '<div class="admin-pending__item">' +
-                '<strong>#' + r.id + ' · ' + escapeHtml(r.author) + '</strong>' +
-                (r.role ? ' <em>· ' + escapeHtml(r.role) + '</em>' : '') +
-                '<p>' + escapeHtml((r.text || '').slice(0, 120)) + '…</p>' +
-                '</div>';
-            }).join('');
-        })
-        .catch(function () {
-          pendingEl.innerHTML = '<div class="admin-error">⚠ Не удалось загрузить очередь</div>';
-        });
-    }
-
-    function escapeHtml(s) {
-      return String(s || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-    }
-
-    document.addEventListener('keydown', function (e) {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a' || e.code === 'KeyA')) {
-        e.preventDefault();
-        if (panel.classList.contains('open')) closePanel();
-        else openPanel();
-      }
-      if (e.key === 'Escape' && panel.classList.contains('open')) {
-        closePanel();
-      }
-    });
-
-    panel.querySelectorAll('[data-admin-close]').forEach(function (el) {
-      el.addEventListener('click', closePanel);
-    });
-
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', function () {
-        var key = null;
-        try { key = localStorage.getItem(KEY_STORAGE); } catch (e) {}
-        if (key) loadStats(key);
-      });
-    }
-  })();
-
-  /* ============================================================
-     16. STAGGER — карточки появляются по очереди
-     Работает через .stagger-parent + IntersectionObserver
+     STAGGER — карточки появляются по очереди
      ============================================================ */
   (function initStagger() {
     var parents = document.querySelectorAll('.stagger-parent');
@@ -266,7 +152,6 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
     parents.forEach(function (p) {
-      // Если у родителя уже нет .reveal — добавляем на месте
       if (!p.classList.contains('reveal')) {
         p.classList.add('reveal');
       }
