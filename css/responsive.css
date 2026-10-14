@@ -1,607 +1,963 @@
 /* ============================================================
-   RESPONSIVE.CSS — адаптив + оптимизация под телефоны
+   RESPONSIVE.CSS — v2.1 Mobile Redesign
+   Десктоп не тронут. Всё ниже — только планшет и мобильные.
    ============================================================ */
 
-/* ============================================================
-   ГЛОБАЛЬНАЯ ОПТИМИЗАЦИЯ ДЛЯ ТАЧ-УСТРОЙСТВ
-   ============================================================ */
-
-/* Отключаем тап-подсветку синего цвета (Android Chrome) */
-* {
-  -webkit-tap-highlight-color: transparent;
+/* ------------------------------------------------------------
+   Глобальные страховки от горизонтального скролла
+   ------------------------------------------------------------ */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
+* { -webkit-tap-highlight-color: transparent; }
+img, video, svg { max-width: 100%; }
 
-/* Плавная прокрутка сохраняется, но отключается для reduced-motion */
+/* Отключаем все анимации при выборе пользователя */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
   .marquee-track { animation: none !important; }
-  .video-card__scan { display: none !important; }
+  .draw { stroke-dashoffset: 0 !important; }
+  .hero-title__glitch,
+  .hero-timeline__bar i { animation: none !important; opacity: 0 !important; }
 }
 
 /* ============================================================
-   ПЛАНШЕТ — до 960px
+   ПЛАНШЕТ — до 1180px (мягкая адаптация, десктоп почти не тронут)
    ============================================================ */
-@media (max-width: 960px) {
+@media (max-width: 1180px) {
+  :root {
+    --fs-mega: clamp(3.2rem, 10vw, 7rem);
+    --fs-h2: clamp(2.4rem, 6.5vw, 4.5rem);
+  }
+  .hero-grid { gap: 50px; }
+  .hero-preview { max-width: min(340px, 28vw); }
+  .about-grid { grid-template-columns: 340px 1fr; gap: 60px; }
+  .skill-row { grid-template-columns: 70px 1.2fr 1.5fr 140px; gap: 32px; }
+  .featured__info { padding: 40px 36px; }
+}
 
-  /* ------- Меню ------- */
+/* ============================================================
+   ПЛАНШЕТ ЛАНДШАФТ — до 1024px
+   ============================================================ */
+@media (max-width: 1024px) {
+  .nav-links a { padding: 10px 12px; font-size: 0.76rem; }
+  .nav-links a b { font-size: 0.66rem; }
+  .logo-text small { display: none; }
+
+  .hero-preview { max-width: min(320px, 30vw); }
+  .projects-tiles { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .tile, .tile:nth-child(3n+1), .tile:nth-child(3n+2), .tile:nth-child(3n) {
+    grid-column: span 2;
+  }
+  .services-list { grid-template-columns: 1fr; gap: 20px; }
+  .service-card { min-height: auto; padding: 36px 28px 28px; }
+  .contacts-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   ПЛАНШЕТ ПОРТРЕТ — до 900px
+   Здесь начинается «мобильный» интерфейс
+   ============================================================ */
+@media (max-width: 900px) {
+
+  body {
+    cursor: auto;
+    font-size: 1rem;
+  }
+
+  /* ---------- Мобильное меню-шторка ---------- */
+  .navbar {
+    padding: 14px 0;
+  }
+  .navbar.scrolled {
+    padding: 10px 0;
+  }
+  .nav-container {
+    gap: 12px;
+  }
+  .logo-mark { width: 44px; height: 44px; }
+  .logo-text { font-size: 1rem; }
+  .logo-text small { display: none; }
+
   .nav-links {
     position: fixed;
-    top: 0; right: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
     height: 100vh;
-    height: 100dvh; /* корректная высота на мобильных браузерах */
-    width: min(340px, 90%);
+    height: 100dvh;
+    width: min(340px, 88vw);
     flex-direction: column;
     justify-content: center;
-    gap: 28px;
-    align-items: center;
-    background: rgba(7,7,11,.98);
-    /* Убираем blur — на мобильных он тормозит */
+    align-items: stretch;
+    gap: 10px;
+    background: var(--bg);
+    border-left: 2px solid var(--line-strong);
+    padding: 90px 24px 40px;
     transform: translateX(100%);
-    transition: transform .4s var(--ease);
-    border-left: 1px solid var(--border);
+    transition: transform .35s var(--ease);
     z-index: 150;
-    padding: 40px 20px;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
   .nav-links.open { transform: translateX(0); }
   .nav-links a {
-    font-size: 1.15rem;
-    padding: 12px 8px;
-    min-height: 44px; /* удобный тап */
-    display: flex;
-    align-items: center;
+    font-size: 1rem;
+    letter-spacing: .12em;
+    padding: 16px 20px;
+    min-height: 56px;
+    width: 100%;
+    justify-content: flex-start;
+    border: 1px solid var(--line);
+    gap: 12px;
   }
-  .nav-links a.active::before { display: none; }
+  .nav-links a b {
+    font-size: 0.82rem;
+    min-width: 22px;
+  }
 
-  /* Бургер — увеличиваем зону тапа */
   .burger {
     display: flex;
     z-index: 200;
-    padding: 12px;
-    min-width: 44px;
-    min-height: 44px;
-    align-items: center;
+    width: 46px;
+    height: 46px;
+  }
+
+  /* ---------- HERO на планшете ---------- */
+  .hero {
+    min-height: auto;
+    padding: 120px 0 70px;
+    display: block;
+  }
+  .hero-timeline {
+    position: static;
+    margin: 0 0 40px;
+    padding: 10px 14px;
+    font-size: 0.66rem;
+    gap: 14px;
+  }
+  .hero-timeline__num,
+  .hero-timeline__bar { display: none; }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+  .hero-content { max-width: 100%; }
+
+  .hero-title { margin-bottom: 26px; }
+  .hero-title__main,
+  .hero-title__glitch {
+    font-size: clamp(3.6rem, 16vw, 6.5rem);
+    white-space: nowrap;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    padding-left: 40px;
+    letter-spacing: .14em;
+    margin-bottom: 28px;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.55;
+    margin-bottom: 36px;
+  }
+
+  .hero-actions {
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .hero-actions .btn {
+    flex: 1 1 auto;
     justify-content: center;
   }
 
-  /* Таймлайн скрыт */
-  .timeline { display: none; }
-
-  /* ------- About ------- */
-  .about-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-  .about-tags { text-align: left; }
-
-  /* Отступы секций */
-  .section {
-    padding: 90px 0;
-    scroll-margin-top: 70px;
+  .hero-stats {
+    max-width: 100%;
+    grid-template-columns: repeat(3, 1fr);
   }
+  .stat { padding: 18px 16px; }
+  .stat strong { font-size: 1.6rem; }
 
-  /* ------- HERO ------- */
-  .hero-grid { grid-template-columns: 1fr; gap: 50px; }
-  .hero-content { max-width: 100%; text-align: center; margin: 0 auto; }
-  .hero-buttons { justify-content: center; }
-  .hero-stats { justify-content: center; }
-  .hero-visual { min-height: 440px; }
-  .hero-float--caption { right: 0; font-size: 0.9rem; }
-  .hero-float--crown { right: 12%; }
-  .hero-films { opacity: .15; }
+  .hero-preview {
+    max-width: 320px;
+    margin: 0 auto;
+    justify-self: center;
+  }
+  .preview-media { max-height: none; }
+  .hero-ghost { width: 64px; height: 64px; top: -26px; right: -22px; }
 
-  /* Фон — отключаем fixed (тормозит), сдвигаем к призраку */
-  .hero {
-    background-position: 20% center;
-    background-attachment: scroll;
+  /* ---------- Секции ---------- */
+  .section,
+  .projects-new {
+    padding: 100px 0;
+    scroll-margin-top: 80px;
   }
-  .hero::before {
-    background: linear-gradient(180deg, rgba(7,7,11,.7) 0%, rgba(7,7,11,.82) 100%);
-  }
+  .sec-head { margin-bottom: 52px; }
+  .sec-head__title { font-size: clamp(2.4rem, 10vw, 4rem); }
+  .sec-head__note { font-size: 1.5rem; }
 
-  /* Отключаем лишний blur в hero */
-  .hero-tech,
-  .hero-badge {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(255,255,255,.05);
+  /* ---------- ABOUT ---------- */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
   }
+  .photo-censor { max-width: 340px; margin: 0 auto; }
+  .about-facts { grid-template-columns: 1fr; }
 
-  /* ------- SECTION-HERO (заголовки секций) ------- */
-  .section-hero {
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 40px;
-    text-align: center;
+  /* ---------- SKILLS ---------- */
+  .skill-row {
+    grid-template-columns: 60px 1fr 120px;
+    gap: 20px;
+    padding: 26px 16px;
   }
-  .section-hero__deco {
-    align-self: center;
-    flex-direction: row-reverse;
-    align-items: center;
-    gap: 18px;
+  .skill-row__desc {
+    grid-column: 2 / -1;
+    margin-top: 6px;
+    font-size: 0.94rem;
   }
-  .section-hero__caption {
-    font-size: 0.85rem;
-    text-align: left;
-    transform: rotate(-4deg);
-  }
+  .skill-row__level i { width: 14px; height: 14px; }
+  .skill-row:hover { padding-left: 16px; }
 
-  /* ------- PROJECTS ------- */
+  /* ---------- PROJECTS ---------- */
   .featured {
     grid-template-columns: 1fr;
+    margin-bottom: 44px;
   }
-  .featured__media { aspect-ratio: 16/10; }
-  .featured__info { padding: 24px 22px 24px; gap: 12px; }
+  .featured__media {
+    aspect-ratio: 16/10;
+    border-right: none;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .featured__info { padding: 36px 28px; gap: 18px; }
+
   .projects-tiles {
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 20px;
   }
-  .projects-deco-left,
-  .projects-deco-right { display: none; }
+  .tile, .tile:nth-child(3n+1), .tile:nth-child(3n+2), .tile:nth-child(3n) {
+    grid-column: span 1;
+  }
+  .tile:hover { transform: none; }
 
-  /* Отключаем сильный зум у картинок — на мобиле выглядит «грязно» */
-  .featured__media img,
-  .tile__thumb img {
-    transform: scale(1.08);
-  }
-  .featured:hover .featured__media img,
-  .tile:hover .tile__thumb img {
-    transform: scale(1.08); /* отключаем ховер-зум на мобиле */
-  }
+  /* ---------- SERVICES ---------- */
+  .service-card { padding: 32px 26px 26px; }
+  .service-card__cta { min-height: 52px; }
 
-  /* Отключаем тяжёлый blur */
-  .featured,
-  .projects-aside {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(10,10,18,.95);
-  }
-  .featured__play,
-  .tile__duration,
-  .tile__tiktok,
-  .featured__duration,
-  .featured__tiktok {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+  /* ---------- CONTACTS ---------- */
+  .contacts-grid { grid-template-columns: 1fr; }
+  .contact-card { min-height: 160px; padding: 32px 26px; }
 
-  /* ------- CONTACTS ------- */
-  .contacts-grid { margin-bottom: 50px; }
+  /* ---------- CTA ---------- */
+  .cta-final { padding: 70px 32px 60px; }
+  .cta-final__ghost-arrow { width: 70px; height: 42px; right: 24px; bottom: 24px; }
 
-  /* ------- CTA-блок ------- */
-  .cta-final {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+  /* ---------- Модалка ---------- */
+  .project-modal { padding: 16px; }
+  .project-modal__body { padding: 24px 24px 26px; }
 }
 
 /* ============================================================
-   ТЕЛЕФОН — до 640px
+   ТЕЛЕФОН — до 767px (основной мобильный брейк)
    ============================================================ */
-@media (max-width: 640px) {
+@media (max-width: 767px) {
+  :root {
+    --fs-mega: clamp(2.6rem, 14vw, 4.2rem);
+    --fs-h2: clamp(2rem, 11vw, 3.2rem);
+    --fs-h3: clamp(1.25rem, 5.5vw, 1.6rem);
+    --fs-body: 1rem;
+    --container: 100%;
+  }
 
-  /* -------- Базовые отступы -------- */
   .container { width: 92%; }
-  .section {
-    padding: 70px 0;
-    scroll-margin-top: 60px;
-  }
-  .projects-new {
-    padding: 80px 0 50px;
-    scroll-margin-top: 60px;
-  }
-  .section-hero { margin-bottom: 32px; }
 
-  /* -------- HERO -------- */
-  .hero {
-    min-height: auto;
-    padding: 100px 0 50px;
+  /* ------------------------------------------------------------
+     NAVBAR — компактно, safe-area
+     ------------------------------------------------------------ */
+  .navbar {
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 0 10px;
   }
-  .hero-grid { gap: 40px; }
+  .navbar.scrolled {
+    padding: calc(8px + env(safe-area-inset-top, 0px)) 0 8px;
+  }
+  .logo-mark { width: 40px; height: 40px; border-width: 1.5px; }
+  .logo-text { font-size: 0.95rem; letter-spacing: .04em; }
+  .burger { width: 44px; height: 44px; padding: 10px; }
 
-  /* Метка REC — компактнее */
-  .hero-tech {
-    font-size: 0.6rem;
-    padding: 6px 12px;
-    letter-spacing: 0.12em;
-    margin-bottom: 18px;
+  .nav-links {
+    width: min(320px, 90vw);
+    padding: 84px 20px 32px;
     gap: 8px;
   }
-
-  /* Заголовок — читаемый размер */
-  .hero-name {
-    font-size: clamp(2.2rem, 10vw, 3.2rem);
-    margin-bottom: 18px;
-  }
-  .hero-name .line.small {
-    font-size: 0.4em;
-    margin-top: 12px;
-  }
-
-  /* Подзаголовок и описание */
-  .hero-sub {
-    font-size: 0.92rem;
-    margin-bottom: 16px;
-  }
-  .hero-desc {
+  .nav-links a {
     font-size: 0.95rem;
-    margin-bottom: 28px;
-    padding: 0 4px;
+    padding: 15px 18px;
+    min-height: 52px;
   }
 
-  /* Кнопки — на всю ширину, удобные */
-  .hero-buttons {
-    flex-direction: column;
+  /* ------------------------------------------------------------
+     HERO
+     ------------------------------------------------------------ */
+  .hero {
+    padding: 100px 0 60px;
+  }
+  .hero-timeline {
+    margin: 0 0 32px;
+    padding: 9px 12px;
+    font-size: 0.6rem;
     gap: 10px;
-    margin-bottom: 40px;
-    width: 100%;
-  }
-  .hero-buttons .btn {
-    justify-content: center;
-    width: 100%;
-    padding: 16px 24px;
-    font-size: 0.95rem;
-    min-height: 50px;
-  }
-
-  /* Статистика */
-  .hero-stats {
-    gap: 14px;
-    padding-top: 24px;
-    justify-content: center;
+    letter-spacing: .14em;
     flex-wrap: wrap;
   }
-  .stat strong {
-    font-size: 1.4rem;
+  .hero-timeline__tc { font-size: 0.62rem; }
+
+  .hero-grid { gap: 44px; }
+  .hero-meta {
+    gap: 6px;
+    margin-bottom: 28px;
   }
-  .stat span {
+  .chip {
+    font-size: 0.62rem;
+    padding: 6px 10px;
+    letter-spacing: .1em;
+  }
+
+  .hero-title {
+    margin-bottom: 22px;
+  }
+  .hero-title__main,
+  .hero-title__glitch {
+    font-size: clamp(2.6rem, 14vw, 4.2rem);
+    letter-spacing: -.04em;
+    white-space: nowrap;
+  }
+
+  .hero-subtitle {
     font-size: 0.72rem;
+    padding-left: 30px;
+    letter-spacing: .12em;
+    margin-bottom: 24px;
+    line-height: 1.7;
   }
-  .stat-divider { height: 30px; }
+  .hero-subtitle .dot-slash { margin: 0 6px; }
 
-  /* Видео-карточка */
-  .hero-visual { min-height: 420px; }
-  .video-card {
-    width: min(100%, 280px);
-    border-radius: 18px;
-  }
-  .video-card__play {
-    width: 58px; height: 58px;
-  }
-  .video-card__play svg { width: 22px; height: 22px; }
-  .video-card__top { padding: 12px 14px; font-size: 0.65rem; }
-  .video-card__bottom { padding: 12px 14px; font-size: 0.65rem; }
-
-  /* Плавающие элементы — компактнее */
-  .hero-float--caption { display: none; }
-  .hero-float--crown { width: 30px; height: 30px; right: 10%; top: -6px; }
-  .hero-float--ghost { width: 44px; height: 44px; right: 0; }
-  .hero-films { display: none; }
-
-  /* Убираем скан-линию — на мобиле не видна и тратит ресурсы */
-  .video-card__scan { display: none; }
-
-  /* Scroll-подсказка — меньше */
-  .scroll-hint {
-    bottom: 20px;
-    font-size: 0.6rem;
-    letter-spacing: 3px;
-  }
-  .scroll-line { height: 30px; }
-
-  /* -------- MARQUEE -------- */
-  .marquee { padding: 22px 0; }
-  .marquee-track {
-    font-size: 1.15rem;
-    gap: 26px;
-    /* Медленнее — не отвлекает на мобиле */
-    animation-duration: 50s;
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.55;
+    margin-bottom: 32px;
+    max-width: 100%;
   }
 
-  /* -------- SECTION-HEAD -------- */
-  .section-hero {
-    text-align: left;
-    align-items: flex-start;
-    gap: 18px;
+  .hero-actions {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+    width: 100%;
   }
-  .section-hero__main { max-width: 100%; }
-  .section-hero__title {
-    font-size: clamp(2.2rem, 11vw, 3rem);
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 56px;
+    padding: 18px 24px;
+    font-size: 0.82rem;
+    letter-spacing: .12em;
   }
-  .section-hero__sub {
-    font-size: 0.92rem;
-  }
-  .section-hero__deco {
-    align-self: flex-end;
-    gap: 14px;
-  }
-  .section-hero__caption {
-    font-size: 0.75rem;
+
+  .hero-stats {
+    grid-template-columns: 1fr;
     gap: 1px;
+    max-width: 100%;
   }
-  .section-hero__badge img {
-    width: 48px; height: 48px;
+  .stat {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    gap: 16px;
   }
-  .section-hero__info {
-    font-size: 0.5rem;
-    letter-spacing: 0.12em;
+  .stat__label { font-size: 0.66rem; letter-spacing: .18em; }
+  .stat strong { font-size: 1.6rem; }
+
+  .hero-preview {
+    max-width: min(260px, 68vw);
+    margin: 40px auto 0;
   }
-  .section-num {
-    font-size: 0.65rem;
-    padding: 4px 10px;
-    margin-bottom: 12px;
+  .preview-frame { padding: 30px 0 34px; }
+  .preview-header,
+  .preview-footer { font-size: 0.62rem; padding-left: 12px; padding-right: 12px; }
+  .preview-header { top: 8px; left: 12px; right: 12px; }
+  .preview-footer { bottom: 8px; left: 12px; right: 12px; }
+  .hero-ghost {
+    width: 52px;
+    height: 52px;
+    top: -20px;
+    right: -14px;
   }
 
-  /* -------- ABOUT -------- */
-  .about-grid { gap: 32px; }
-  .about-photo { margin-bottom: 8px; }
-  .photo-frame { max-width: 240px; }
-  .photo-ghost { width: 65%; height: 65%; }
+  .scroll-hint {
+    position: static;
+    margin: 44px auto 0;
+    transform: none;
+    align-items: center;
+    font-size: 0.62rem;
+  }
+  .scroll-hint__line { height: 36px; }
+
+  /* ------------------------------------------------------------
+     MARQUEE
+     ------------------------------------------------------------ */
+  .marquee { padding: 18px 0; }
+  .marquee-track {
+    font-size: 1.1rem;
+    gap: 22px;
+    animation-duration: 55s;
+  }
+
+  /* ------------------------------------------------------------
+     СЕКЦИИ
+     ------------------------------------------------------------ */
+  .section,
+  .projects-new {
+    padding: 76px 0;
+    scroll-margin-top: 70px;
+  }
+  .sec-head {
+    margin-bottom: 40px;
+    gap: 10px;
+  }
+  .sec-head__num {
+    font-size: 0.68rem;
+    letter-spacing: .18em;
+  }
+  .sec-head__title {
+    font-size: clamp(2rem, 12vw, 3.2rem);
+    line-height: .92;
+  }
+  .sec-head__underline {
+    width: 68%;
+    height: 14px;
+    margin-top: -6px;
+  }
+  .sec-head__note {
+    font-size: 1.3rem;
+    margin-top: 2px;
+  }
+
+  /* ------------------------------------------------------------
+     ABOUT
+     ------------------------------------------------------------ */
+  .about-grid {
+    gap: 32px;
+  }
+  .photo-censor {
+    max-width: 240px;
+    padding: 10px;
+  }
+  .photo-censor__meta {
+    font-size: 0.6rem;
+    padding-top: 10px;
+    letter-spacing: .14em;
+  }
+  .about-text { padding-top: 0; }
+  .about-text__pre {
+    font-size: 0.68rem;
+    margin-bottom: 16px;
+  }
   .about-text p {
     font-size: 0.98rem;
-    margin-bottom: 24px;
-    text-align: left;
+    line-height: 1.65;
+    margin-bottom: 18px;
+    max-width: 100%;
   }
-  .about-tags { grid-template-columns: 1fr; gap: 10px; }
-  .info-tag {
-    font-size: 0.88rem;
+  .about-facts { margin-top: 26px; }
+  .fact {
     padding: 14px 16px;
-    min-height: 48px;
+    font-size: 0.84rem;
+    min-height: 50px;
+    gap: 10px;
   }
 
-  /* -------- SKILLS -------- */
-  .skills-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
+  /* ------------------------------------------------------------
+     SKILLS
+     ------------------------------------------------------------ */
+  .skill-row {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 8px 14px;
+    padding: 20px 12px;
   }
-  .skill-card {
-    padding: 24px 22px;
-    gap: 8px;
+  .skill-row::before { display: none; }
+  .skill-row:hover { padding-left: 12px; }
+
+  .skill-row__num {
+    grid-row: 1;
+    grid-column: 1;
+    font-size: 0.72rem;
   }
-  .skill-card h3 {
-    font-size: 1.1rem;
-    padding-bottom: 12px;
+  .skill-row__title {
+    grid-row: 1;
+    grid-column: 2;
+    font-size: 1.15rem;
+    line-height: 1.15;
   }
-  .skill-card p {
+  .skill-row__desc {
+    grid-row: 2;
+    grid-column: 2;
     font-size: 0.9rem;
     line-height: 1.5;
+    margin-top: 2px;
+  }
+  .skill-row__level {
+    grid-row: 3;
+    grid-column: 2;
+    justify-content: flex-start;
+    margin-top: 8px;
+    gap: 5px;
+  }
+  .skill-row__level i {
+    width: 15px;
+    height: 15px;
   }
 
-  /* -------- PROJECTS -------- */
-  .featured { margin-bottom: 24px; border-radius: 16px; }
-  .featured__media { aspect-ratio: 16/11; }
-  .featured__play {
-    width: 62px; height: 62px;
+  /* ------------------------------------------------------------
+     PROJECTS
+     ------------------------------------------------------------ */
+  .featured { margin-bottom: 32px; }
+  .featured::before {
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
   }
-  .featured__play svg { width: 24px; height: 24px; }
+  .featured__media { aspect-ratio: 16/10; }
   .featured__info {
-    padding: 22px 20px 24px;
-    gap: 12px;
-  }
-  .featured__index {
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
+    padding: 26px 20px;
+    gap: 14px;
   }
   .featured__label {
-    font-size: 0.65rem;
-    padding: 5px 12px;
-    letter-spacing: 0.15em;
+    font-size: 0.7rem;
+    padding: 6px 12px;
   }
+  .featured__index { font-size: 0.76rem; }
   .featured__tag {
-    font-size: 0.62rem;
-    padding: 5px 11px;
+    font-size: 0.64rem;
+    padding: 5px 10px;
   }
+  .featured__tc { font-size: 0.7rem; padding: 5px 10px; }
+  .featured__badge { font-size: 0.66rem; padding: 5px 10px; }
+  .featured__social { width: 34px; height: 34px; font-size: 1rem; }
   .featured__actions {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
-    margin-top: 4px;
   }
   .featured__actions .btn {
-    justify-content: center;
     width: 100%;
-    padding: 15px 22px;
-    font-size: 0.92rem;
-    min-height: 48px;
-  }
-  .featured__more {
-    text-align: center;
-    padding: 12px 0;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
     justify-content: center;
+    min-height: 54px;
+    padding: 16px 22px;
+    font-size: 0.8rem;
+  }
+  .featured__hint {
+    text-align: center;
+    font-size: 1.15rem;
   }
 
   .projects-tiles {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 22px;
   }
+  .tile__num { font-size: 0.68rem; }
   .tile__thumb { aspect-ratio: 16/10; }
-  .tile__num {
-    font-size: 0.68rem;
-    margin-bottom: -4px;
+  .tile__duration {
+    font-size: 0.64rem;
+    padding: 4px 8px;
+    bottom: 8px;
+    left: 10px;
+  }
+  .tile__tiktok {
+    width: 26px;
+    height: 26px;
+    font-size: 0.78rem;
+    bottom: 8px;
+    right: 10px;
   }
   .tile__tags { gap: 5px; }
   .tile__tag {
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     padding: 4px 8px;
   }
-  .tile__duration,
-  .tile__tiktok {
-    font-size: 0.65rem;
-    padding: 3px 7px;
-  }
-  .tile__tiktok {
-    width: 22px; height: 22px;
-    font-size: 0.7rem;
-  }
 
-  /* -------- SERVICES -------- */
-  .services-grid {
+  /* ------------------------------------------------------------
+     SERVICES
+     ------------------------------------------------------------ */
+  .services-list {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 18px;
   }
   .service-card {
-    padding: 26px 22px;
+    padding: 30px 22px 24px;
+    min-height: auto;
+    gap: 16px;
   }
-  .service-icon {
-    width: 44px; height: 44px;
-    margin-bottom: 16px;
-  }
-  .service-icon svg { width: 20px; height: 20px; }
+  .service-card::before { width: 40px; height: 3px; }
+  .service-card__num { font-size: 0.72rem; }
   .service-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 8px;
+    font-size: 1.2rem;
+    line-height: 1.2;
   }
   .service-card p {
-    font-size: 0.92rem;
-    line-height: 1.5;
+    font-size: 0.94rem;
+    line-height: 1.55;
   }
-  .service-cta {
-    margin-top: 18px;
-    padding: 12px 0;
-    font-size: 0.75rem;
-    min-height: 44px;
+  .service-card__cta {
+    min-height: 50px;
+    padding: 14px 0;
+    font-size: 0.76rem;
+    letter-spacing: .14em;
   }
-  .service-num {
-    font-size: 0.6rem;
-    top: 20px; right: 20px;
+  .service-card__doodle {
+    width: 44px;
+    height: 44px;
+    opacity: .35;
   }
 
-  /* -------- CONTACTS -------- */
+  /* ------------------------------------------------------------
+     CONTACTS
+     ------------------------------------------------------------ */
   .contacts-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
-    margin-bottom: 40px;
+    margin-bottom: 52px;
   }
   .contact-card {
-    padding: 24px 22px;
-    min-height: 100px;
+    min-height: 130px;
+    padding: 24px 20px;
+    gap: 8px;
   }
-  .contact-card h3 {
-    font-size: 1.05rem;
-  }
-  .contact-card > p {
-    font-size: 0.95rem;
-  }
-  .contact-hint {
-    font-size: 0.78rem;
-  }
-  .contact-arrow {
-    top: 20px; right: 20px;
-    font-size: 1rem;
-  }
+  .contact-card__status { font-size: 0.66rem; }
+  .contact-card__net { font-size: 1.25rem; margin-top: 4px; }
+  .contact-card__handle { font-size: 1rem; }
+  .contact-card__hint { font-size: 0.68rem; margin-top: 4px; }
 
-  /* -------- CTA FINAL -------- */
   .cta-final {
-    padding: 44px 22px;
-    border-radius: 20px;
+    padding: 48px 20px calc(44px + env(safe-area-inset-bottom, 0px));
   }
-  .cta-tag {
-    font-size: 0.65rem;
-    margin-bottom: 14px;
+  .cta-final__frame { inset: 10px; }
+  .cta-final__corner { width: 18px; height: 18px; }
+  .cta-final__tag {
+    font-size: 0.66rem;
+    padding: 6px 14px;
+    margin-bottom: 24px;
+    letter-spacing: .22em;
   }
-  .cta-heading {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-    line-height: 1.15;
+  .cta-final__heading { gap: 6px; margin-bottom: 20px; }
+  .cta-final__heading .hand { font-size: 1.6rem; }
+  .cta-final__heading .big {
+    font-size: clamp(1.85rem, 10vw, 2.6rem);
+    line-height: .98;
   }
-  .cta-hint {
-    font-size: 0.92rem;
+  .cta-final__sub {
+    font-size: 0.94rem;
     margin-bottom: 26px;
+    max-width: 100%;
   }
-  .cta-actions {
+  .cta-final__actions {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
-  .cta-actions .btn {
-    justify-content: center;
+  .cta-final__actions .btn {
     width: 100%;
-    padding: 16px 24px;
-    min-height: 50px;
+    justify-content: center;
+    min-height: 56px;
+    padding: 16px 22px;
+    font-size: 0.8rem;
+  }
+  .cta-final__ghost-arrow {
+    width: 48px;
+    height: 30px;
+    right: 12px;
+    bottom: 12px;
+    opacity: .5;
   }
 
-  /* -------- FOOTER -------- */
-  .footer { padding: 30px 0; }
+  /* ------------------------------------------------------------
+     FOOTER
+     ------------------------------------------------------------ */
+  .footer {
+    padding: 32px 0 calc(32px + env(safe-area-inset-bottom, 0px));
+    margin-top: 48px;
+  }
   .footer-inner {
     flex-direction: column;
     text-align: center;
-    gap: 12px;
+    gap: 10px;
+    font-size: 0.66rem;
+    letter-spacing: .12em;
   }
-  .back-top {
-    padding: 12px 16px;
-    min-height: 44px;
-    display: flex;
+  .footer__center { font-size: 1.2rem; }
+
+  /* ------------------------------------------------------------
+     МОДАЛКА ПРОЕКТА
+     ------------------------------------------------------------ */
+  .project-modal {
+    padding: 12px;
     align-items: center;
   }
+  .project-modal__dialog {
+    width: 100%;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    border-width: 1.5px;
+  }
+  .project-modal__close {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+    top: 12px;
+    right: 12px;
+  }
+  .project-modal__head {
+    top: 12px;
+    left: 12px;
+    gap: 6px;
+  }
+  .project-modal__code,
+  .project-modal__tc {
+    font-size: 0.64rem;
+    padding: 5px 9px;
+    letter-spacing: .12em;
+  }
+  .project-modal__body {
+    padding: 20px 18px 24px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .project-modal__meta { justify-content: flex-start; }
+  .project-modal__body .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 52px;
+  }
 
-  /* -------- ПРИЗРАК-ПРОВОДНИК ----- */
-  /* На телефоне прячем — мешает и тормозит */
-  .ghost-guide { display: none; }
+  /* ------------------------------------------------------------
+     ПАСХАЛКА
+     ------------------------------------------------------------ */
+  .easter-egg__inner {
+    padding: 32px 24px;
+    max-width: 92vw;
+  }
+  .easter-egg__text { font-size: 1.25rem; line-height: 1.2; }
+  .easter-egg__sub { font-size: 1.35rem; }
 
-  /* -------- МОДАЛКА ПРОЕКТА (если используется) -------- */
-  .project-modal { padding: 12px; }
-  .project-modal__dialog { border-radius: 18px; }
-  .project-modal__body { padding: 18px 18px 22px; }
+  /* ------------------------------------------------------------
+     Отключаем hover-эффекты, которые «залипают» на тач
+     ------------------------------------------------------------ */
+  .btn:hover { transform: none; }
+  .btn:hover::before { transform: scaleX(0); }
+  .btn:hover { color: inherit; }
+  .btn--primary:hover {
+    color: #fff;
+    background: var(--red);
+    border-color: var(--red);
+  }
+  .btn--primary:hover::before { transform: scaleX(0); }
+  .btn:hover svg { transform: none; }
+
+  .tile:hover { transform: none; }
+  .tile:hover .tile__thumb {
+    box-shadow: none;
+    border-color: var(--line-strong);
+  }
+  .tile:hover .tile__thumb img { transform: scale(1.05); }
+  .tile:hover .tile__tiktok {
+    background: rgba(0,0,0,.8);
+    border-color: var(--line-strong);
+  }
+
+  .service-card:hover { transform: none; }
+  .service-card:hover::before { width: 40px; }
+  .service-card:hover .service-card__doodle { opacity: .35; }
+
+  .contact-card:hover { background: var(--bg); }
+  .contact-card--accent:hover { background: rgba(255,34,34,.1); }
+
+  .skill-row:hover { padding-left: 12px; }
+  .skill-row:hover::before { width: 0; }
+  .skill-row:hover .skill-row__level i { box-shadow: none; }
+
+  .featured:hover .featured__media img { transform: scale(1.04); }
+
+  .logo:hover .logo-mark {
+    transform: none;
+    filter: drop-shadow(0 0 12px rgba(255,34,34,.4));
+  }
 }
 
 /* ============================================================
-   ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ — до 380px
+   МАЛЕНЬКИЕ ТЕЛЕФОНЫ — до 480px (iPhone SE, старые Android)
+   ============================================================ */
+@media (max-width: 480px) {
+  :root {
+    --fs-mega: clamp(2.2rem, 13vw, 3.2rem);
+    --fs-h2: clamp(1.8rem, 10vw, 2.6rem);
+  }
+
+  .container { width: 92%; }
+
+  .logo-text { font-size: 0.9rem; }
+  .logo-mark { width: 38px; height: 38px; }
+  .burger { width: 42px; height: 42px; padding: 9px; }
+
+  .hero { padding: 90px 0 50px; }
+  .hero-timeline {
+    font-size: 0.56rem;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .hero-title__main,
+  .hero-title__glitch {
+    font-size: clamp(2.2rem, 13vw, 3.2rem);
+  }
+  .hero-subtitle {
+    font-size: 0.66rem;
+    padding-left: 26px;
+    letter-spacing: .1em;
+  }
+  .hero-desc {
+    font-size: 0.96rem;
+    line-height: 1.5;
+  }
+  .chip { font-size: 0.58rem; padding: 5px 9px; }
+  .stat strong { font-size: 1.45rem; }
+  .stat__label { font-size: 0.62rem; }
+  .hero-preview { max-width: min(240px, 66vw); }
+  .hero-ghost { width: 46px; height: 46px; top: -18px; right: -12px; }
+
+  .section,
+  .projects-new { padding: 64px 0; }
+  .sec-head { margin-bottom: 34px; }
+  .sec-head__title { font-size: clamp(1.8rem, 11vw, 2.6rem); }
+
+  .about-text p { font-size: 0.94rem; }
+  .fact { font-size: 0.8rem; padding: 12px 14px; }
+
+  .skill-row {
+    padding: 18px 10px;
+    gap: 6px 12px;
+  }
+  .skill-row__title { font-size: 1.05rem; }
+  .skill-row__desc { font-size: 0.86rem; }
+  .skill-row__level i { width: 14px; height: 14px; }
+
+  .featured__info { padding: 22px 16px; }
+  .featured__label { font-size: 0.66rem; padding: 5px 10px; }
+  .featured__badge,
+  .featured__tc { font-size: 0.62rem; padding: 4px 8px; }
+  .tile__tag { font-size: 0.56rem; padding: 3px 7px; }
+
+  .service-card { padding: 26px 18px 20px; }
+  .service-card h3 { font-size: 1.1rem; }
+  .service-card p { font-size: 0.88rem; }
+  .service-card__cta { font-size: 0.72rem; }
+
+  .contact-card { padding: 20px 18px; min-height: 120px; }
+  .contact-card__net { font-size: 1.15rem; }
+
+  .cta-final { padding: 40px 18px calc(36px + env(safe-area-inset-bottom, 0px)); }
+  .cta-final__heading .big { font-size: clamp(1.6rem, 9vw, 2.2rem); }
+  .cta-final__heading .hand { font-size: 1.4rem; }
+  .cta-final__sub { font-size: 0.88rem; }
+
+  .footer-inner { font-size: 0.6rem; }
+  .footer__center { font-size: 1.05rem; }
+}
+
+/* ============================================================
+   ОЧЕНЬ УЗКИЕ — до 380px (Galaxy Fold, iPhone 5/SE)
    ============================================================ */
 @media (max-width: 380px) {
-  .hero-name { font-size: clamp(1.9rem, 10vw, 2.6rem); }
-  .section-hero__title { font-size: clamp(1.9rem, 11vw, 2.6rem); }
-  .video-card { width: min(100%, 240px); }
-  .featured__play { width: 54px; height: 54px; }
-  .featured__play svg { width: 20px; height: 20px; }
-  .hero-float--ghost { width: 38px; height: 38px; }
+  :root {
+    --fs-mega: clamp(1.9rem, 12vw, 2.6rem);
+    --fs-h2: clamp(1.6rem, 9vw, 2.2rem);
+  }
+
+  .container { width: 94%; }
+
+  .logo-text { font-size: 0.85rem; }
+  .logo-mark { width: 36px; height: 36px; }
+
+  .hero { padding: 84px 0 44px; }
+  .hero-title__main,
+  .hero-title__glitch {
+    font-size: clamp(1.9rem, 12vw, 2.6rem);
+  }
+  .hero-timeline {
+    font-size: 0.52rem;
+    padding: 7px 9px;
+  }
+  .chip { font-size: 0.54rem; padding: 4px 8px; letter-spacing: .08em; }
+  .hero-subtitle {
+    font-size: 0.6rem;
+    padding-left: 22px;
+  }
+  .hero-desc { font-size: 0.92rem; }
+
+  .hero-actions .btn {
+    font-size: 0.74rem;
+    padding: 14px 18px;
+    min-height: 52px;
+    letter-spacing: .1em;
+  }
+
+  .stat strong { font-size: 1.3rem; }
+  .stat__label { font-size: 0.58rem; }
+
+  .sec-head__title { font-size: clamp(1.5rem, 10vw, 2rem); }
+  .sec-head__num { font-size: 0.62rem; }
+
+  .featured__info { padding: 18px 14px; }
+  .featured__index { font-size: 0.72rem; }
+
+  .cta-final__heading .big { font-size: 1.45rem; }
+  .contact-card__net { font-size: 1.05rem; }
+  .contact-card__handle { font-size: 0.92rem; }
 }
 
 /* ============================================================
-   ЛАНДШАФТ НА ТЕЛЕФОНЕ — low height
+   ЛАНДШАФТ ТЕЛЕФОНА (маленькая высота)
    ============================================================ */
 @media (max-height: 500px) and (orientation: landscape) {
-  .hero { min-height: auto; padding: 80px 0 40px; }
-  .hero-visual { min-height: 300px; }
-  .video-card { width: min(60vw, 240px); }
-  .hero-name { font-size: clamp(1.8rem, 6vw, 2.6rem); }
+  .hero { padding: 90px 0 40px; }
+  .hero-title__main,
+  .hero-title__glitch { font-size: clamp(2rem, 7vw, 2.8rem); }
+  .hero-preview {
+    max-width: min(200px, 30vw);
+    margin: 20px auto 0;
+  }
+  .hero-stats { grid-template-columns: repeat(3, 1fr); }
+  .nav-links { padding: 70px 20px 20px; }
 }
 
 /* ============================================================
-   ТАЧ-УСТРОЙСТВА — убираем hover-эффекты, которые «залипают»
+   ПЛАНШЕТ В АЛЬБОМНОЙ ОРИЕНТАЦИИ — 768x1024 → 1024x768
    ============================================================ */
-@media (hover: none) and (pointer: coarse) {
-  /* Убираем hover-залипание на карточках */
-  .project-card:hover,
-  .tile:hover .tile__thumb,
-  .skill-card:hover,
-  .service-card:hover,
-  .contact-card:hover,
-  .info-tag:hover {
-    transform: none;
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero-grid { gap: 40px; }
+  .hero-preview { max-width: min(280px, 32vw); }
+  .projects-tiles { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .tile, .tile:nth-child(3n+1), .tile:nth-child(3n+2), .tile:nth-child(3n) {
+    grid-column: span 1;
   }
-  .project-card:hover .project-cover img,
-  .project-card:hover .cover-play,
-  .project-card:hover .cover-overlay {
-    opacity: 0;
-    transform: none;
-  }
-  .featured:hover .featured__media img {
-    transform: scale(1.08);
-  }
-  .btn:hover {
-    transform: none;
-  }
-  .magnetic {
-    transform: none !important;
-  }
-
-  /* Отключаем «магнитные» и «светящиеся» эффекты — они для мыши */
-  .logo:hover .logo-mark img { transform: none; }
 }
