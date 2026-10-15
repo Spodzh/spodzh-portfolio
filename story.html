@@ -2395,7 +2395,7 @@
               что хочу двигаться в эту сторону дальше. <em>Клипы — это моё.</em>
             </p>
 
-            <a class="story-link-clip" href="https://www.youtube.com/watch?v=CNVz_u516Wg" target="_blank" rel="noopener">
+            <a class="story-link-clip" href="https://www.youtube.com/watch?v=CNVz_u516Wg" target="_blank" rel="noopener noreferrer">
               <span class="story-link-clip__icon">▶</span>
               <span class="story-link-clip__label">СМОТРЕТЬ КЛИП НА YOUTUBE</span>
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2453,7 +2453,7 @@
               </div>
             </div>
 
-            <a class="story-link-clip" href="https://www.youtube.com/watch?v=TOeKtNYVjcI" target="_blank" rel="noopener">
+            <a class="story-link-clip" href="https://www.youtube.com/watch?v=TOeKtNYVjcI" target="_blank" rel="noopener noreferrer">
               <span class="story-link-clip__icon">▶</span>
               <span class="story-link-clip__label">СМОТРЕТЬ КЛИП НА YOUTUBE</span>
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2813,6 +2813,26 @@
 
   })();
 </script>
+
+  <!-- ================= HIT TRACKER ================= -->
+  <script>
+    (function () {
+      'use strict';
+      var API = 'https://spodzh-reviews-api.ernest-chanel.workers.dev';
+      if (location.protocol !== 'https:' && location.protocol !== 'http:') return;
+      try {
+        fetch(API + '/hit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path: location.pathname,
+            referrer: document.referrer || ''
+          }),
+          keepalive: true
+        }).catch(function () {});
+      } catch (e) {}
+    })();
+  </script>
 
 </body>
 </html>

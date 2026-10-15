@@ -551,7 +551,7 @@
           <span class="service-card__num">/ 01</span>
           <h3 data-i18n="service1_title">Монтаж коротких видео</h3>
           <p data-i18n="service1_desc">TikTok, Reels, Shorts — темп, субтитры, звук, цвет и подача под площадку.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
+          <a href="https://t.me/spodzh" target="_blank" rel="noopener noreferrer" class="service-card__cta">
             <span data-i18n="service_cta">ОБСУДИТЬ</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -561,7 +561,7 @@
           <span class="service-card__num">/ 02</span>
           <h3 data-i18n="service2_title">Съёмка и контент</h3>
           <p data-i18n="service2_desc">Идея, съёмка и сборка ролика под конкретную задачу: влог, реклама, бренд.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
+          <a href="https://t.me/spodzh" target="_blank" rel="noopener noreferrer" class="service-card__cta">
             <span data-i18n="service_cta">ОБСУДИТЬ</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -571,7 +571,7 @@
           <span class="service-card__num">/ 03</span>
           <h3 data-i18n="service3_title">Коллабы и бренды</h3>
           <p data-i18n="service3_desc">Рекламные интеграции, совместные ролики с блогерами, творческие проекты.</p>
-          <a href="https://t.me/spodzh" target="_blank" class="service-card__cta">
+          <a href="https://t.me/spodzh" target="_blank" rel="noopener noreferrer" class="service-card__cta">
             <span data-i18n="service_cta">ОБСУДИТЬ</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -609,28 +609,28 @@
       </header>
 
       <div class="contacts-grid">
-        <a href="https://t.me/spodzh" target="_blank" class="contact-card contact-card--accent reveal">
+        <a href="https://t.me/spodzh" target="_blank" rel="noopener noreferrer" class="contact-card contact-card--accent reveal">
           <span class="contact-card__status">● ONLINE</span>
           <span class="contact-card__net">TELEGRAM</span>
           <span class="contact-card__handle">@spodzh</span>
           <span class="contact-card__hint" data-i18n="contact_telegram_hint">быстрее всего →</span>
         </a>
 
-        <a href="https://t.me/ssspodzh" target="_blank" class="contact-card reveal">
+        <a href="https://t.me/ssspodzh" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
           <span class="contact-card__status">◉ CHANNEL</span>
           <span class="contact-card__net">TG_CHANNEL</span>
           <span class="contact-card__handle">@ssspodzh</span>
           <span class="contact-card__hint">сподж · 319 подписчиков</span>
         </a>
 
-        <a href="https://tiktok.com/@spodzh" target="_blank" class="contact-card reveal">
+        <a href="https://tiktok.com/@spodzh" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
           <span class="contact-card__status">◉ ACTIVE</span>
           <span class="contact-card__net">TIKTOK</span>
           <span class="contact-card__handle">@spodzh</span>
           <span class="contact-card__hint" data-i18n="contact_tiktok_hint">45K+ подписчиков</span>
         </a>
 
-        <a href="https://instagram.com/spodzh" target="_blank" class="contact-card reveal">
+        <a href="https://instagram.com/spodzh" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
           <span class="contact-card__status">◯ IDLE</span>
           <span class="contact-card__net">INSTAGRAM</span>
           <span class="contact-card__handle">@spodzh</span>
@@ -654,7 +654,7 @@
         <p class="cta-final__sub" data-i18n="cta_sub">Пришли задачу, площадку и сроки — отвечу в течение дня.</p>
 
         <div class="cta-final__actions">
-          <a href="https://t.me/spodzh" target="_blank" class="btn btn--primary magnetic">
+          <a href="https://t.me/spodzh" target="_blank" rel="noopener noreferrer" class="btn btn--primary magnetic">
             <span data-i18n="cta_btn_telegram">НАПИСАТЬ В TELEGRAM</span>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -728,10 +728,60 @@
         <div class="admin-stat"><span>Видео</span><strong data-admin="videos_total">—</strong></div>
       </div>
 
+      <div class="admin-analytics" id="adminAnalytics">
+        <div class="admin-analytics__title">[ ANALYTICS ]</div>
+
+        <div class="admin-analytics__stats">
+          <div class="admin-analytics__stat">
+            <span>Всего визитов</span>
+            <strong data-analytics="visits_total">—</strong>
+          </div>
+          <div class="admin-analytics__stat">
+            <span>Сегодня</span>
+            <strong data-analytics="visits_today">—</strong>
+          </div>
+          <div class="admin-analytics__stat">
+            <span>Уникальных сегодня</span>
+            <strong data-analytics="visitors_today">—</strong>
+          </div>
+          <div class="admin-analytics__stat admin-analytics__stat--live">
+            <span>● Сейчас на сайте</span>
+            <strong data-analytics="visitors_live">—</strong>
+          </div>
+        </div>
+
+        <div class="admin-analytics__grid">
+          <div class="admin-analytics__block">
+            <h4>Топ страниц</h4>
+            <div data-analytics="top_pages" class="admin-analytics__list"></div>
+          </div>
+          <div class="admin-analytics__block">
+            <h4>Страны</h4>
+            <div data-analytics="top_countries" class="admin-analytics__list"></div>
+          </div>
+        </div>
+
+        <div class="admin-analytics__grid">
+          <div class="admin-analytics__block">
+            <h4>Устройства</h4>
+            <div data-analytics="top_devices" class="admin-analytics__list"></div>
+          </div>
+          <div class="admin-analytics__block">
+            <h4>Источники</h4>
+            <div data-analytics="top_referrers" class="admin-analytics__list"></div>
+          </div>
+        </div>
+
+        <div class="admin-analytics__block">
+          <h4>Последние 12 визитов</h4>
+          <div data-analytics="recent" class="admin-analytics__recent"></div>
+        </div>
+      </div>
+
       <div class="admin-panel__pending" id="adminPending"></div>
 
       <div class="admin-panel__actions">
-        <a href="https://t.me/ssspodzh" target="_blank" class="btn btn--ghost">TG-канал</a>
+        <a href="https://t.me/ssspodzh" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">TG-канал</a>
         <button class="btn btn--ghost" data-admin-refresh type="button">ОБНОВИТЬ</button>
       </div>
     </div>
@@ -778,6 +828,7 @@
         panel.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
         loadStats(key);
+        loadAnalytics(key);
       }
 
       function closePanel() {
@@ -786,8 +837,84 @@
         document.body.style.overflow = '';
       }
 
+      function loadAnalytics(key) {
+        fetch(API_BASE + '/admin/analytics', { headers: { 'X-Admin-Key': key } })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.error) return;
+            setAnalytics('visits_total', data.visits_total);
+            setAnalytics('visits_today', data.visits_today);
+            setAnalytics('visitors_today', data.visitors_today);
+            setAnalytics('visitors_live', data.visitors_live);
+
+            renderList('top_pages', data.top_pages, function (r) {
+              return '<span class="admin-analytics__label">' + esc(r.path || '/') + '</span>' +
+                     '<span class="admin-analytics__value">' + r.c + '</span>';
+            });
+
+            renderList('top_countries', data.top_countries, function (r) {
+              return '<span class="admin-analytics__label">' + esc(r.country) + '</span>' +
+                     '<span class="admin-analytics__value">' + r.c + '</span>';
+            });
+
+            renderList('top_devices', data.top_devices, function (r) {
+              return '<span class="admin-analytics__label">' + esc(r.device) + '</span>' +
+                     '<span class="admin-analytics__value">' + r.c + '</span>';
+            });
+
+            renderList('top_referrers', data.top_referrers, function (r) {
+              return '<span class="admin-analytics__label">' + esc(r.referrer) + '</span>' +
+                     '<span class="admin-analytics__value">' + r.c + '</span>';
+            });
+
+            var recentWrap = document.querySelector('[data-analytics="recent"]');
+            if (recentWrap) {
+              var items = data.recent || [];
+              if (!items.length) {
+                recentWrap.innerHTML = '<div class="admin-analytics__empty">пока нет визитов</div>';
+              } else {
+                recentWrap.innerHTML = items.map(function (r) {
+                  var t = (r.created_at || '').slice(11, 16);
+                  return '<div class="admin-analytics__recent-row">' +
+                    '<span class="admin-analytics__time">' + t + '</span>' +
+                    '<span class="admin-analytics__label">' + esc(r.path || '/') + '</span>' +
+                    '<span class="admin-analytics__badge">' + esc(r.country || '—') + '</span>' +
+                    '<span class="admin-analytics__badge">' + esc(r.device || '—') + '</span>' +
+                    '</div>';
+                }).join('');
+              }
+            }
+          })
+          .catch(function (err) {
+            console.warn('[analytics]', err);
+          });
+      }
+
+      function setAnalytics(name, val) {
+        var el = document.querySelector('[data-analytics="' + name + '"]');
+        if (el) el.textContent = (val != null) ? val : '—';
+      }
+
+      function renderList(name, arr, formatter) {
+        var wrap = document.querySelector('[data-analytics="' + name + '"]');
+        if (!wrap) return;
+        arr = arr || [];
+        if (!arr.length) {
+          wrap.innerHTML = '<div class="admin-analytics__empty">—</div>';
+          return;
+        }
+        wrap.innerHTML = arr.map(function (r) {
+          return '<div class="admin-analytics__row">' + formatter(r) + '</div>';
+        }).join('');
+      }
+
+      function esc(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
       function loadStats(key) {
-      fetch(API_BASE + '/admin/stats', { headers: { 'X-Admin-Key': key } })
+        fetch(API_BASE + '/admin/stats', { headers: { 'X-Admin-Key': key } })
           .then(function (r) { return r.json(); })
           .then(function (data) {
             if (data.error) {
@@ -803,7 +930,7 @@
             pendingEl.innerHTML = '<div class="admin-error">⚠ Сеть: ' + err.message + '</div>';
           });
 
-      fetch(API_BASE + '/admin/pending', { headers: { 'X-Admin-Key': key } })
+        fetch(API_BASE + '/admin/pending', { headers: { 'X-Admin-Key': key } })
           .then(function (r) { return r.json(); })
           .then(function (data) {
             var items = (data && data.items) || [];
@@ -814,9 +941,9 @@
             pendingEl.innerHTML = '<div class="admin-pending__head">ОЧЕРЕДЬ · ' + items.length + '</div>' +
               items.map(function (r) {
                 return '<div class="admin-pending__item">' +
-                  '<strong>#' + r.id + ' · ' + escapeHtml(r.author) + '</strong>' +
-                  (r.role ? ' <em>· ' + escapeHtml(r.role) + '</em>' : '') +
-                  '<p>' + escapeHtml((r.text || '').slice(0, 120)) + '…</p>' +
+                  '<strong>#' + r.id + ' · ' + esc(r.author) + '</strong>' +
+                  (r.role ? ' <em>· ' + esc(r.role) + '</em>' : '') +
+                  '<p>' + esc((r.text || '').slice(0, 120)) + '…</p>' +
                   '</div>';
               }).join('');
           })
@@ -828,10 +955,6 @@
       function setVal(name, val) {
         var el = statsEl.querySelector('[data-admin="' + name + '"]');
         if (el) el.textContent = (val != null) ? val : '—';
-      }
-
-      function escapeHtml(s) {
-        return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
 
       document.addEventListener('keydown', function (e) {
@@ -878,7 +1001,10 @@
         refreshBtn.addEventListener('click', function () {
           var key = null;
           try { key = localStorage.getItem(KEY_STORAGE); } catch (e) {}
-          if (key) loadStats(key);
+          if (key) {
+            loadStats(key);
+            loadAnalytics(key);
+          }
         });
       }
 
@@ -1639,6 +1765,28 @@
       } catch (e) {}
 
       console.log('%cSPODZH // ARCHIVE_v2.0', 'color:#ff2222; font-size:20px; font-weight:bold; font-family: monospace;');
+    })();
+  </script>
+
+  <!-- ================= HIT TRACKER ================= -->
+  <script>
+    (function () {
+      'use strict';
+      var API = 'https://spodzh-reviews-api.ernest-chanel.workers.dev';
+
+      if (location.protocol !== 'https:' && location.protocol !== 'http:') return;
+
+      try {
+        fetch(API + '/hit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path: location.pathname + location.search.replace(/[\?&]admin=1/, ''),
+            referrer: document.referrer || ''
+          }),
+          keepalive: true
+        }).catch(function () {});
+      } catch (e) {}
     })();
   </script>
 
