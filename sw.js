@@ -4,7 +4,7 @@
    ============================================================ */
 const CACHE_NAME = 'spodzh-v1';
 
-self.addEventListener('install', (e) => {
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 

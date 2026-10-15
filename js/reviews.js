@@ -281,8 +281,11 @@
       if (link && !/^https?:\/\//i.test(link)) return showNotice('error', 'Ссылка должна начинаться с http:// или https://');
       if (!canSubmit()) return showNotice('error', 'Слишком часто. Подожди минуту.');
 
+      var submitLabel = submit.querySelector('span');
+      var originalLabel = submitLabel ? submitLabel.textContent : '';
       submit.disabled = true;
       submit.style.opacity = '.5';
+      if (submitLabel) submitLabel.textContent = 'ОТПРАВКА...';
       if (status) status.textContent = 'Отправка...';
 
       fetch(API_BASE + '/reviews', {
@@ -303,6 +306,7 @@
       .then(function (result) {
         submit.disabled = false;
         submit.style.opacity = '';
+        if (submitLabel) submitLabel.textContent = originalLabel;
         if (status) status.textContent = '';
 
         if (!result.ok) {
@@ -320,6 +324,7 @@
         console.warn('[reviews] network error:', err);
         submit.disabled = false;
         submit.style.opacity = '';
+        if (submitLabel) submitLabel.textContent = originalLabel;
         if (status) status.textContent = '';
         showNotice('error', 'Ошибка сети. Попробуй позже.');
       });

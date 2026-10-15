@@ -8,10 +8,27 @@
 body.has-custom-cursor,
 body.has-custom-cursor a,
 body.has-custom-cursor button,
-body.has-custom-cursor input,
-body.has-custom-cursor textarea,
 body.has-custom-cursor [role="button"] {
   cursor: none !important;
+}
+
+/* Исключения: возвращаем системный курсор там, где он нужен */
+body.has-custom-cursor input,
+body.has-custom-cursor textarea,
+body.has-custom-cursor select,
+body.has-custom-cursor iframe,
+body.has-custom-cursor video {
+  cursor: auto !important;
+}
+
+body.has-custom-cursor input[type="text"],
+body.has-custom-cursor input[type="url"] {
+  cursor: text !important;
+}
+
+body.has-custom-cursor button:disabled,
+body.has-custom-cursor [disabled] {
+  cursor: not-allowed !important;
 }
 
 .cursor-crosshair {

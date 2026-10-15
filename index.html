@@ -238,7 +238,7 @@
             </div>
 
             <div class="preview-media">
-              <video src="assets/hero.mp4" autoplay muted loop playsinline></video>
+              <video src="assets/hero.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg"></video>
             </div>
 
             <div class="preview-footer">
@@ -418,7 +418,7 @@
           <span class="featured__index" id="featuredIndex">01 / 09</span>
           <div class="featured__meta" id="featuredMeta"></div>
           <div class="featured__actions">
-            <a class="btn btn--primary" id="featuredLink" href="#" target="_blank" rel="noopener">
+            <a class="btn btn--primary" id="featuredLink" href="#" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               <span data-i18n="btn_open_tiktok">ОТКРЫТЬ В TIKTOK</span>
             </a>
@@ -495,7 +495,7 @@
 
       <div class="clips-modal__grid">
 
-        <a class="clip-card" href="https://www.youtube.com/watch?v=CNVz_u516Wg" target="_blank" rel="noopener">
+        <a class="clip-card" href="https://www.youtube.com/watch?v=CNVz_u516Wg" target="_blank" rel="noopener noreferrer">
           <div class="clip-card__media">
             <img src="https://i.ibb.co/TB4DTrTT/maxresdefault.jpg" alt="Новогодний клип" loading="lazy">
             <span class="clip-card__play" aria-hidden="true">▶</span>
@@ -511,7 +511,7 @@
           </div>
         </a>
 
-        <a class="clip-card" href="https://www.youtube.com/watch?v=TOeKtNYVjcI" target="_blank" rel="noopener">
+        <a class="clip-card" href="https://www.youtube.com/watch?v=TOeKtNYVjcI" target="_blank" rel="noopener noreferrer">
           <div class="clip-card__media">
             <img src="https://i.ibb.co/XxZ7N0sb/image.png" alt="Дисс на Жюри" loading="lazy">
             <span class="clip-card__play" aria-hidden="true">▶</span>
@@ -703,7 +703,7 @@
       </div>
       <div class="project-modal__body">
         <div class="project-modal__meta" id="modalMeta"></div>
-        <a id="modalLink" href="#" target="_blank" rel="noopener" class="btn btn--primary">
+        <a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
           <span data-i18n="btn_open_tiktok">ОТКРЫТЬ В TIKTOK</span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -787,7 +787,7 @@
       }
 
       function loadStats(key) {
-        fetch(API_BASE + '/admin/stats?key=' + encodeURIComponent(key))
+      fetch(API_BASE + '/admin/stats', { headers: { 'X-Admin-Key': key } })
           .then(function (r) { return r.json(); })
           .then(function (data) {
             if (data.error) {
@@ -803,7 +803,7 @@
             pendingEl.innerHTML = '<div class="admin-error">⚠ Сеть: ' + err.message + '</div>';
           });
 
-        fetch(API_BASE + '/admin/pending?key=' + encodeURIComponent(key))
+      fetch(API_BASE + '/admin/pending', { headers: { 'X-Admin-Key': key } })
           .then(function (r) { return r.json(); })
           .then(function (data) {
             var items = (data && data.items) || [];
@@ -1356,6 +1356,7 @@
           fc.style.opacity = '0';
           setTimeout(function () {
             els.img.src = p.img || '';
+            els.img.alt = p.label ? ('Project: ' + p.label) : 'Project preview';
             els.label.textContent = p.label || '';
             els.link.href = p.link || '#';
             els.index.textContent = pad2(idx + 1) + ' / ' + pad2(projectState.videos.length);
@@ -1396,7 +1397,10 @@
             var numEl = document.querySelector('#' + prefix + ' .work-mini__num');
 
             if (numEl) numEl.textContent = 'CUT_' + pad2(idx + 1);
-            if (img) img.src = v.img || '';
+            if (img) {
+              img.src = v.img || '';
+              img.alt = v.label ? ('Project: ' + v.label) : 'Project preview';
+            }
             if (dur) dur.textContent = v.duration || '0:00';
             if (newBadge) newBadge.hidden = !v.is_new;
 
@@ -1455,7 +1459,9 @@
           var p = projectState.videos[projectState.current];
           if (!p || !modal) return;
 
-          document.getElementById('modalImage').src = p.img || '';
+          var mImg = document.getElementById('modalImage');
+          mImg.src = p.img || '';
+          mImg.alt = p.label ? ('Project: ' + p.label) : 'Project preview';
           document.getElementById('modalCode').textContent = 'CUT_' + pad2(projectState.current + 1);
           document.getElementById('modalTc').textContent = p.duration || '0:00';
           document.getElementById('modalLink').href = p.link || '#';
