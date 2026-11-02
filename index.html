@@ -6,7 +6,7 @@
   <title>SPODZH // ARCHIVE_v2.0</title>
   <meta name="description" content="Видеомонтажёр Spodzh. 45K+ в TikTok. Съёмка, монтаж, креатив — от идеи до финального кадра." />
 
-  <link rel="icon" type="image/png" href="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
   <link rel="apple-touch-icon" href="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
 
   <meta name="theme-color" content="#0d0d10" />
@@ -497,7 +497,7 @@
 
         <a class="clip-card" href="https://www.youtube.com/watch?v=CNVz_u516Wg" target="_blank" rel="noopener noreferrer">
           <div class="clip-card__media">
-            <img src="https://i.ibb.co/TB4DTrTT/maxresdefault.jpg" alt="Новогодний клип" loading="lazy">
+            <img src="assets/images/clip-newyear.jpg" alt="Новогодний клип" loading="lazy">
             <span class="clip-card__play" aria-hidden="true">▶</span>
             <span class="clip-card__badge">CLIP_01</span>
           </div>
@@ -513,7 +513,7 @@
 
         <a class="clip-card" href="https://www.youtube.com/watch?v=TOeKtNYVjcI" target="_blank" rel="noopener noreferrer">
           <div class="clip-card__media">
-            <img src="https://i.ibb.co/XxZ7N0sb/image.png" alt="Дисс на Жюри" loading="lazy">
+            <img src="assets/images/clip-diss.jpg" alt="Дисс на Жюри" loading="lazy">
             <span class="clip-card__play" aria-hidden="true">▶</span>
             <span class="clip-card__badge">CLIP_02</span>
           </div>
@@ -783,7 +783,50 @@
       <div class="admin-panel__actions">
         <a href="https://t.me/ssspodzh" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">TG-канал</a>
         <button class="btn btn--ghost" data-admin-refresh type="button">ОБНОВИТЬ</button>
+        <button class="btn btn--ghost" data-open-console type="button">ТЕРМИНАЛ</button>
       </div>
+
+  <!-- ================= СЕКРЕТНАЯ КОНСОЛЬ ================= -->
+  <div class="secret-console" id="secretConsole" aria-hidden="true" role="dialog" aria-label="Secret Console">
+    <div class="secret-console__panel">
+      <header class="secret-console__head">
+        <span class="secret-console__dot"></span>
+        <span class="secret-console__title">ARCHIVE_TERMINAL</span>
+        <span class="secret-console__path">~ / spodzh / archive</span>
+        <button class="secret-console__close" data-sc-close aria-label="Close">✕</button>
+      </header>
+      <div class="secret-console__output" id="scOutput"></div>
+      <form class="secret-console__form" id="scForm" autocomplete="off">
+        <span class="secret-console__prompt">▸</span>
+        <input
+          class="secret-console__input"
+          id="scInput"
+          type="text"
+          placeholder="введи команду... (help)"
+          spellcheck="false"
+          autocapitalize="off"
+          autocorrect="off"
+        />
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= ФИНАЛЬНАЯ СЦЕНА ================= -->
+  <div class="finale-screen" id="finaleScreen" aria-hidden="true" role="dialog" aria-label="Finale">
+    <div class="finale-screen__scan" aria-hidden="true"></div>
+    <div class="finale-screen__inner">
+      <img class="finale-screen__ghost" src="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" alt="">
+      <div class="finale-screen__tag">[ FILE_089 · FINAL_SEQUENCE ]</div>
+
+      <p class="finale-screen__line" data-finale-line>ты нашёл все файлы архива.</p>
+      <p class="finale-screen__line" data-finale-line>каждый фрагмент. каждое имя. каждую ошибку.</p>
+      <p class="finale-screen__line finale-screen__line--ghost" data-finale-line>«ты даже говорил со мной.»</p>
+      <p class="finale-screen__line" data-finale-line>но архив — это не файлы.</p>
+      <p class="finale-screen__line finale-screen__line--hl" data-finale-line>архив — это тот, кто их собирает.</p>
+      <p class="finale-screen__line" data-finale-line>теперь это ты.</p>
+      <p class="finale-screen__line finale-screen__line--red" data-finale-line>ARCHIVE_COMPLETE</p>
+
+      <button class="finale-screen__close" type="button" data-finale-close>ЗАКРЫТЬ АРХИВ</button>
     </div>
   </div>
 
@@ -798,6 +841,15 @@
 
   <!-- ================= ENHANCEMENTS ================= -->
   <script src="js/enhancements.js"></script>
+
+  <!-- ================= SECRET CONSOLE + PROGRESS ================= -->
+  <script src="js/secret-console.js"></script>
+
+  <!-- ================= SECRET EVENTS (призрак, аномалии) ================= -->
+  <script src="js/secret-events.js"></script>
+
+  <!-- ================= SECRET FINALE ================= -->
+  <script src="js/secret-finale.js"></script>
 
   <!-- ================= ADMIN — встроенная логика ================= -->
   <script>
@@ -1720,49 +1772,6 @@
           });
         }
       } catch (e) { console.warn('clips:', e); }
-
-      /* ============================================================
-         FALLBACK ПАСХАЛКА (5 кликов по логотипу)
-         ============================================================ */
-      try {
-        if (!window.__spodzhCorrupted) {
-          var fbLogo = document.getElementById('logoTrigger');
-          var fbEgg = document.getElementById('easterEgg');
-          var fbCount = 0, fbTimer = null;
-
-          if (fbLogo && fbEgg) {
-            fbLogo.addEventListener('click', function (e) {
-              fbCount++;
-              fbLogo.classList.remove('is-corrupting');
-              void fbLogo.offsetWidth;
-              fbLogo.classList.add('is-corrupting');
-              setTimeout(function () { fbLogo.classList.remove('is-corrupting'); }, 520);
-
-              if (fbCount >= 5) {
-                e.preventDefault();
-                fbCount = 0;
-                document.body.classList.add('corrupted-mode');
-                fbEgg.classList.add('show');
-
-                var flash = document.createElement('div');
-                flash.className = 'corrupt-invert-flash run';
-                document.body.appendChild(flash);
-                setTimeout(function () {
-                  if (flash.parentNode) flash.parentNode.removeChild(flash);
-                }, 1400);
-
-                setTimeout(function () {
-                  fbEgg.classList.remove('show');
-                  document.body.classList.remove('corrupted-mode');
-                }, 2400);
-                return;
-              }
-              clearTimeout(fbTimer);
-              fbTimer = setTimeout(function () { fbCount = 0; }, 3000);
-            });
-          }
-        }
-      } catch (e) {}
 
       console.log('%cSPODZH // ARCHIVE_v2.0', 'color:#ff2222; font-size:20px; font-weight:bold; font-family: monospace;');
     })();

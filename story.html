@@ -6,7 +6,7 @@
   <title>SPODZH_STORY.psd</title>
   <meta name="description" content="История Spodzh — от 12-летнего пацана до 45 000 подписчиков в TikTok." />
 
-  <link rel="icon" type="image/png" href="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
   <link rel="apple-touch-icon" href="https://i.ibb.co/G46gG6hM/SPODZHLOGO.png" />
 
   <meta name="theme-color" content="#0a0a12" />
@@ -54,9 +54,7 @@
       position: relative;
     }
 
-    /* ============================================================
-       TOP MENUBAR
-       ============================================================ */
+    /* ---------- TOP MENUBAR ---------- */
     .ps-menubar {
       grid-column: 1 / -1;
       grid-row: 1;
@@ -85,7 +83,6 @@
         transparent);
       pointer-events: none;
     }
-
     .ps-logo {
       display: grid;
       place-items: center;
@@ -99,8 +96,8 @@
       font-size: 11px;
       letter-spacing: 0;
       box-shadow: 0 0 10px rgba(49,168,255,.4);
+      cursor: pointer;
     }
-
     .ps-doc-name {
       color: var(--ink);
       opacity: .9;
@@ -111,7 +108,6 @@
       font-size: 0.62rem;
       letter-spacing: 0.06em;
     }
-
     .ps-menu {
       display: flex;
       gap: 16px;
@@ -126,7 +122,6 @@
       white-space: nowrap;
     }
     .ps-menu span:hover { color: var(--ink); }
-
     .ps-menubar__right {
       margin-left: auto;
       display: flex;
@@ -162,9 +157,7 @@
       box-shadow: 0 0 16px rgba(255,34,34,.6);
     }
 
-    /* ============================================================
-       LEFT TOOLBAR
-       ============================================================ */
+    /* ---------- LEFT TOOLBAR ---------- */
     .ps-toolbar {
       grid-column: 1;
       grid-row: 2;
@@ -180,7 +173,6 @@
       z-index: 20;
     }
     .ps-toolbar::-webkit-scrollbar { width: 0; }
-
     .ps-tool {
       position: relative;
       width: 32px; height: 32px;
@@ -224,7 +216,6 @@
       z-index: 20;
     }
     .ps-tool:hover .ps-tool__label { opacity: 1; }
-
     .ps-tool-divider {
       width: 22px;
       height: 1px;
@@ -232,9 +223,7 @@
       margin: 4px 0;
     }
 
-    /* ============================================================
-       CANVAS — фон теперь fixed, чтобы не пропадал при скролле
-       ============================================================ */
+    /* ---------- CANVAS ---------- */
     .ps-canvas {
       grid-column: 2;
       grid-row: 2;
@@ -255,7 +244,6 @@
       background: linear-gradient(var(--cyan), var(--magenta));
     }
 
-    /* ФОН CANVAS — position: fixed, чтобы всегда был виден */
     .canvas-bg {
       position: fixed;
       top: 34px;
@@ -270,7 +258,6 @@
         radial-gradient(circle at 50% 90%, rgba(79,125,255,.14), transparent 50%),
         #050508;
     }
-
     .canvas-grid {
       position: fixed;
       top: 34px;
@@ -286,7 +273,6 @@
       mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 90%);
       -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 90%);
     }
-
     .canvas-noise {
       position: fixed;
       top: 34px;
@@ -299,17 +285,15 @@
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     }
 
-    /* Пиксельные декорации — как PNG-объекты на макете */
+    /* ---------- PIXEL DECO ---------- */
     .pixel-deco {
       position: absolute;
       z-index: 1;
       pointer-events: none;
       image-rendering: pixelated;
     }
-
     .px-cloud {
-      width: 60px;
-      height: 20px;
+      width: 60px; height: 20px;
       display: grid;
       grid-template-columns: repeat(6, 10px);
       grid-template-rows: repeat(2, 10px);
@@ -321,13 +305,11 @@
       opacity: .5;
     }
     .px-cloud span:nth-child(1),
-    .px-cloud span:nth-child(6) { background: transparent; box-shadow: none; }
+    .px-cloud span:nth-child(6),
     .px-cloud span:nth-child(7),
     .px-cloud span:nth-child(12) { background: transparent; box-shadow: none; }
-
     .px-cross {
-      width: 20px;
-      height: 20px;
+      width: 20px; height: 20px;
       position: relative;
     }
     .px-cross::before,
@@ -338,54 +320,34 @@
       box-shadow: 0 0 10px rgba(255,45,117,.7);
       opacity: .7;
     }
-    .px-cross::before {
-      left: 0; top: 9px;
-      width: 20px; height: 2px;
-    }
-    .px-cross::after {
-      top: 0; left: 9px;
-      width: 2px; height: 20px;
-    }
-
-    .px-arrow {
-      width: 30px;
-      height: 30px;
-    }
+    .px-cross::before { left: 0; top: 9px; width: 20px; height: 2px; }
+    .px-cross::after { top: 0; left: 9px; width: 2px; height: 20px; }
+    .px-arrow { width: 30px; height: 30px; }
     .px-arrow svg {
       width: 100%; height: 100%;
       stroke: var(--yellow);
       filter: drop-shadow(0 0 8px rgba(255,217,61,.7));
       opacity: .7;
     }
-
     .px-dots {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       display: grid;
       grid-template-columns: repeat(4, 10px);
       grid-template-rows: repeat(4, 10px);
     }
-    .px-dots span {
-      background: var(--cyan);
-      opacity: .3;
-    }
+    .px-dots span { background: var(--cyan); opacity: .3; }
     .px-dots span:nth-child(2n) { background: var(--magenta); }
     .px-dots span:nth-child(3n) { background: transparent; }
-
     .px-line {
-      width: 100px;
-      height: 4px;
+      width: 100px; height: 4px;
       background: repeating-linear-gradient(
         90deg,
-        var(--cyan) 0,
-        var(--cyan) 6px,
-        transparent 6px,
-        transparent 10px
+        var(--cyan) 0, var(--cyan) 6px,
+        transparent 6px, transparent 10px
       );
       opacity: .5;
       box-shadow: 0 0 12px rgba(0,229,255,.5);
     }
-
     .px-1 { top: 6%; left: 6%; transform: rotate(-8deg); }
     .px-2 { top: 18%; right: 5%; transform: rotate(12deg); }
     .px-3 { top: 42%; left: 4%; transform: rotate(-4deg); }
@@ -393,7 +355,6 @@
     .px-5 { top: 76%; left: 8%; transform: rotate(-10deg); }
     .px-6 { top: 88%; right: 6%; transform: rotate(4deg); }
 
-    /* Верхняя линейка — sticky */
     .canvas-ruler {
       position: sticky;
       top: 0;
@@ -413,17 +374,13 @@
     .canvas-ruler::before {
       content: '';
       position: absolute;
-      left: 0; right: 0;
-      bottom: 0;
+      left: 0; right: 0; bottom: 0;
       height: 8px;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,.15) 0,
-          rgba(255,255,255,.15) 1px,
-          transparent 1px,
-          transparent 20px
-        );
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 1px,
+        transparent 1px, transparent 20px
+      );
       pointer-events: none;
     }
     .canvas-ruler__marks {
@@ -433,14 +390,11 @@
       gap: 80px;
       margin-left: 20px;
     }
-
     .canvas-inner {
       padding: 32px 40px 80px;
       position: relative;
       z-index: 2;
     }
-
-    /* Угловые crop-метки */
     .canvas-crop {
       position: absolute;
       width: 20px; height: 20px;
@@ -452,7 +406,6 @@
     .canvas-crop--tr { top: 26px; right: 16px; border-left: none; border-bottom: none; }
     .canvas-crop--bl { bottom: 60px; left: 16px; border-right: none; border-top: none; border-color: rgba(255,45,117,.4); }
     .canvas-crop--br { bottom: 60px; right: 16px; border-left: none; border-top: none; border-color: rgba(255,45,117,.4); }
-
     .canvas-file {
       display: flex;
       align-items: center;
@@ -471,11 +424,7 @@
       backdrop-filter: blur(10px);
     }
     .canvas-file__name { color: var(--cyan); }
-    .canvas-file__right {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+    .canvas-file__right { display: flex; gap: 12px; align-items: center; }
     .canvas-file__chip {
       padding: 2px 8px;
       background: rgba(255,45,117,.1);
@@ -484,7 +433,6 @@
       border-radius: 3px;
       font-size: 0.58rem;
     }
-
     .story-wrap {
       max-width: 720px;
       margin: 0 auto;
@@ -492,9 +440,7 @@
       z-index: 2;
     }
 
-    /* ============================================================
-       RIGHT PANELS
-       ============================================================ */
+    /* ---------- RIGHT PANELS ---------- */
     .ps-panels {
       grid-column: 3;
       grid-row: 2;
@@ -513,7 +459,6 @@
       background: #1f1f2a;
       border-radius: 4px;
     }
-
     .ps-panel {
       background: linear-gradient(180deg, #131320, #0d0d14);
       border: 1px solid rgba(255,255,255,.05);
@@ -540,8 +485,6 @@
       font-size: 0.7rem;
     }
     .ps-panel__body { padding: 8px; }
-
-    /* СЛОИ */
     .ps-layer {
       display: grid;
       grid-template-columns: 20px 28px 1fr;
@@ -586,16 +529,20 @@
       width: 100%; height: 100%;
       display: grid; place-items: center;
     }
-    .ps-layer.is-active .ps-layer__thumb {
-      border-color: rgba(0,229,255,.4);
-    }
+    .ps-layer.is-active .ps-layer__thumb { border-color: rgba(0,229,255,.4); }
     .ps-layer__name {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       color: inherit;
     }
-
+    .ps-layer.is-secret { border-left: 2px solid #ff2222; }
+    .ps-layer.is-secret .ps-layer__name { color: #ff2222 !important; font-weight: 700; }
+    .ps-layer.is-secret .ps-layer__thumb {
+      border-color: rgba(255,34,34,.5);
+      background: rgba(255,34,34,.08);
+    }
+    .ps-layer.is-secret .ps-layer__thumb span { color: #ff2222 !important; }
     .ps-layer-group {
       display: flex;
       align-items: center;
@@ -610,8 +557,6 @@
       padding-bottom: 6px;
     }
     .ps-layer-group::before { content: '📁'; font-size: 11px; }
-
-    /* СВОЙСТВА */
     .ps-prop {
       display: grid;
       grid-template-columns: 60px 1fr;
@@ -628,12 +573,7 @@
     .ps-prop__value--accent { color: var(--cyan); }
     .ps-prop__value--red { color: var(--red); }
     .ps-prop__value--yellow { color: var(--yellow); }
-
-    .ps-swatch-row {
-      display: flex;
-      gap: 4px;
-      padding: 6px;
-    }
+    .ps-swatch-row { display: flex; gap: 4px; padding: 6px; }
     .ps-swatch {
       width: 22px; height: 22px;
       border-radius: 3px;
@@ -642,8 +582,6 @@
       cursor: pointer;
     }
     .ps-swatch:hover { transform: scale(1.1); }
-
-    /* ИСТОРИЯ */
     .ps-hist {
       padding: 5px 8px;
       font-family: var(--f-mono);
@@ -660,9 +598,7 @@
       color: var(--cyan);
     }
 
-    /* ============================================================
-       BOTTOM STATUS BAR
-       ============================================================ */
+    /* ---------- BOTTOM STATUS BAR ---------- */
     .ps-statusbar {
       grid-column: 1 / -1;
       grid-row: 3;
@@ -692,10 +628,7 @@
         transparent);
       pointer-events: none;
     }
-    .ps-statusbar__zoom {
-      color: var(--ink);
-      font-weight: 500;
-    }
+    .ps-statusbar__zoom { color: var(--ink); font-weight: 500; }
     .ps-statusbar__mem { color: var(--muted); }
     .ps-statusbar__right {
       margin-left: auto;
@@ -712,14 +645,18 @@
       box-shadow: 0 0 8px var(--red);
       animation: recBlink 1.6s infinite;
     }
+    .ps-finale-badge {
+      color: #ff2222;
+      font-weight: 700;
+      letter-spacing: .12em;
+      margin-left: 10px;
+    }
     @keyframes recBlink {
       0%, 100% { opacity: 1; }
       50% { opacity: .35; }
     }
 
-    /* ============================================================
-       STORY CONTENT
-       ============================================================ */
+    /* ---------- CONTENT ---------- */
     .story-hero {
       text-align: center;
       margin-bottom: 90px;
@@ -804,15 +741,12 @@
       font-family: var(--f-cry);
       font-size: 1.8rem;
       display: inline-block;
-      color: #00e5ff;
       background: linear-gradient(135deg, #00e5ff 0%, #4f7dff 45%, #ff2d75 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+      color: #00e5ff;
       line-height: 1.1;
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      .story-hero__stat strong { color: #00e5ff; -webkit-text-fill-color: #00e5ff; }
     }
     .story-hero__stat span {
       font-family: var(--f-mono);
@@ -822,7 +756,6 @@
       text-transform: uppercase;
     }
 
-    /* ТАЙМЛАЙН */
     .story-timeline {
       position: relative;
       padding-left: 36px;
@@ -838,7 +771,6 @@
         var(--red) 0%, var(--red) 10%,
         var(--line-strong) 10%, var(--line-strong) 100%);
     }
-
     .story-chapter {
       position: relative;
       margin-bottom: 80px;
@@ -860,7 +792,6 @@
       background: var(--yellow);
       box-shadow: 0 0 0 2px var(--yellow), 0 0 18px rgba(255,217,61,.55);
     }
-
     .story-chapter__meta {
       display: flex;
       align-items: center;
@@ -912,8 +843,6 @@
       font-family: var(--f-hand);
       font-size: 1.2em;
     }
-
-    /* ЦИТАТА */
     .story-quote {
       position: relative;
       padding: 22px 26px 22px 44px;
@@ -937,8 +866,6 @@
       color: var(--red);
       line-height: 1;
     }
-
-    /* ФОТО */
     .story-floater {
       margin: 28px 0;
       display: flow-root;
@@ -971,7 +898,6 @@
       transition: opacity .3s;
     }
     .story-photo:hover::after { opacity: .2; }
-
     .story-photo__caption {
       font-family: var(--f-hand);
       font-size: 1.1rem;
@@ -989,142 +915,6 @@
       text-transform: uppercase;
       z-index: 3;
     }
-
-    /* ПОЛАРОИД */
-    .story-photo--polaroid {
-      background: #f5f1e8;
-      padding: 12px 12px 54px;
-      border: 1px solid rgba(0,0,0,.2);
-      box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 2px 6px rgba(0,0,0,.3);
-      transform: rotate(-3deg);
-      max-width: 300px;
-    }
-    .story-photo--polaroid:hover {
-      transform: rotate(-1deg) translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0,0,0,.55), 0 4px 12px rgba(0,0,0,.4);
-    }
-    .story-photo--polaroid img {
-      border: 1px solid rgba(0,0,0,.15);
-      filter: contrast(1.05) saturate(.9) sepia(.08);
-    }
-    .story-photo--polaroid:hover img {
-      filter: contrast(1.1) saturate(1) sepia(0);
-      transform: scale(1.02);
-    }
-    .story-photo--polaroid .story-photo__caption {
-      position: absolute;
-      bottom: 14px; left: 0; right: 0;
-      color: #2a2a2a;
-      font-size: 1.15rem;
-      transform: rotate(-1.5deg);
-    }
-    .story-photo--polaroid .story-photo__num {
-      top: -10px; left: -10px;
-      background: var(--red); color: #fff;
-      padding: 3px 8px; border-radius: 3px;
-    }
-    .story-photo--polaroid.is-right { transform: rotate(3deg); }
-    .story-photo--polaroid.is-right:hover { transform: rotate(1deg) translateY(-4px); }
-
-    /* СКОТЧ */
-    .story-photo--taped {
-      background: var(--bg-2);
-      padding: 8px;
-      border: 1px solid var(--line-strong);
-      max-width: 300px;
-      transform: rotate(-2deg);
-    }
-    .story-photo--taped::before {
-      content: '';
-      position: absolute;
-      top: -14px; left: 50%;
-      transform: translateX(-50%) rotate(-3deg);
-      width: 90px; height: 24px;
-      background: rgba(255,217,61,.7);
-      box-shadow: 0 2px 6px rgba(0,0,0,.3);
-      z-index: 3;
-      clip-path: polygon(2% 8%, 98% 0, 100% 94%, 0 100%);
-    }
-    .story-photo--taped:hover {
-      transform: rotate(0) translateY(-4px);
-      border-color: var(--red);
-      box-shadow: 0 20px 40px -20px rgba(255,34,34,.5);
-    }
-    .story-photo--taped img { filter: contrast(1.08) saturate(.85); }
-    .story-photo--taped:hover img { filter: contrast(1.1) saturate(1); }
-    .story-photo--taped .story-photo__num {
-      top: 14px; left: 14px; color: var(--yellow);
-    }
-    .story-photo--taped.is-right { transform: rotate(2deg); }
-    .story-photo--taped.is-right::before {
-      background: rgba(0,229,255,.55);
-      transform: translateX(-50%) rotate(4deg);
-    }
-    .story-photo--taped.is-right:hover { transform: rotate(0) translateY(-4px); }
-
-    /* НЕОН */
-    .story-photo--neon {
-      background: #0a0a0f;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid transparent;
-      background-image:
-        linear-gradient(#0a0a0f, #0a0a0f),
-        linear-gradient(135deg, var(--cyan), var(--red));
-      background-origin: border-box;
-      background-clip: padding-box, border-box;
-      max-width: 380px;
-      box-shadow: 0 0 30px rgba(0,229,255,.3), 0 0 60px rgba(255,34,34,.2);
-      transform: rotate(2deg);
-    }
-    .story-photo--neon img { border-radius: 4px; filter: contrast(1.05) saturate(1.05); }
-    .story-photo--neon:hover {
-      transform: rotate(0) translateY(-6px);
-      box-shadow: 0 0 50px rgba(0,229,255,.5), 0 0 100px rgba(255,34,34,.35);
-    }
-    .story-photo--neon:hover img { transform: scale(1.02); filter: contrast(1.08) saturate(1.15); }
-    .story-photo--neon .story-photo__num {
-      top: -12px; left: 16px;
-      background: var(--grad); color: #000;
-      padding: 4px 10px; border-radius: 3px;
-      font-weight: 700; font-size: 0.62rem;
-    }
-    .story-photo--neon .story-photo__caption { color: var(--yellow); font-size: 1.3rem; }
-    .story-photo--neon.is-right { transform: rotate(-2deg); }
-    .story-photo--neon.is-right:hover { transform: rotate(0) translateY(-6px); }
-
-    /* СТИКЕР */
-    .story-photo--sticker {
-      background: var(--bg-2);
-      padding: 8px;
-      border: 2px solid var(--ink);
-      max-width: 220px;
-      transform: rotate(4deg);
-      box-shadow: 6px 6px 0 rgba(255,34,34,.5);
-    }
-    .story-photo--sticker::after {
-      content: '★';
-      position: absolute;
-      top: -18px; right: -18px;
-      width: 40px; height: 40px;
-      background: var(--yellow);
-      border-radius: 50%;
-      display: grid; place-items: center;
-      color: #000; font-size: 1.2rem; font-weight: bold;
-      transform: rotate(12deg);
-      box-shadow: 2px 2px 0 rgba(0,0,0,.6);
-      z-index: 5;
-    }
-    .story-photo--sticker:hover {
-      transform: rotate(1deg) translateY(-4px);
-      box-shadow: 8px 8px 0 rgba(255,34,34,.7);
-    }
-    .story-photo--sticker img { filter: contrast(1.08) saturate(.9); }
-    .story-photo--sticker:hover img { filter: contrast(1.1) saturate(1.05); transform: scale(1.02); }
-    .story-photo--sticker .story-photo__num { display: none; }
-    .story-photo--sticker .story-photo__caption { font-size: 1rem; }
-
-    /* ВИДЕО */
     .story-video {
       position: relative;
       background: #000;
@@ -1158,7 +948,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
-      background: var(--grad);
+      background: linear-gradient(135deg, #00e5ff 0%, #4f7dff 45%, #ff2d75 100%);
       z-index: 4;
     }
     .story-video video {
@@ -1202,8 +992,6 @@
       z-index: 5;
     }
     .story-video--small { max-width: 260px; margin: 28px 0; }
-
-    /* ДУО */
     .story-duo {
       display: flex;
       gap: 24px;
@@ -1213,15 +1001,11 @@
       margin: 32px 0;
     }
     .story-duo .story-photo { margin: 0; }
-    .story-duo .story-photo--polaroid { max-width: 240px; }
-
-    /* ПОЗИЦИОНИРОВАНИЕ */
     .story-floater--left { text-align: left; }
     .story-floater--left .story-photo { margin-right: auto; }
     .story-floater--right { text-align: right; }
     .story-floater--right .story-photo { margin-left: auto; }
     .story-floater--center { text-align: center; }
-
     .story-floater__duo {
       display: flex;
       gap: 22px;
@@ -1230,8 +1014,6 @@
       justify-content: center;
     }
     .story-floater__duo--right { justify-content: flex-end; }
-
-    /* ЭПИЛОГ */
     .story-outro {
       text-align: center;
       margin-top: 80px;
@@ -1288,11 +1070,142 @@
       flex-wrap: wrap;
     }
 
-    /* ============================================================
-       НОВЫЕ РАМКИ ФОТО И ВИДЕО — креатив
-       ============================================================ */
+    /* ---------- POLAROID ---------- */
+    .story-photo--polaroid {
+      background: #f5f1e8;
+      padding: 12px 12px 54px;
+      border: 1px solid rgba(0,0,0,.2);
+      box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 2px 6px rgba(0,0,0,.3);
+      transform: rotate(-3deg);
+      max-width: 300px;
+    }
+    .story-photo--polaroid:hover {
+      transform: rotate(-1deg) translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.55), 0 4px 12px rgba(0,0,0,.4);
+    }
+    .story-photo--polaroid img {
+      border: 1px solid rgba(0,0,0,.15);
+      filter: contrast(1.05) saturate(.9) sepia(.08);
+    }
+    .story-photo--polaroid:hover img {
+      filter: contrast(1.1) saturate(1) sepia(0);
+      transform: scale(1.02);
+    }
+    .story-photo--polaroid .story-photo__caption {
+      position: absolute;
+      bottom: 14px; left: 0; right: 0;
+      color: #2a2a2a;
+      font-size: 1.15rem;
+      transform: rotate(-1.5deg);
+    }
+    .story-photo--polaroid .story-photo__num {
+      top: -10px; left: -10px;
+      background: var(--red); color: #fff;
+      padding: 3px 8px; border-radius: 3px;
+    }
+    .story-photo--polaroid.is-right { transform: rotate(3deg); }
+    .story-photo--polaroid.is-right:hover { transform: rotate(1deg) translateY(-4px); }
 
-    /* ---------- 1. ПЛЁНОЧНАЯ РАМКА (35mm film) ---------- */
+    /* ---------- TAPED ---------- */
+    .story-photo--taped {
+      background: var(--bg-2);
+      padding: 8px;
+      border: 1px solid var(--line-strong);
+      max-width: 300px;
+      transform: rotate(-2deg);
+    }
+    .story-photo--taped::before {
+      content: '';
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      width: 90px; height: 24px;
+      background: rgba(255,217,61,.7);
+      box-shadow: 0 2px 6px rgba(0,0,0,.3);
+      z-index: 3;
+      clip-path: polygon(2% 8%, 98% 0, 100% 94%, 0 100%);
+    }
+    .story-photo--taped:hover {
+      transform: rotate(0) translateY(-4px);
+      border-color: var(--red);
+      box-shadow: 0 20px 40px -20px rgba(255,34,34,.5);
+    }
+    .story-photo--taped img { filter: contrast(1.08) saturate(.85); }
+    .story-photo--taped:hover img { filter: contrast(1.1) saturate(1); }
+    .story-photo--taped .story-photo__num {
+      top: 14px; left: 14px; color: var(--yellow);
+    }
+    .story-photo--taped.is-right { transform: rotate(2deg); }
+    .story-photo--taped.is-right::before {
+      background: rgba(0,229,255,.55);
+      transform: translateX(-50%) rotate(4deg);
+    }
+    .story-photo--taped.is-right:hover { transform: rotate(0) translateY(-4px); }
+
+    /* ---------- NEON ---------- */
+    .story-photo--neon {
+      background: #0a0a0f;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background-image:
+        linear-gradient(#0a0a0f, #0a0a0f),
+        linear-gradient(135deg, var(--cyan), var(--red));
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      max-width: 380px;
+      box-shadow: 0 0 30px rgba(0,229,255,.3), 0 0 60px rgba(255,34,34,.2);
+      transform: rotate(2deg);
+    }
+    .story-photo--neon img { border-radius: 4px; filter: contrast(1.05) saturate(1.05); }
+    .story-photo--neon:hover {
+      transform: rotate(0) translateY(-6px);
+      box-shadow: 0 0 50px rgba(0,229,255,.5), 0 0 100px rgba(255,34,34,.35);
+    }
+    .story-photo--neon:hover img { transform: scale(1.02); filter: contrast(1.08) saturate(1.15); }
+    .story-photo--neon .story-photo__num {
+      top: -12px; left: 16px;
+      background: linear-gradient(135deg, #00e5ff 0%, #4f7dff 45%, #ff2d75 100%);
+      color: #000;
+      padding: 4px 10px; border-radius: 3px;
+      font-weight: 700; font-size: 0.62rem;
+    }
+    .story-photo--neon .story-photo__caption { color: var(--yellow); font-size: 1.3rem; }
+    .story-photo--neon.is-right { transform: rotate(-2deg); }
+    .story-photo--neon.is-right:hover { transform: rotate(0) translateY(-6px); }
+
+    /* ---------- STICKER ---------- */
+    .story-photo--sticker {
+      background: var(--bg-2);
+      padding: 8px;
+      border: 2px solid var(--ink);
+      max-width: 220px;
+      transform: rotate(4deg);
+      box-shadow: 6px 6px 0 rgba(255,34,34,.5);
+    }
+    .story-photo--sticker::after {
+      content: '★';
+      position: absolute;
+      top: -18px; right: -18px;
+      width: 40px; height: 40px;
+      background: var(--yellow);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      color: #000; font-size: 1.2rem; font-weight: bold;
+      transform: rotate(12deg);
+      box-shadow: 2px 2px 0 rgba(0,0,0,.6);
+      z-index: 5;
+    }
+    .story-photo--sticker:hover {
+      transform: rotate(1deg) translateY(-4px);
+      box-shadow: 8px 8px 0 rgba(255,34,34,.7);
+    }
+    .story-photo--sticker img { filter: contrast(1.08) saturate(.9); }
+    .story-photo--sticker:hover img { filter: contrast(1.1) saturate(1.05); transform: scale(1.02); }
+    .story-photo--sticker .story-photo__num { display: none; }
+    .story-photo--sticker .story-photo__caption { font-size: 1rem; }
+
+    /* ---------- FILM ---------- */
     .story-photo--film {
       background: #0a0a0f;
       padding: 22px 8px;
@@ -1312,14 +1225,12 @@
       height: 16px;
       background-image:
         repeating-linear-gradient(90deg,
-          transparent 0,
-          transparent 6px,
-          #0a0a0f 6px,
-          #0a0a0f 14px);
+          transparent 0, transparent 6px,
+          #0a0a0f 6px, #0a0a0f 14px);
       background-color: #1a1a22;
     }
     .story-photo--film::before { top: 3px; }
-    .story-photo--film::after  { bottom: 3px; }
+    .story-photo--film::after { bottom: 3px; }
     .story-photo--film img {
       filter: contrast(1.08) saturate(.92);
       border: 1px solid rgba(255,255,255,.05);
@@ -1336,12 +1247,9 @@
       border: 1px solid rgba(0,229,255,.35);
       font-weight: 700;
     }
-    .story-photo--film .story-photo__caption {
-      color: var(--cyan);
-      font-size: 1.15rem;
-    }
+    .story-photo--film .story-photo__caption { color: var(--cyan); font-size: 1.15rem; }
 
-    /* ---------- 2. VHS-КАССЕТА ---------- */
+    /* ---------- VHS ---------- */
     .story-photo--vhs {
       background: #0d0d12;
       padding: 30px 8px 34px;
@@ -1380,9 +1288,7 @@
       transform: rotate(0) translateY(-4px);
       box-shadow: 0 20px 48px rgba(0,0,0,.7), 0 0 40px rgba(255,34,34,.2);
     }
-    .story-photo--vhs:hover img {
-      filter: contrast(1.2) saturate(1) hue-rotate(0);
-    }
+    .story-photo--vhs:hover img { filter: contrast(1.2) saturate(1) hue-rotate(0); }
     .story-photo--vhs .story-photo__num {
       top: 8px; right: 12px; left: auto;
       color: var(--red);
@@ -1390,7 +1296,7 @@
       font-size: 0.6rem;
     }
 
-    /* ---------- 3. СКРАПБУК С УГОЛКАМИ ---------- */
+    /* ---------- SCRAPBOOK ---------- */
     .story-photo--scrapbook {
       background: #f0ebe0;
       padding: 16px 16px 48px;
@@ -1404,10 +1310,8 @@
       overflow: visible;
       background-image:
         repeating-linear-gradient(0deg,
-          transparent 0,
-          transparent 22px,
-          rgba(0,0,0,.04) 22px,
-          rgba(0,0,0,.04) 23px);
+          transparent 0, transparent 22px,
+          rgba(0,0,0,.04) 22px, rgba(0,0,0,.04) 23px);
     }
     .story-photo--scrapbook img {
       border: 1px solid rgba(0,0,0,.15);
@@ -1417,21 +1321,18 @@
     .story-photo--scrapbook::after {
       content: '';
       position: absolute;
-      width: 24px;
-      height: 24px;
+      width: 24px; height: 24px;
       border: 2px solid rgba(140,90,50,.55);
       z-index: 4;
       pointer-events: none;
     }
     .story-photo--scrapbook::before {
       top: 12px; left: 12px;
-      border-right: none;
-      border-bottom: none;
+      border-right: none; border-bottom: none;
     }
     .story-photo--scrapbook::after {
       bottom: 44px; right: 12px;
-      border-left: none;
-      border-top: none;
+      border-left: none; border-top: none;
     }
     .story-photo--scrapbook:hover {
       transform: rotate(0) translateY(-4px);
@@ -1453,7 +1354,7 @@
       border-radius: 2px;
     }
 
-    /* ---------- 4. АРХИВНЫЙ ШТАМП ---------- */
+    /* ---------- STAMP ---------- */
     .story-photo--stamp {
       background: var(--bg-2);
       padding: 10px;
@@ -1463,14 +1364,11 @@
       position: relative;
       overflow: visible;
     }
-    .story-photo--stamp img {
-      filter: contrast(1.05) saturate(.95);
-    }
+    .story-photo--stamp img { filter: contrast(1.05) saturate(.95); }
     .story-photo--stamp::after {
       content: 'ARCHIVE';
       position: absolute;
-      top: 42%;
-      left: 50%;
+      top: 42%; left: 50%;
       transform: translate(-50%, -50%) rotate(-14deg);
       font-family: var(--f-mono);
       font-size: 1.6rem;
@@ -1513,7 +1411,7 @@
       font-size: 1rem;
     }
 
-    /* ---------- 5. ОГРАНИЧЕНИЕ ВЫСОТЫ ДЛИННЫХ ФОТО ---------- */
+    /* ---------- LIMIT ---------- */
     .story-photo--limit img {
       max-height: 480px;
       width: 100%;
@@ -1521,25 +1419,39 @@
       object-position: center top;
     }
 
-    /* ---------- 6. КРЕАТИВНЫЕ ДОПОЛНЕНИЯ ---------- */
-    .story-photo--marker {
-      position: relative;
-    }
-    .story-photo--marker::after {
-      content: '◆ ORIGINAL';
+    /* ---------- HAND / SECRET ---------- */
+    .story-photo__hand {
       position: absolute;
-      bottom: 8px; right: 8px;
-      font-family: var(--f-mono);
-      font-size: 0.55rem;
-      letter-spacing: .16em;
+      font-family: var(--f-hand);
+      font-size: 1.6rem;
       color: var(--yellow);
-      background: rgba(0,0,0,.75);
-      padding: 3px 7px;
+      line-height: 1;
       z-index: 5;
-      border: 1px solid rgba(255,217,61,.3);
+      pointer-events: none;
+      text-shadow: 0 0 12px rgba(0,0,0,.8), 0 2px 4px rgba(0,0,0,.7);
+      transform: rotate(-5deg);
+    }
+    .story-photo__hand--tr { top: 12px; right: 14px; }
+    .story-photo__hand--bl { bottom: 20px; left: 14px; transform: rotate(3deg); }
+    .story-photo--secret { position: relative; }
+    .story-photo--secret::before {
+      content: 'СЕКРЕТНО';
+      position: absolute;
+      top: 10px; left: 50%;
+      transform: translateX(-50%) rotate(-4deg);
+      font-family: var(--f-cry);
+      font-size: 0.75rem;
+      letter-spacing: .3em;
+      color: var(--red);
+      padding: 4px 12px;
+      background: rgba(0,0,0,.75);
+      border: 1.5px solid var(--red);
+      z-index: 5;
+      text-transform: uppercase;
+      box-shadow: 0 0 20px rgba(255,34,34,.4);
     }
 
-    /* ---------- 7. VHS-ВИДЕО ---------- */
+    /* ---------- VHS-ВИДЕО ---------- */
     .story-video--vhs {
       background: #0a0a0f;
       padding: 36px 10px 44px;
@@ -1568,222 +1480,14 @@
       letter-spacing: .14em;
       color: var(--yellow);
     }
-    .story-video--vhs video {
-      filter: contrast(1.1) saturate(.9) hue-rotate(-4deg);
-    }
+    .story-video--vhs video { filter: contrast(1.1) saturate(.9) hue-rotate(-4deg); }
     .story-video--vhs:hover {
       transform: rotate(0);
       box-shadow: 0 20px 52px rgba(0,0,0,.7), 0 0 60px rgba(0,229,255,.18);
     }
-    .story-video--vhs:hover video {
-      filter: contrast(1.15) saturate(1.05);
-    }
+    .story-video--vhs:hover video { filter: contrast(1.15) saturate(1.05); }
 
-    /* ---------- 8. ДОП. ДЕКОРАЦИИ ---------- */
-    .story-photo__hand {
-      position: absolute;
-      font-family: var(--f-hand);
-      font-size: 1.6rem;
-      color: var(--yellow);
-      line-height: 1;
-      z-index: 5;
-      pointer-events: none;
-      text-shadow: 0 0 12px rgba(0,0,0,.8), 0 2px 4px rgba(0,0,0,.7);
-      transform: rotate(-5deg);
-    }
-    .story-photo__hand--tr { top: 12px; right: 14px; }
-    .story-photo__hand--bl { bottom: 20px; left: 14px; transform: rotate(3deg); }
-
-    .story-photo--secret {
-      position: relative;
-    }
-    .story-photo--secret::before {
-      content: 'СЕКРЕТНО';
-      position: absolute;
-      top: 10px; left: 50%;
-      transform: translateX(-50%) rotate(-4deg);
-      font-family: var(--f-cry);
-      font-size: 0.75rem;
-      letter-spacing: .3em;
-      color: var(--red);
-      padding: 4px 12px;
-      background: rgba(0,0,0,.75);
-      border: 1.5px solid var(--red);
-      z-index: 5;
-      text-transform: uppercase;
-      box-shadow: 0 0 20px rgba(255,34,34,.4);
-    }
-
-    /* ============================================================
-       МОБИЛЬНЫЕ
-       ============================================================ */
-    @media (max-width: 900px) {
-      .ps-app {
-        grid-template-columns: 1fr;
-        grid-template-rows: 32px 1fr 24px;
-      }
-      .ps-toolbar { display: none; }
-      .ps-panels { display: none; }
-      .ps-canvas { grid-column: 1; grid-row: 2; }
-      .ps-menu { display: none; }
-      .ps-workspace { display: none; }
-      .canvas-inner { padding: 20px 18px 60px; }
-      .canvas-crop { display: none; }
-      .canvas-file {
-        margin-bottom: 18px;
-        font-size: 0.58rem;
-        padding: 5px 10px;
-      }
-      /* Фон на мобиле — на всю ширину */
-      .canvas-bg,
-      .canvas-grid,
-      .canvas-noise {
-        left: 0;
-        right: 0;
-        top: 32px;
-        bottom: 24px;
-      }
-
-      .px-3, .px-4, .px-5, .px-6 { display: none; }
-      .px-1, .px-2 { opacity: .5; }
-
-      .story-timeline { padding-left: 28px; }
-      .story-timeline::before { left: 3px; }
-      .story-chapter { padding-left: 14px; margin-bottom: 60px; }
-      .story-chapter::before { left: -28px; width: 12px; height: 12px; }
-      .story-hero { margin-bottom: 60px; }
-      .story-hero__stats { gap: 20px; padding-top: 22px; }
-      .story-hero__stat strong { font-size: 1.5rem; }
-      .story-hero__stat span { font-size: 0.6rem; }
-
-      .story-floater--left,
-      .story-floater--right { text-align: center; }
-      .story-floater--left .story-photo,
-      .story-floater--right .story-photo { margin-left: auto; margin-right: auto; }
-      .story-photo--polaroid { max-width: 250px; padding: 10px 10px 46px; }
-      .story-photo--taped { max-width: 240px; }
-      .story-photo--neon { max-width: 100%; }
-      .story-photo--sticker { max-width: 190px; }
-
-      .story-floater__duo { flex-direction: column; align-items: center; gap: 18px; }
-      .story-duo { flex-direction: column; gap: 20px; margin: 26px 0; }
-      .story-duo .story-photo--polaroid { max-width: 220px; }
-
-      .story-video,
-      .story-video--small {
-        max-width: 100%;
-        margin: 24px auto;
-        transform: rotate(0);
-        box-shadow: 5px 5px 0 rgba(255,34,34,.35);
-      }
-      .story-video:hover { transform: none; }
-      .story-quote { padding: 18px 20px 18px 36px; font-size: 1.1rem; }
-      .story-quote::before { font-size: 2rem; left: 10px; top: 8px; }
-      .story-outro { padding: 44px 20px; margin-top: 60px; }
-      .story-outro__actions { flex-direction: column; gap: 12px; }
-      .story-outro__actions .btn { width: 100%; justify-content: center; }
-
-      .story-photo::after { opacity: .4; }
-      .story-video::after { opacity: .55; }
-
-      /* Новые рамки — на мобиле без поворота, на всю ширину */
-      .story-photo--film,
-      .story-photo--vhs,
-      .story-photo--scrapbook,
-      .story-photo--stamp,
-      .story-video--vhs {
-        max-width: 100%;
-        transform: none;
-      }
-      .story-photo--film:hover,
-      .story-photo--vhs:hover,
-      .story-photo--scrapbook:hover,
-      .story-photo--stamp:hover,
-      .story-video--vhs:hover {
-        transform: none;
-      }
-      .story-photo--limit img {
-        max-height: 360px;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .ps-doc-name { display: none; }
-      .story-hero__title { font-size: clamp(1.8rem, 10vw, 2.4rem); }
-      .story-chapter__title { font-size: 1.3rem; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .story-video__rec,
-      .ps-statusbar__right::before {
-        animation: none !important;
-      }
-      .px-cloud span, .px-cross::before, .px-cross::after { box-shadow: none; }
-    }
-
-    /* ============================================================
-       КАСТОМНЫЙ КУРСОР — только на десктопе
-       ============================================================ */
-    body.has-custom-cursor,
-    body.has-custom-cursor a,
-    body.has-custom-cursor button,
-    body.has-custom-cursor input,
-    body.has-custom-cursor textarea,
-    body.has-custom-cursor [role="button"] {
-      cursor: none !important;
-    }
-
-    .cursor-crosshair {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 13px;
-      height: 13px;
-      pointer-events: none;
-      z-index: 99999;
-      transition: width .2s cubic-bezier(.22,1,.36,1), height .2s cubic-bezier(.22,1,.36,1), opacity .2s;
-      will-change: transform;
-      opacity: 1;
-    }
-    .cursor-crosshair::before,
-    .cursor-crosshair::after {
-      content: '';
-      position: absolute;
-      background: #ff2222;
-      box-shadow: 0 0 8px rgba(255,34,34,.7), 0 0 16px rgba(255,34,34,.35);
-    }
-    .cursor-crosshair::before {
-      left: 0;
-      right: 0;
-      top: 50%;
-      height: 1px;
-      transform: translateY(-50%);
-    }
-    .cursor-crosshair::after {
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 1px;
-      transform: translateX(-50%);
-    }
-
-    .cursor-crosshair--active {
-      width: 22px;
-      height: 22px;
-    }
-    .cursor-crosshair--active::before,
-    .cursor-crosshair--active::after {
-      background: #ffd93d;
-      box-shadow: 0 0 10px rgba(255,217,61,.8), 0 0 22px rgba(255,217,61,.4);
-    }
-
-    @media (hover: none), (pointer: coarse) {
-      .cursor-crosshair { display: none !important; }
-    }
-
-    /* ============================================================
-       ССЫЛКА НА КЛИП (кнопка под главой)
-       ============================================================ */
+    /* ---------- ССЫЛКА НА КЛИП ---------- */
     .story-link-clip {
       display: inline-flex;
       align-items: center;
@@ -1819,15 +1523,11 @@
       border-color: var(--red);
       box-shadow: 0 0 30px rgba(255,34,34,.5);
     }
-    .story-link-clip:hover::before {
-      transform: translateX(0);
-    }
-
+    .story-link-clip:hover::before { transform: translateX(0); }
     .story-link-clip__icon {
       display: grid;
       place-items: center;
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       background: var(--red);
       color: #fff;
       border-radius: 50%;
@@ -1842,23 +1542,141 @@
       background: #fff;
       color: var(--red);
     }
-
-    .story-link-clip__label {
-      position: relative;
-      z-index: 1;
-      flex: 1;
-    }
-
+    .story-link-clip__label { position: relative; z-index: 1; flex: 1; }
     .story-link-clip svg {
       position: relative;
       z-index: 1;
       transition: transform .3s;
     }
-    .story-link-clip:hover svg {
-      transform: translate(3px, -3px);
+    .story-link-clip:hover svg { transform: translate(3px, -3px); }
+
+    /* ---------- СЕКРЕТНЫЕ ЭЛЕМЕНТЫ ---------- */
+    .story-chapter--secret {
+      border-left: 2px solid #ff2222;
+      padding-left: 24px;
+      margin-left: -26px;
+      background: linear-gradient(90deg, rgba(255,34,34,.04), transparent 40%);
+      position: relative;
+    }
+    .story-chapter--secret::after {
+      content: 'SECRET_FILE_089';
+      position: absolute;
+      top: -8px; right: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: .24em;
+      color: #ff2222;
+      padding: 3px 8px;
+      background: rgba(255,34,34,.08);
+      border: 1px solid rgba(255,34,34,.4);
+    }
+    .story-secret-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #8a9ea8;
+      padding: 14px 18px;
+      margin: 20px 0;
+      border-left: 2px dashed rgba(74,155,168,.5);
+      background: rgba(74,155,168,.05);
+    }
+    .story-secret-line em {
+      color: #ff2222;
+      font-style: normal;
+      font-family: 'JetBrains Mono', monospace;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.72rem;
+      letter-spacing: .14em;
+    }
+    .story-toast {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      z-index: 10050;
+      padding: 14px 24px;
+      background: rgba(10,10,16,.95);
+      border: 1px solid rgba(74,155,168,.5);
+      color: #b8d4dc;
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      border-radius: 6px;
+      box-shadow: 0 0 30px rgba(74,155,168,.35);
+      opacity: 0;
+      transition: opacity .4s ease, transform .4s ease;
+      pointer-events: none;
+      max-width: 90vw;
+      text-align: center;
+    }
+    .story-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
+    /* ---------- АДАПТИВ ---------- */
     @media (max-width: 900px) {
+      .ps-app {
+        grid-template-columns: 1fr;
+        grid-template-rows: 32px 1fr 24px;
+      }
+      .ps-toolbar { display: none; }
+      .ps-panels { display: none; }
+      .ps-canvas { grid-column: 1; grid-row: 2; }
+      .ps-menu { display: none; }
+      .ps-workspace { display: none; }
+      .canvas-inner { padding: 20px 18px 60px; }
+      .canvas-crop { display: none; }
+      .canvas-file { margin-bottom: 18px; font-size: 0.58rem; padding: 5px 10px; }
+      .canvas-bg, .canvas-grid, .canvas-noise {
+        left: 0; right: 0; top: 32px; bottom: 24px;
+      }
+      .px-3, .px-4, .px-5, .px-6 { display: none; }
+      .px-1, .px-2 { opacity: .5; }
+      .story-timeline { padding-left: 28px; }
+      .story-timeline::before { left: 3px; }
+      .story-chapter { padding-left: 14px; margin-bottom: 60px; }
+      .story-chapter::before { left: -28px; width: 12px; height: 12px; }
+      .story-hero { margin-bottom: 60px; }
+      .story-hero__stats { gap: 20px; padding-top: 22px; }
+      .story-hero__stat strong { font-size: 1.5rem; }
+      .story-hero__stat span { font-size: 0.6rem; }
+      .story-floater--left,
+      .story-floater--right { text-align: center; }
+      .story-floater--left .story-photo,
+      .story-floater--right .story-photo { margin-left: auto; margin-right: auto; }
+      .story-photo--polaroid { max-width: 250px; padding: 10px 10px 46px; }
+      .story-photo--taped { max-width: 240px; }
+      .story-photo--neon { max-width: 100%; }
+      .story-photo--sticker { max-width: 190px; }
+      .story-floater__duo { flex-direction: column; align-items: center; gap: 18px; }
+      .story-duo { flex-direction: column; gap: 20px; margin: 26px 0; }
+      .story-video,
+      .story-video--small {
+        max-width: 100%;
+        margin: 24px auto;
+        transform: rotate(0);
+        box-shadow: 5px 5px 0 rgba(255,34,34,.35);
+      }
+      .story-video:hover { transform: none; }
+      .story-quote { padding: 18px 20px 18px 36px; font-size: 1.1rem; }
+      .story-quote::before { font-size: 2rem; left: 10px; top: 8px; }
+      .story-outro { padding: 44px 20px; margin-top: 60px; }
+      .story-outro__actions { flex-direction: column; gap: 12px; }
+      .story-outro__actions .btn { width: 100%; justify-content: center; }
+      .story-photo::after { opacity: .4; }
+      .story-video::after { opacity: .55; }
+      .story-photo--film,
+      .story-photo--vhs,
+      .story-photo--scrapbook,
+      .story-photo--stamp,
+      .story-video--vhs { max-width: 100%; transform: none; }
+      .story-photo--film:hover,
+      .story-photo--vhs:hover,
+      .story-photo--scrapbook:hover,
+      .story-photo--stamp:hover,
+      .story-video--vhs:hover { transform: none; }
+      .story-photo--limit img { max-height: 360px; }
       .story-link-clip {
         padding: 14px 18px;
         font-size: 0.74rem;
@@ -1867,13 +1685,20 @@
         width: 100%;
         justify-content: center;
       }
-      .story-link-clip__icon {
-        width: 28px;
-        height: 28px;
-        font-size: 0.8rem;
-      }
+      .story-link-clip__icon { width: 28px; height: 28px; font-size: 0.8rem; }
     }
 
+    @media (max-width: 380px) {
+      .ps-doc-name { display: none; }
+      .story-hero__title { font-size: clamp(1.8rem, 10vw, 2.4rem); }
+      .story-chapter__title { font-size: 1.3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .story-video__rec,
+      .ps-statusbar__right::before { animation: none !important; }
+      .px-cloud span, .px-cross::before, .px-cross::after { box-shadow: none; }
+    }
   </style>
 </head>
 <body>
@@ -1901,58 +1726,10 @@
   #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
   #loader.done  { display: none !important; }
 </style>
-<script>
-  (function () {
-    var l = document.getElementById('loader');
-    var bar = document.getElementById('renderBar');
-    var txt = document.getElementById('renderText');
-    var pct = document.getElementById('renderPercent');
-    if (!l) return;
-
-    var stages = [
-      { at: 0,    text: 'OPENING_PSD...' },
-      { at: 400,  text: 'LOADING_LAYERS...' },
-      { at: 800,  text: 'RENDERING_CANVAS...' },
-      { at: 1300, text: 'APPLYING_FILTERS...' },
-      { at: 1700, text: 'READY.' }
-    ];
-
-    stages.forEach(function (s) {
-      setTimeout(function () {
-        if (txt) txt.textContent = s.text;
-      }, s.at);
-    });
-
-    var start = performance.now();
-    var total = 1900;
-    function tick(now) {
-      var p = Math.min((now - start) / total, 1);
-      var eased = 1 - Math.pow(1 - p, 2.2);
-      var pctVal = Math.floor(eased * 100);
-      if (bar) bar.style.width = pctVal + '%';
-      if (pct) pct.textContent = String(pctVal).padStart(3, '0') + '%';
-      if (p < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-
-    setTimeout(function () {
-      l.classList.add('hidden');
-      setTimeout(function () { l.classList.add('done'); }, 500);
-    }, 2000);
-
-    window.addEventListener('load', function () {
-      setTimeout(function () {
-        l.classList.add('hidden', 'done');
-      }, 600);
-    });
-  })();
-</script>
 
 <div class="ps-app">
 
-  <!-- ============================================================
-       TOP MENUBAR
-       ============================================================ -->
+  <!-- TOP MENUBAR -->
   <header class="ps-menubar">
     <span class="ps-logo">Ps</span>
     <span class="ps-doc-name">SPODZH_STORY.psd</span>
@@ -1976,9 +1753,7 @@
     </div>
   </header>
 
-  <!-- ============================================================
-       LEFT TOOLBAR
-       ============================================================ -->
+  <!-- LEFT TOOLBAR -->
   <aside class="ps-toolbar" aria-label="Инструменты">
 
     <button class="ps-tool is-active" type="button">
@@ -2047,53 +1822,42 @@
 
   </aside>
 
-  <!-- ============================================================
-       CANVAS
-       ============================================================ -->
+  <!-- CANVAS -->
   <main class="ps-canvas" id="psCanvas">
 
-    <!-- ФОНОВЫЕ СЛОИ (fixed) -->
     <div class="canvas-bg" aria-hidden="true"></div>
     <div class="canvas-grid" aria-hidden="true"></div>
     <div class="canvas-noise" aria-hidden="true"></div>
 
-    <!-- ПИКСЕЛЬНЫЕ ДЕКОРАЦИИ -->
     <div class="pixel-deco px-cloud px-1" aria-hidden="true">
       <span></span><span></span><span></span><span></span><span></span><span></span>
       <span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
-
     <div class="pixel-deco px-cross px-2" aria-hidden="true"></div>
-
     <div class="pixel-deco px-arrow px-3" aria-hidden="true">
       <svg viewBox="0 0 32 32" fill="none" stroke-width="2" stroke-linecap="square">
         <path d="M6 26 L24 8"/>
         <path d="M16 8 L24 8 L24 16"/>
       </svg>
     </div>
-
     <div class="pixel-deco px-dots px-4" aria-hidden="true">
       <span></span><span></span><span></span><span></span>
       <span></span><span></span><span></span><span></span>
       <span></span><span></span><span></span><span></span>
       <span></span><span></span><span></span><span></span>
     </div>
-
     <div class="pixel-deco px-line px-5" aria-hidden="true"></div>
-
     <div class="pixel-deco px-cloud px-6" aria-hidden="true">
       <span></span><span></span><span></span><span></span><span></span><span></span>
       <span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <!-- РУЛЕР -->
     <div class="canvas-ruler">
       <span class="canvas-ruler__marks">
         <span>0</span><span>200</span><span>400</span><span>600</span><span>800</span><span>1000</span>
       </span>
     </div>
 
-    <!-- CROP МЕТКИ -->
     <span class="canvas-crop canvas-crop--tl" aria-hidden="true"></span>
     <span class="canvas-crop canvas-crop--tr" aria-hidden="true"></span>
     <span class="canvas-crop canvas-crop--bl" aria-hidden="true"></span>
@@ -2109,7 +1873,6 @@
         </div>
       </div>
 
-      <!-- ================= STORY ================= -->
       <div class="story-wrap">
 
         <header class="story-hero">
@@ -2182,7 +1945,7 @@
             <div class="story-floater story-floater--left">
               <div class="story-photo story-photo--film">
                 <span class="story-photo__num">IMG_002 · 35mm</span>
-                <img src="https://i.ibb.co/pjNRTng5/image.png" alt="Школьное фото" loading="lazy">
+                <img src="assets/images/story-school.png" alt="Школьное фото" loading="lazy">
                 <div class="story-photo__caption">школьные годы</div>
               </div>
             </div>
@@ -2196,12 +1959,12 @@
             <div class="story-floater story-floater--right">
               <div class="story-floater__duo story-floater__duo--right">
                 <div class="story-photo story-photo--sticker">
-                  <img src="https://i.ibb.co/xSskfxML/image.png" alt="Детство" loading="lazy">
+                  <img src="assets/images/story-childhood-sticker.png" alt="Детство" loading="lazy">
                   <div class="story-photo__caption">архив</div>
                 </div>
                 <div class="story-photo story-photo--taped is-right">
                   <span class="story-photo__num">IMG_003</span>
-                  <img src="https://i.ibb.co/kVvjPpCL/image.png" alt="Детство" loading="lazy">
+                  <img src="assets/images/story-childhood-taped.png" alt="Детство" loading="lazy">
                   <div class="story-photo__caption">архив</div>
                 </div>
               </div>
@@ -2225,7 +1988,7 @@
             <div class="story-floater story-floater--right">
               <div class="story-photo story-photo--vhs story-photo--secret">
                 <span class="story-photo__num">IMG_005</span>
-                <img src="https://i.ibb.co/LdT3QYV9/image.png" alt="Скриншот первого видео" loading="lazy">
+                <img src="assets/images/story-first-video.png" alt="Скриншот первого видео" loading="lazy">
                 <div class="story-photo__caption">то самое видео · я в правом нижнем углу</div>
               </div>
             </div>
@@ -2266,7 +2029,7 @@
 
               <div class="story-photo story-photo--scrapbook">
                 <span class="story-photo__num">IMG_008</span>
-                <img src="https://i.ibb.co/pr6s4v9c/image.png" alt="TikTok era" loading="lazy">
+                <img src="assets/images/story-tiktok-era.png" alt="TikTok era" loading="lazy">
                 <div class="story-photo__caption">тот самый период</div>
               </div>
             </div>
@@ -2288,7 +2051,7 @@
             <div class="story-floater story-floater--left">
               <div class="story-photo story-photo--stamp">
                 <span class="story-photo__num">IMG_006</span>
-                <img src="https://i.ibb.co/LHN4WPm/image.png" alt="Скриншот TikTok · начало 2024" loading="lazy">
+                <img src="assets/images/story-account-2024.png" alt="Скриншот TikTok · начало 2024" loading="lazy">
                 <div class="story-photo__caption">аккаунт · начало 2024</div>
               </div>
             </div>
@@ -2350,7 +2113,7 @@
             <div class="story-floater story-floater--left">
               <div class="story-photo story-photo--neon story-photo--limit is-right">
                 <span class="story-photo__num">IMG_009</span>
-                <img src="https://i.ibb.co/svjgjGt7/image.png" alt="Эволюция" loading="lazy">
+                <img src="assets/images/story-evolution.png" alt="Эволюция" loading="lazy">
                 <span class="story-photo__hand story-photo__hand--tr">первый монтаж!</span>
                 <div class="story-photo__caption">время первых монтажей</div>
               </div>
@@ -2384,7 +2147,7 @@
             <div class="story-floater story-floater--left">
               <div class="story-photo story-photo--film story-photo--limit">
                 <span class="story-photo__num">BTS_001 · 25.12.2024</span>
-                <img src="https://i.ibb.co/6cGr4YRQ/image.png" alt="Бэкстейдж первого клипа" loading="lazy">
+                <img src="assets/images/story-clip-bts.png" alt="Бэкстейдж первого клипа" loading="lazy">
                 <span class="story-photo__hand story-photo__hand--tr">на хромакее</span>
                 <div class="story-photo__caption">тот самый день</div>
               </div>
@@ -2425,12 +2188,12 @@
               <div class="story-floater__duo">
                 <div class="story-photo story-photo--vhs story-photo--limit">
                   <span class="story-photo__num">BTS_002</span>
-                  <img src="https://i.ibb.co/r2zhSd7Q/image.png" alt="Съёмки дисса" loading="lazy">
+                  <img src="assets/images/story-diss-bts1.png" alt="Съёмки дисса" loading="lazy">
                   <div class="story-photo__caption">на съёмках</div>
                 </div>
                 <div class="story-photo story-photo--vhs story-photo--limit">
                   <span class="story-photo__num">BTS_003</span>
-                  <img src="https://i.ibb.co/WvN84bPd/image.png" alt="Съёмки дисса" loading="lazy">
+                  <img src="assets/images/story-diss-bts2.png" alt="Съёмки дисса" loading="lazy">
                   <div class="story-photo__caption">за кадром</div>
                 </div>
               </div>
@@ -2448,7 +2211,7 @@
             <div class="story-floater story-floater--center">
               <div class="story-photo story-photo--stamp story-photo--limit">
                 <span class="story-photo__num">LIVE_REACTION</span>
-                <img src="https://i.ibb.co/wZkkvQgH/image.png" alt="Реакция стримера" loading="lazy">
+                <img src="assets/images/story-diss-reaction.png" alt="Реакция стримера" loading="lazy">
                 <div class="story-photo__caption">реакция Мафани на стриме</div>
               </div>
             </div>
@@ -2459,7 +2222,6 @@
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </article>
-
 
           <!-- ГЛАВА 8 -->
           <article class="story-chapter is-last" id="chapter_08">
@@ -2487,11 +2249,35 @@
             <div class="story-floater story-floater--center">
               <div class="story-photo story-photo--neon story-photo--limit">
                 <span class="story-photo__num">IMG_007 · NOW</span>
-                <img src="https://i.ibb.co/gLM2hYg3/image.png" alt="Нынешнее фото" loading="lazy">
+                <img src="assets/images/story-now-2026.png" alt="Нынешнее фото" loading="lazy">
                 <span class="story-photo__hand story-photo__hand--bl">это я</span>
                 <div class="story-photo__caption">сейчас · 2026</div>
               </div>
             </div>
+          </article>
+
+          <!-- ГЛАВА 089 — СКРЫТАЯ -->
+          <article class="story-chapter story-chapter--secret" id="chapter_089" hidden>
+            <div class="story-chapter__meta">
+              <span class="story-chapter__file">[ FILE_089 ]</span>
+              <span class="story-chapter__date">2026 · сейчас</span>
+            </div>
+            <h2 class="story-chapter__title">Это<span class="accent">.</span></h2>
+            <p>
+              Есть файл, который я никогда не выкладывал. Он всегда был здесь,
+              но его не было видно. Ты его нашёл.
+            </p>
+            <p>
+              В нём — <strong>47 секунд тишины</strong> и один кадр. Кадр, где я
+              смотрю в камеру и не знаю, что сказать. Это, наверное, самый
+              честный кадр в моей истории.
+            </p>
+            <div class="story-quote">
+              Иногда лучший монтаж — не резать.
+            </div>
+            <p>
+              Спасибо, что прошёл этот путь до конца.
+            </p>
           </article>
 
         </div>
@@ -2521,12 +2307,9 @@
     </div>
   </main>
 
-  <!-- ============================================================
-       RIGHT PANELS
-       ============================================================ -->
+  <!-- RIGHT PANELS -->
   <aside class="ps-panels">
 
-    <!-- СЛОИ -->
     <div class="ps-panel">
       <div class="ps-panel__head">Слои</div>
       <div class="ps-panel__body ps-layers">
@@ -2590,7 +2373,6 @@
       </div>
     </div>
 
-    <!-- СВОЙСТВА -->
     <div class="ps-panel">
       <div class="ps-panel__head">Свойства</div>
       <div class="ps-panel__body">
@@ -2630,7 +2412,6 @@
       </div>
     </div>
 
-    <!-- ИСТОРИЯ -->
     <div class="ps-panel">
       <div class="ps-panel__head">История</div>
       <div class="ps-panel__body">
@@ -2647,9 +2428,7 @@
 
   </aside>
 
-  <!-- ============================================================
-       BOTTOM STATUS BAR
-       ============================================================ -->
+  <!-- BOTTOM STATUS BAR -->
   <footer class="ps-statusbar">
     <span class="ps-statusbar__zoom">66.7%</span>
     <span class="ps-statusbar__mem">88.6М / 249.3М</span>
@@ -2663,7 +2442,53 @@
   (function () {
     'use strict';
 
-    /* ---------- Ускорение всех видео ×2 + автопауза ---------- */
+    /* ---------- ПРЕЛОАДЕР ---------- */
+    (function () {
+      var l = document.getElementById('loader');
+      var bar = document.getElementById('renderBar');
+      var txt = document.getElementById('renderText');
+      var pct = document.getElementById('renderPercent');
+      if (!l) return;
+
+      var stages = [
+        { at: 0,    text: 'OPENING_PSD...' },
+        { at: 400,  text: 'LOADING_LAYERS...' },
+        { at: 800,  text: 'RENDERING_CANVAS...' },
+        { at: 1300, text: 'APPLYING_FILTERS...' },
+        { at: 1700, text: 'READY.' }
+      ];
+
+      stages.forEach(function (s) {
+        setTimeout(function () {
+          if (txt) txt.textContent = s.text;
+        }, s.at);
+      });
+
+      var start = performance.now();
+      var total = 1900;
+      function tick(now) {
+        var p = Math.min((now - start) / total, 1);
+        var eased = 1 - Math.pow(1 - p, 2.2);
+        var pctVal = Math.floor(eased * 100);
+        if (bar) bar.style.width = pctVal + '%';
+        if (pct) pct.textContent = String(pctVal).padStart(3, '0') + '%';
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      setTimeout(function () {
+        l.classList.add('hidden');
+        setTimeout(function () { l.classList.add('done'); }, 500);
+      }, 2000);
+
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          l.classList.add('hidden', 'done');
+        }, 600);
+      });
+    })();
+
+    /* ---------- ВИДЕО ×2 + АВТОПАУЗА ---------- */
     var videos = document.querySelectorAll('.story-video__el');
     videos.forEach(function (video) {
       video.muted = true;
@@ -2688,7 +2513,7 @@
       }
     });
 
-    /* ---------- Таймкоды на видео ---------- */
+    /* ---------- ТАЙМКОДЫ НА ВИДЕО ---------- */
     document.querySelectorAll('[data-tc]').forEach(function (tcEl) {
       var video = tcEl.parentElement.querySelector('video');
       if (!video) return;
@@ -2701,7 +2526,7 @@
       }, 250);
     });
 
-    /* ---------- Клик по слою — скролл к главе ---------- */
+    /* ---------- КЛИК ПО СЛОЮ + АВТОПОДСВЕТКА ---------- */
     var canvas = document.getElementById('psCanvas');
     var layerEls = document.querySelectorAll('.ps-layer');
 
@@ -2717,7 +2542,6 @@
       });
     });
 
-    /* ---------- Автоподсветка активного слоя ---------- */
     var chapters = document.querySelectorAll('.story-chapter, .story-outro');
 
     function setActive(id) {
@@ -2753,73 +2577,11 @@
       });
     }
 
-    console.log('%cPHOTOSHOP × SPODZH // story.psd loaded', 'color:#00e5ff; font-size:12px; font-family:monospace;');
-
-    /* ---------- Кастомный курсор-крестик ---------- */
-    (function initCursor() {
-      var hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!hasHover || reduced) return;
-
-      var cursor = document.createElement('div');
-      cursor.className = 'cursor-crosshair';
-      cursor.setAttribute('aria-hidden', 'true');
-      document.body.appendChild(cursor);
-      document.body.classList.add('has-custom-cursor');
-
-      var cx = window.innerWidth / 2;
-      var cy = window.innerHeight / 2;
-      var tx = cx;
-      var ty = cy;
-      var rafId = null;
-
-      function loop() {
-        cx += (tx - cx) * 0.28;
-        cy += (ty - cy) * 0.28;
-        cursor.style.transform =
-          'translate(' + cx.toFixed(1) + 'px, ' + cy.toFixed(1) + 'px) translate(-50%, -50%)';
-        if (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3) {
-          rafId = requestAnimationFrame(loop);
-        } else {
-          rafId = null;
-        }
-      }
-
-      document.addEventListener('mousemove', function (e) {
-        tx = e.clientX;
-        ty = e.clientY;
-        if (!rafId) rafId = requestAnimationFrame(loop);
-      }, { passive: true });
-
-      var interactiveSel = 'a, button, [role="button"], input, textarea, ' +
-        '.ps-layer, .ps-tool, .story-photo, .story-video, .btn, .ps-close, .story-link-clip';
-
-      document.addEventListener('mouseover', function (e) {
-        var t = e.target;
-        if (t.closest && t.closest(interactiveSel)) {
-          cursor.classList.add('cursor-crosshair--active');
-        }
-      });
-      document.addEventListener('mouseout', function (e) {
-        var t = e.target;
-        if (t.closest && t.closest(interactiveSel)) {
-          cursor.classList.remove('cursor-crosshair--active');
-        }
-      });
-
-      document.addEventListener('mouseleave', function () { cursor.style.opacity = '0'; });
-      document.addEventListener('mouseenter', function () { cursor.style.opacity = '1'; });
-    })();
-
-  })();
-</script>
-
-  <!-- ================= HIT TRACKER ================= -->
-  <script>
+    /* ---------- HIT TRACKER + ОТМЕТКА visited_story ---------- */
     (function () {
-      'use strict';
       var API = 'https://spodzh-reviews-api.ernest-chanel.workers.dev';
       if (location.protocol !== 'https:' && location.protocol !== 'http:') return;
+
       try {
         fetch(API + '/hit', {
           method: 'POST',
@@ -2831,8 +2593,25 @@
           keepalive: true
         }).catch(function () {});
       } catch (e) {}
+
+      try {
+        var raw = localStorage.getItem('spodzh_secrets_v1');
+        if (raw) {
+          var data = JSON.parse(raw);
+          if (data && Array.isArray(data.events) &&
+              data.events.indexOf('visited_story') === -1) {
+            data.events.push('visited_story');
+            localStorage.setItem('spodzh_secrets_v1', JSON.stringify(data));
+          }
+        }
+      } catch (e) {}
     })();
-  </script>
+
+    console.log('%cPHOTOSHOP × SPODZH // story.psd loaded', 'color:#00e5ff; font-size:12px; font-family:monospace;');
+  })();
+</script>
+
+<script src="js/story-secrets.js"></script>
 
 </body>
 </html>
