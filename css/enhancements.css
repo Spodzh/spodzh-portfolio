@@ -463,3 +463,595 @@ body.has-custom-cursor [disabled] {
   .admin-analytics__recent-row { grid-template-columns: 46px 1fr auto; }
   .admin-analytics__recent-row .admin-analytics__badge:last-child { display: none; }
 }
+
+/* ============================================================
+   SECRET CONSOLE
+   ============================================================ */
+.secret-console {
+  position: fixed;
+  inset: 0;
+  z-index: 10030;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  background: rgba(5, 5, 8, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s, visibility .25s;
+}
+.secret-console.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.secret-console__panel {
+  width: min(920px, 100%);
+  height: min(60vh, 480px);
+  background: #0a0a10;
+  border-top: 2px solid var(--red);
+  border-left: 1px solid var(--line-strong);
+  border-right: 1px solid var(--line-strong);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 60px rgba(255, 34, 34, 0.3);
+  transform: translateY(20px);
+  transition: transform .3s var(--ease);
+}
+.secret-console.open .secret-console__panel {
+  transform: translateY(0);
+}
+
+.secret-console__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, #13131a, #0d0d14);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  flex-shrink: 0;
+}
+
+.secret-console__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 10px var(--red);
+  animation: scPulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes scPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.secret-console__title {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.secret-console__path {
+  color: var(--red);
+  margin-left: auto;
+  font-size: 0.62rem;
+}
+
+.secret-console__close {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: var(--transition);
+  padding: 0;
+  font-family: inherit;
+}
+.secret-console__close:hover {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+.secret-console__output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--paper-dim);
+  background: #07070b;
+  scrollbar-width: thin;
+  scrollbar-color: var(--red) #0a0a10;
+}
+.secret-console__output::-webkit-scrollbar { width: 8px; }
+.secret-console__output::-webkit-scrollbar-track { background: #0a0a10; }
+.secret-console__output::-webkit-scrollbar-thumb {
+  background: var(--red);
+  border-radius: 4px;
+}
+
+.sc-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 2px;
+}
+.sc-line--head {
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.sc-line--dim {
+  color: var(--ink-mute);
+}
+.sc-line--err {
+  color: #ff6060;
+}
+.sc-line--warn {
+  color: var(--yellow);
+}
+.sc-line--found {
+  color: #4ade80;
+  font-weight: 700;
+}
+.sc-line--locked {
+  color: #6a6a7a;
+}
+.sc-line--hint {
+  color: var(--yellow);
+  font-style: italic;
+}
+.sc-line--ghost {
+  color: #b8d4dc;
+  text-shadow: 0 0 8px rgba(74, 155, 168, 0.5);
+}
+.sc-line--input {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.secret-console__form {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, #0d0d14, #0a0a10);
+  border-top: 1px solid var(--line);
+  flex-shrink: 0;
+  font-family: var(--f-mono);
+  font-size: 0.85rem;
+}
+
+.secret-console__prompt {
+  color: var(--red);
+  font-weight: 700;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.secret-console__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: inherit;
+  padding: 4px 0;
+  caret-color: var(--red);
+}
+.secret-console__input::placeholder {
+  color: var(--ink-dim);
+}
+
+/* Мобильная версия */
+@media (max-width: 767px) {
+  .secret-console__panel {
+    height: 75vh;
+    width: 100%;
+  }
+  .secret-console__head {
+    font-size: 0.62rem;
+    padding: 8px 12px;
+  }
+  .secret-console__path {
+    display: none;
+  }
+  .secret-console__output {
+    padding: 12px 14px;
+    font-size: 0.76rem;
+  }
+  .secret-console__form {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secret-console,
+  .secret-console__panel {
+    transition: none;
+  }
+  .secret-console__dot {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   SECRET EVENTS — реплики призрака и аномалии
+   ============================================================ */
+
+/* ---------- Пузырь с репликой призрака ---------- */
+.ghost-bubble {
+  position: fixed;
+  bottom: 34px;
+  right: 104px;
+  z-index: 960;
+  max-width: 240px;
+  padding: 10px 14px;
+  background: rgba(10, 10, 16, 0.94);
+  border: 1px solid rgba(74, 155, 168, 0.45);
+  color: #b8d4dc;
+  font-family: var(--f-hand, 'Caveat', cursive);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  border-radius: 8px 8px 8px 2px;
+  box-shadow: 0 0 22px rgba(74, 155, 168, 0.35),
+              inset 0 0 12px rgba(74, 155, 168, 0.08);
+  opacity: 0;
+  transform: translateY(8px) scale(0.94);
+  transform-origin: bottom right;
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+  pointer-events: none;
+  white-space: normal;
+}
+.ghost-bubble::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  bottom: -7px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 0 0 10px;
+  border-color: transparent transparent transparent rgba(74, 155, 168, 0.55);
+}
+.ghost-bubble.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 767px) {
+  .ghost-bubble {
+    right: 82px;
+    bottom: 22px;
+    max-width: 200px;
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+}
+
+/* ---------- SYNC_LOST — дрожание страницы ---------- */
+body.sync-lost .navbar,
+body.sync-lost .hero,
+body.sync-lost .section,
+body.sync-lost .marquee,
+body.sync-lost .footer,
+body.sync-lost .projects-new {
+  animation: syncLostShake 0.12s steps(3) 5;
+}
+@keyframes syncLostShake {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(-2px, 1px); }
+  66%  { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- TEXT_GLITCH — глитч заголовков ---------- */
+.text-glitch {
+  animation: textGlitch 0.9s steps(5) 1;
+  will-change: transform, filter;
+}
+@keyframes textGlitch {
+  0%   { transform: translate(0, 0); filter: none; text-shadow: none; }
+  15%  { transform: translate(-3px, 1px); filter: hue-rotate(90deg) saturate(2); text-shadow: 3px 0 #ff2222, -3px 0 #00e5ff; }
+  30%  { transform: translate(3px, -2px); filter: hue-rotate(-60deg) saturate(1.6); text-shadow: -3px 0 #ff2222, 3px 0 #00e5ff; }
+  50%  { transform: translate(-2px, 2px); filter: contrast(1.6); text-shadow: 2px 0 #ffd93d; }
+  70%  { transform: translate(1px, -1px); filter: none; text-shadow: -1px 0 #ff2222; }
+  100% { transform: translate(0, 0); filter: none; text-shadow: none; }
+}
+
+/* ---------- RED_PULSE — мягкая красная вспышка ---------- */
+.red-pulse-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center,
+    rgba(255, 34, 34, 0.18) 0%,
+    rgba(255, 34, 34, 0.28) 40%,
+    rgba(0, 0, 0, 0.55) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity .5s var(--ease);
+}
+.red-pulse-overlay.run {
+  opacity: 1;
+  animation: redPulseFade 1.4s ease 1 forwards;
+}
+@keyframes redPulseFade {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.85; }
+  60%  { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+
+/* ---------- GHOST_MISSING — призрак исчезает ---------- */
+.ghost-corner.is-missing,
+.hero-ghost.is-missing {
+  opacity: 0 !important;
+  transform: translateY(30px) scale(0.6) !important;
+  filter: blur(6px) !important;
+  pointer-events: none !important;
+  transition: opacity 1.2s ease, transform 1.2s ease, filter 1.2s ease !important;
+}
+
+/* ---------- FILE_DROP — всплывашка с найденным файлом ---------- */
+.file-drop {
+  position: fixed;
+  top: 90px;
+  right: 24px;
+  z-index: 960;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(10, 10, 16, 0.94);
+  border: 1px solid rgba(255, 34, 34, 0.6);
+  border-left: 3px solid var(--red);
+  color: var(--ink);
+  font-family: var(--f-mono, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 30px rgba(255, 34, 34, 0.35);
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+  pointer-events: none;
+  max-width: min(320px, 90vw);
+}
+.file-drop.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.file-drop__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 10px var(--red);
+  animation: fileDropPulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes fileDropPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.85); }
+}
+.file-drop__text {
+  flex: 1;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-drop__tag {
+  color: var(--red);
+  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  padding: 2px 6px;
+  border: 1px solid rgba(255, 34, 34, 0.5);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+  .file-drop {
+    top: 70px;
+    right: 12px;
+    left: 12px;
+    max-width: none;
+    font-size: 0.66rem;
+    padding: 8px 12px;
+  }
+}
+
+/* ---------- Reduced motion: отключаем всё ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ghost-bubble,
+  .text-glitch,
+  .sync-lost .navbar,
+  .sync-lost .hero,
+  .sync-lost .section,
+  .sync-lost .marquee,
+  .sync-lost .footer,
+  .sync-lost .projects-new,
+  .red-pulse-overlay,
+  .file-drop,
+  .file-drop__dot {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ghost-bubble { opacity: 1; transform: none; }
+  .file-drop { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   SECRET FINALE — финальная сцена
+   ============================================================ */
+.finale-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10500;
+  background: #050508;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .6s ease, visibility .6s ease;
+  overflow: hidden;
+}
+.finale-screen.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.finale-screen__scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg,
+    transparent 0, transparent 3px,
+    rgba(0,0,0,.15) 3px, rgba(0,0,0,.15) 4px);
+  opacity: .5;
+  z-index: 1;
+}
+
+.finale-screen__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  width: 100%;
+  text-align: center;
+}
+
+.finale-screen__ghost {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 30px;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 0 30px rgba(74,155,168,.8))
+          drop-shadow(0 0 60px rgba(255,34,34,.4));
+  opacity: 0;
+  transform: scale(.5);
+  transition: opacity 1.4s ease, transform 1.4s cubic-bezier(.22,1,.36,1);
+}
+.finale-screen.open .finale-screen__ghost {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.finale-screen__tag {
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  letter-spacing: .28em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  opacity: 0;
+  transition: opacity .8s ease .5s;
+}
+.finale-screen.open .finale-screen__tag { opacity: 1; }
+
+.finale-screen__line {
+  font-family: var(--f-mono);
+  font-size: clamp(.95rem, 2vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--paper-dim);
+  margin: 8px 0;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.finale-screen__line.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.finale-screen__line--hl {
+  color: var(--ink);
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  font-weight: 700;
+}
+.finale-screen__line--red {
+  color: var(--red);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.finale-screen__line--ghost {
+  color: #b8d4dc;
+  font-family: var(--f-hand, 'Caveat', cursive);
+  font-size: clamp(1.3rem, 3vw, 1.75rem);
+  text-shadow: 0 0 12px rgba(74,155,168,.5);
+}
+
+.finale-screen__close {
+  margin-top: 40px;
+  padding: 16px 36px;
+  background: transparent;
+  border: 2px solid var(--red);
+  color: var(--red);
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .8s ease, transform .8s ease,
+              background .3s, color .3s, box-shadow .3s;
+  min-height: 54px;
+}
+.finale-screen__close.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.finale-screen__close:hover {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 0 30px rgba(255,34,34,.6);
+}
+
+.footer-badge {
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+@media (max-width: 767px) {
+  .finale-screen__ghost { width: 80px; height: 80px; margin-bottom: 22px; }
+  .finale-screen__tag { font-size: 0.62rem; margin-bottom: 22px; }
+  .finale-screen__close { padding: 14px 26px; font-size: 0.74rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finale-screen,
+  .finale-screen__ghost,
+  .finale-screen__line,
+  .finale-screen__close,
+  .finale-screen__tag {
+    transition: none !important;
+  }
+  .finale-screen__ghost { opacity: 1; transform: none; }
+  .finale-screen__line { opacity: 1; transform: none; }
+  .finale-screen__close { opacity: 1; transform: none; }
+  .finale-screen__tag { opacity: 1; }
+}

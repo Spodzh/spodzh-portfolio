@@ -1,28 +1,27 @@
 /* ============================================================
-   CORRUPTED.JS v2 — пасхалка "CORRUPTED ARCHIVE"
-   5 кликов по логотипу → взлом → альтернативная тема.
-   Стили — в css/corrupted.css.
+   CORRUPTED.JS v3 — пасхалка "CORRUPTED ARCHIVE"
+   5 кликов по логотипу → оверлей → corrupted-mode
    ============================================================ */
 (function () {
   'use strict';
 
   window.__spodzhCorrupted = true;
 
+  var CLICKS_NEEDED = 5;
+  var CLICK_RESET_MS = 3000;
   var STORAGE_KEY = 'spodzh_corrupted';
 
-  var state = {
-    clicks: 0,
-    timer: null,
-    active: false,
-    overlay: null,
-    flash: null,
-    restoreBtn: null,
-    labels: []
-  };
+  var clickCount = 0;
+  var clickTimer = null;
+  var isActive = false;
+  var overlay = null;
+  var flash = null;
+  var restoreBtn = null;
+  var labels = [];
 
-  function ensureOverlay() {
-    if (state.overlay) return state.overlay;
-    var overlay = document.createElement('div');
+  function buildOverlay() {
+    if (overlay) return overlay;
+    overlay = document.createElement('div');
     overlay.className = 'corrupt-overlay';
     overlay.setAttribute('aria-hidden', 'true');
     overlay.innerHTML =
@@ -37,90 +36,102 @@
         '<span>CORRUPTED</span>' +
       '</div>';
     document.body.appendChild(overlay);
-    state.overlay = overlay;
     return overlay;
   }
 
-  function ensureFlash() {
-    if (state.flash) return state.flash;
-    var f = document.createElement('div');
-    f.className = 'corrupt-invert-flash';
-    f.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(f);
-    state.flash = f;
-    return f;
+  function buildFlash() {
+    if (flash) return flash;
+    flash = document.createElement('div');
+    flash.className = 'corrupt-invert-flash';
+    flash.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(flash);
+    return flash;
   }
 
-  function ensureRestore() {
-    if (state.restoreBtn) return state.restoreBtn;
-    var b = document.createElement('button');
-    b.className = 'restore-btn';
-    b.type = 'button';
-    b.textContent = 'restore archive';
-    b.addEventListener('click', deactivate);
-    document.body.appendChild(b);
-    state.restoreBtn = b;
-    return b;
+  function buildRestore() {
+    if (restoreBtn) return restoreBtn;
+    restoreBtn = document.createElement('button');
+    restoreBtn.className = 'restore-btn';
+    restoreBtn.type = 'button';
+    restoreBtn.textContent = 'restore archive';
+    restoreBtn.addEventListener('click', deactivate);
+    document.body.appendChild(restoreBtn);
+    return restoreBtn;
   }
 
-  function injectLabels() {
+  function addLabels() {
     var targets = document.querySelectorAll('.featured__media, .work-mini__thumb');
     targets.forEach(function (t) {
       if (t.querySelector('.corrupt-label')) return;
-      var label = document.createElement('span');
-      label.className = 'corrupt-label';
-      label.textContent = 'corrupted';
-      t.appendChild(label);
-      state.labels.push(label);
+      var l = document.createElement('span');
+      l.className = 'corrupt-label';
+      l.textContent = 'corrupted';
+      t.appendChild(l);
+      labels.push(l);
     });
   }
 
   function removeLabels() {
-    state.labels.forEach(function (l) {
-      if (l.parentNode) l.parentNode.removeChild(l);
-    });
-    state.labels = [];
+    labels.forEach(function (l) { if (l.parentNode) l.parentNode.removeChild(l); });
+    labels = [];
   }
 
   function activate() {
-    if (state.active) return;
-    state.active = true;
+    if (isActive) return;
+    isActive = true;
 
-    var overlay = ensureOverlay();
-    var flash = ensureFlash();
+    var ov = buildOverlay();
+    var fl = buildFlash();
 
     document.body.classList.add('corrupting');
-    overlay.classList.add('active');
-    flash.classList.remove('run');
-    void flash.offsetWidth;
-    flash.classList.add('run');
+    ov.classList.add('active');
+    fl.classList.remove('run');
+    void fl.offsetWidth;
+    fl.classList.add('run');
 
     setTimeout(function () {
       document.body.classList.remove('corrupting');
-      overlay.classList.remove('active');
-      flash.classList.remove('run');
+      ov.classList.remove('active');
+      fl.classList.remove('run');
+
       document.body.classList.add('corrupted-mode');
-      var rb = ensureRestore();
-      rb.classList.add('show');
-      injectLabels();
+      buildRestore().classList.add('show');
+      addLabels();
+
       try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
     }, 2200);
   }
 
   function deactivate() {
-    if (!state.active) return;
-    state.active = false;
+    if (!isActive) return;
+    isActive = false;
+
     document.body.classList.remove('corrupted-mode');
     document.body.classList.remove('corrupting');
-    if (state.overlay) state.overlay.classList.remove('active');
-    if (state.restoreBtn) state.restoreBtn.classList.remove('show');
+    if (overlay) overlay.classList.remove('active');
+    if (flash) flash.classList.remove('run');
+    if (restoreBtn) restoreBtn.classList.remove('show');
     removeLabels();
+
     try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  }
+
+  function restoreFromStorage() {
+    var active = false;
+    try { active = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
+    if (!active) return;
+    isActive = true;
+    document.body.classList.add('corrupted-mode');
+    buildRestore().classList.add('show');
+    addLabels();
   }
 
   function bindLogo() {
     var logo = document.getElementById('logoTrigger');
-    if (!logo) return;
+    if (!logo) {
+      console.warn('[corrupted] #logoTrigger не найден');
+      return;
+    }
 
     logo.addEventListener('click', function (e) {
       logo.classList.remove('is-corrupting');
@@ -128,36 +139,30 @@
       logo.classList.add('is-corrupting');
       setTimeout(function () { logo.classList.remove('is-corrupting'); }, 520);
 
-      state.clicks++;
-      if (state.clicks >= 5) {
+      clickCount++;
+
+      if (clickCount >= CLICKS_NEEDED) {
         e.preventDefault();
-        state.clicks = 0;
-        clearTimeout(state.timer);
-        if (state.active) deactivate();
+        e.stopPropagation();
+        clickCount = 0;
+        clearTimeout(clickTimer);
+
+        if (isActive) deactivate();
         else activate();
         return;
       }
-      clearTimeout(state.timer);
-      state.timer = setTimeout(function () { state.clicks = 0; }, 3000);
-    });
-  }
 
-  function restoreFromStorage() {
-    var wasActive = false;
-    try { wasActive = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
-    if (!wasActive) return;
-    state.active = true;
-    document.body.classList.add('corrupted-mode');
-    var rb = ensureRestore();
-    rb.classList.add('show');
-    injectLabels();
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(function () { clickCount = 0; }, CLICK_RESET_MS);
+    }, true); // capture-фаза — работает раньше smooth scroll
   }
 
   function init() {
     bindLogo();
     restoreFromStorage();
+
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && state.active) deactivate();
+      if (e.key === 'Escape' && isActive) deactivate();
     });
   }
 
@@ -166,4 +171,6 @@
   } else {
     init();
   }
+
+  console.log('%c[corrupted] module loaded', 'color:#ff2222; font-family:monospace;');
 })();

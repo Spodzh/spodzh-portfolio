@@ -1,13 +1,12 @@
 /* ============================================================
-   ENHANCEMENTS.JS — PWA, курсор, glitch, stagger
-   Админ-панель вынесена в index.html (inline)
+   ENHANCEMENTS.JS — PWA, glitch, stagger
+   Кастомный курсор убран.
    ============================================================ */
 (function () {
   'use strict';
 
   /* ============================================================
      PWA — регистрация service worker
-     Только для владельца: ?install=spodzh один раз открыть
      ============================================================ */
   (function initPWA() {
     var url = new URL(location.href);
@@ -32,69 +31,7 @@
   })();
 
   /* ============================================================
-     КАСТОМНЫЙ КУРСОР — красный крестик (только desktop)
-     ============================================================ */
-  (function initCursor() {
-    var hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!hasHover || reduced) return;
-
-    var cursor = document.createElement('div');
-    cursor.className = 'cursor-crosshair';
-    cursor.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(cursor);
-    document.body.classList.add('has-custom-cursor');
-
-    var cx = window.innerWidth / 2;
-    var cy = window.innerHeight / 2;
-    var tx = cx;
-    var ty = cy;
-    var rafId = null;
-
-    function loop() {
-      cx += (tx - cx) * 0.28;
-      cy += (ty - cy) * 0.28;
-      cursor.style.transform =
-        'translate(' + cx.toFixed(1) + 'px, ' + cy.toFixed(1) + 'px) translate(-50%, -50%)';
-      if (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3) {
-        rafId = requestAnimationFrame(loop);
-      } else {
-        rafId = null;
-      }
-    }
-
-    document.addEventListener('mousemove', function (e) {
-      tx = e.clientX;
-      ty = e.clientY;
-      if (!rafId) rafId = requestAnimationFrame(loop);
-    }, { passive: true });
-
-    var interactiveSel = 'a, button, [role="button"], input, textarea, .work-mini, .clip-card, .work-clips__btn, .clip-card__cta';
-
-    document.addEventListener('mouseover', function (e) {
-      var t = e.target;
-      if (t.closest && t.closest(interactiveSel)) {
-        cursor.classList.add('cursor-crosshair--active');
-      }
-    });
-
-    document.addEventListener('mouseout', function (e) {
-      var t = e.target;
-      if (t.closest && t.closest(interactiveSel)) {
-        cursor.classList.remove('cursor-crosshair--active');
-      }
-    });
-
-    document.addEventListener('mouseleave', function () {
-      cursor.style.opacity = '0';
-    });
-    document.addEventListener('mouseenter', function () {
-      cursor.style.opacity = '1';
-    });
-  })();
-
-  /* ============================================================
-     GLITCH НА СЧЁТЧИКАХ — при достижении финального значения
+     GLITCH НА СЧЁТЧИКАХ
      ============================================================ */
   (function initCounterGlitch() {
     var counters = document.querySelectorAll('[data-count]');
@@ -135,7 +72,7 @@
   })();
 
   /* ============================================================
-     STAGGER — карточки появляются по очереди
+     STAGGER
      ============================================================ */
   (function initStagger() {
     var parents = document.querySelectorAll('.stagger-parent');
@@ -152,9 +89,7 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
     parents.forEach(function (p) {
-      if (!p.classList.contains('reveal')) {
-        p.classList.add('reveal');
-      }
+      if (!p.classList.contains('reveal')) p.classList.add('reveal');
       obs.observe(p);
     });
   })();
